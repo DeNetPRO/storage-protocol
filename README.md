@@ -13,13 +13,13 @@ Storage Protocol made by DFILE Team with support from 1inch network.
 
 ## Contracts Info
 
-Name|Description|Network|Address|
-|---|---|---|---|
-|UserStorage|contract for storing last version of storage root hash and emit data about updater for nodes uppdate|Kovan|0x9be9d2adbfbd631b3c344d225ad4b13ffdf8d9a5
-|Payments|contract for make local transfers for rewarding for PoS actions|Kovan|0x814c424F99B39BA7D5AF62274022253a9a8df1C4
-|ProofOfStorage|Main contract for getting reward by ProofOfStorage|Kovan|0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B
-|DFILE Testnet Token|Ready to Use|Kovan|0x0d3C95079Ff0B4cf055a65EF4b63BbB047456848
-|dUSDC Testnet Token [need to update]||Kovan|0xeCcc839f3D03357be443D072660dbe307da0608C
+Name|Description|Network|Address|Updated
+|---|---|---|---|---|
+|UserStorage|contract for storing last version of storage root hash and emit data about updater for nodes uppdate|Kovan|0x9be9d2adbfbd631b3c344d225ad4b13ffdf8d9a5|May-05-2021 
+|Payments|contract for make local transfers for rewarding for PoS actions|Kovan|0x814c424F99B39BA7D5AF62274022253a9a8df1C4|May-06-2021
+|ProofOfStorage|Main contract for getting reward by ProofOfStorage|Kovan|0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B|May-22-2021
+|DFILE Testnet Token|Ready to Use|Kovan|0x0d3C95079Ff0B4cf055a65EF4b63BbB047456848|May-21-2021
+|dUSDC Testnet Token [need to update]||Kovan|0xeCcc839f3D03357be443D072660dbe307da0608C|May-21-2021
 
 ## Benchmarks
 
