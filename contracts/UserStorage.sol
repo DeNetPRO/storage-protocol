@@ -57,7 +57,10 @@ contract UserStorage is Ownable {
     }
     
     function GetUserLastBlockNumber(address _user_address) public view returns(uint32) {
-        return users[_user_address].last_block_number;
+         if (users[_user_address].last_block_number == 0) {
+             return uint32(block.number - 10000);
+         }
+         return users[_user_address].last_block_number;
     }
     
     function GetUserRootHash(address _user_address) public view returns (bytes32, uint256) {

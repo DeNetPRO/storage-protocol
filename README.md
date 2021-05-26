@@ -6,7 +6,7 @@ Storage Protocol made by DFILE Team with support from 1inch network.
 
 |Contract|Current Network|Status
 |---|---|---|
-|UserStorage|Kovan Testnet|pre-beta
+|UserStorage|Kovan Testnet|beta
 |Payments|Kovan Testnet|pre-beta
 |ProofOfStorage|WIP|beta
 
@@ -15,7 +15,7 @@ Storage Protocol made by DFILE Team with support from 1inch network.
 
 Name|Description|Network|Address|Updated
 |---|---|---|---|---|
-|UserStorage|contract for storing last version of storage root hash and emit data about updater for nodes uppdate|Kovan|0x9be9d2adbfbd631b3c344d225ad4b13ffdf8d9a5|May-05-2021 
+|UserStorage|contract for storing last version of storage root hash and emit data about updater for nodes uppdate|Kovan|0x1eA2A6D500791E1B5dc4C075c72ABAD9665295E3|May-26-2021 
 |Payments|contract for make local transfers for rewarding for PoS actions|Kovan|0x814c424F99B39BA7D5AF62274022253a9a8df1C4|May-06-2021
 |ProofOfStorage|Main contract for getting reward by ProofOfStorage|Kovan|0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B|May-22-2021
 |DFILE Testnet Token|Ready to Use|Kovan|0x0d3C95079Ff0B4cf055a65EF4b63BbB047456848|May-21-2021

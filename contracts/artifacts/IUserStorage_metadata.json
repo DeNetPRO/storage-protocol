@@ -1,0 +1,171 @@
+{
+	"compiler": {
+		"version": "0.8.1+commit.df193b15"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_user_address",
+						"type": "address"
+					}
+				],
+				"name": "GetUserLastBlockNumber",
+				"outputs": [
+					{
+						"internalType": "uint32",
+						"name": "",
+						"type": "uint32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_user_address",
+						"type": "address"
+					}
+				],
+				"name": "GetUserPayToken",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_user_address",
+						"type": "address"
+					}
+				],
+				"name": "GetUserRootHash",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_user_address",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_token",
+						"type": "address"
+					}
+				],
+				"name": "SetUserPlan",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_user_address",
+						"type": "address"
+					},
+					{
+						"internalType": "uint32",
+						"name": "_block_number",
+						"type": "uint32"
+					}
+				],
+				"name": "UpdateLastBlockNumber",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_user_address",
+						"type": "address"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "_user_root_hash",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "uint64",
+						"name": "_nonce",
+						"type": "uint64"
+					},
+					{
+						"internalType": "address",
+						"name": "_updater",
+						"type": "address"
+					}
+				],
+				"name": "UpdateRootHash",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/IUserStorage.sol": "IUserStorage"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/IUserStorage.sol": {
+			"keccak256": "0x124c4aa96a3cc0c50f0b8412d05364738a66d754e0ac7a9ba12a265123b6ea55",
+			"urls": [
+				"bzz-raw://0067588d5b63e602e70ccfca3900696b60f6f7e96ea4c88be0701f32900773cc",
+				"dweb:/ipfs/QmbPHTDKHw5X5ZyzL3q58rCupHkbMfbY7EEENKLiFngRZn"
+			]
+		}
+	},
+	"version": 1
+}

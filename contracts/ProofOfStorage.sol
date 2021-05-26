@@ -2,7 +2,6 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 import "./safe/owner.sol";
-import "./Payments.sol";
 import "./IUserStorage.sol";
 import "./IPayments.sol";
 import "./safe/BaseMath.sol";

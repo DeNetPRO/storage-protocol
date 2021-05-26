@@ -1,0 +1,221 @@
+{
+	"compiler": {
+		"version": "0.8.1+commit.df193b15"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_baseDifficulty",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "bytes32",
+						"name": "wrong_hash",
+						"type": "bytes32"
+					}
+				],
+				"name": "wrongError",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "base_difficulty",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint32",
+						"name": "_n",
+						"type": "uint32"
+					}
+				],
+				"name": "getBlockHash",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getBlockNumber",
+				"outputs": [
+					{
+						"internalType": "uint32",
+						"name": "",
+						"type": "uint32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_proof",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_targetDifficulty",
+						"type": "uint256"
+					}
+				],
+				"name": "isMatchDifficulty",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "_root_hash",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "bytes32[]",
+						"name": "proof",
+						"type": "bytes32[]"
+					}
+				],
+				"name": "isValidMerkleTreeProof",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "pure",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_signer",
+						"type": "address"
+					},
+					{
+						"internalType": "bytes",
+						"name": "message",
+						"type": "bytes"
+					},
+					{
+						"internalType": "bytes",
+						"name": "signature",
+						"type": "bytes"
+					}
+				],
+				"name": "isValidSign",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "pure",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/ProofOfStorage.sol": "CryptoProofs"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/IPayments.sol": {
+			"keccak256": "0xc1fb21ab2744ec41b82721e347bddf3bdd42fee9d62ea324daf7b5a8d67839a9",
+			"urls": [
+				"bzz-raw://eae7296bf23c5dbbfac31a54f077c87eb147a26d37a831585573d2992b1f162c",
+				"dweb:/ipfs/QmdYNESLqEryMkJVuuJoCXPz54UyfBSdtMv5LC12FbBjaS"
+			]
+		},
+		"contracts/IUserStorage.sol": {
+			"keccak256": "0x124c4aa96a3cc0c50f0b8412d05364738a66d754e0ac7a9ba12a265123b6ea55",
+			"urls": [
+				"bzz-raw://0067588d5b63e602e70ccfca3900696b60f6f7e96ea4c88be0701f32900773cc",
+				"dweb:/ipfs/QmbPHTDKHw5X5ZyzL3q58rCupHkbMfbY7EEENKLiFngRZn"
+			]
+		},
+		"contracts/ProofOfStorage.sol": {
+			"keccak256": "0xfed4cc94ab39e2777326bb5fac950db44d7b88a0b96d1ef7031f63a93a3d3ba7",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://f176f57637f8b432ee1d358bdfb1c48aaf452eb0b9915b84833cc8bd91b3a640",
+				"dweb:/ipfs/QmdRpHby2Xvg6Tk8rkDPGQaQCKiJvdGmrmeancsDz3pQbo"
+			]
+		},
+		"contracts/safe/BaseMath.sol": {
+			"keccak256": "0x426cafead0e003f6558859a28c83233190dadbb8a63b4fd3d90f6455693d67b6",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://905417234fdc79696ac2ac845dec8df3406603b0a1ff58e81a9079e63639949f",
+				"dweb:/ipfs/QmadkjuFSPpKswaT9UL1sn4ZA5nxp5JpFpanJxdZayFNhY"
+			]
+		},
+		"contracts/safe/owner.sol": {
+			"keccak256": "0x343a11faadd11f31df9f7d4a931c6c79c9e9d2b1fbd55f6fc71b9d45251616f4",
+			"urls": [
+				"bzz-raw://622eed472166ea3d6737bfd235056e38069aac56238df2efa10d23820b590ca5",
+				"dweb:/ipfs/QmWGcs3roLBD8EvTH9FUSWJTnpECRdvb1ni87z8YP2HvX7"
+			]
+		}
+	},
+	"version": 1
+}
