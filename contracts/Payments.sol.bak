@@ -1,14 +1,8 @@
-// SPDX-License-Identifier: MIT
-
-/*
-    Created by DeNet
-*/
-
 pragma solidity ^0.8.0;
 
-import "./SafeMath.sol";
-import "./IERC20.sol";
-import "./owner.sol";
+import "./safe/SafeMath.sol";
+import "./token/IERC20.sol";
+import "./safe/owner.sol";
 
 contract Payments  is Ownable {
     using SafeMath for uint256;

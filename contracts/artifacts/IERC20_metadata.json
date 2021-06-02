@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.1+commit.df193b15"
+		"version": "0.8.4+commit.c7e474f2"
 	},
 	"language": "Solidity",
 	"output": {
@@ -230,7 +230,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"contracts/token/IERC20.sol": "IERC20"
+			"contracts/IERC20.sol": "IERC20"
 		},
 		"evmVersion": "istanbul",
 		"libraries": {},
@@ -244,7 +244,7 @@
 		"remappings": []
 	},
 	"sources": {
-		"contracts/token/IERC20.sol": {
+		"contracts/IERC20.sol": {
 			"keccak256": "0xf8e8d118a7a8b2e134181f7da655f6266aa3a0f9134b2605747139fcb0c5d835",
 			"license": "MIT",
 			"urls": [

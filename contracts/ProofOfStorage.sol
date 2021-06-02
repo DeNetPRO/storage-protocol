@@ -1,10 +1,15 @@
 // SPDX-License-Identifier: MIT
+
+/*
+    Created by DeNet
+*/
+
 pragma solidity >=0.4.22 <0.9.0;
 
-import "./safe/owner.sol";
+import "./owner.sol";
 import "./IUserStorage.sol";
 import "./IPayments.sol";
-import "./safe/BaseMath.sol";
+import "./BaseMath.sol";
 
 
 contract CryptoProofs {

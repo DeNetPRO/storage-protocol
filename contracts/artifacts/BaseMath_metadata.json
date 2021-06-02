@@ -18,7 +18,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"contracts/safe/BaseMath.sol": "BaseMath"
+			"contracts/BaseMath.sol": "BaseMath"
 		},
 		"evmVersion": "istanbul",
 		"libraries": {},
@@ -32,7 +32,7 @@
 		"remappings": []
 	},
 	"sources": {
-		"contracts/safe/BaseMath.sol": {
+		"contracts/BaseMath.sol": {
 			"keccak256": "0x426cafead0e003f6558859a28c83233190dadbb8a63b4fd3d90f6455693d67b6",
 			"license": "MIT",
 			"urls": [
