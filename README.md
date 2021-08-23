@@ -1,9 +1,8 @@
 # Storage Protocol
 
 Storage Protocol made by DFILE Team with support from 1inch network.
-
-[![Build Status](./workflows/CI/badge.svg)](./actions)
-[![Coverage Status](./badge.svg?branch=to-deploy)]
+[![Build Status](https://github.com/denetpro/storage-protocol/workflows/CI/badge.svg)](https://github.com/denetpro/storage-protocol/actions)
+[![Coverage Status](https://coveralls.io/repos/github/denetpro/storage-protocol/badge.svg?branch=to-deploy)](https://coveralls.io/github/denetpro/storage-protocol/?branch=to-deploy)
 
 
 ## Dev Statuses
