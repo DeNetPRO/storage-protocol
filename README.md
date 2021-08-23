@@ -2,6 +2,10 @@
 
 Storage Protocol made by DFILE Team with support from 1inch network.
 
+[![Build Status](./workflows/CI/badge.svg)](./actions)
+[![Coverage Status](./badge.svg?branch=to-deploy)]
+
+
 ## Dev Statuses
 
 |Contract|Current Network|Status
