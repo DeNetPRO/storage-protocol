@@ -9,6 +9,6 @@ describe('ProofOfStorage', async function () {
 
     it('should be ok', async function () {
         const receipt = await this.contract.getBlockNumber();
-        //expectEvent(receipt);
+        return 1;
     });
 });
