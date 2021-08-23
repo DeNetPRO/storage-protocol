@@ -8,15 +8,15 @@ module.exports = async ({ deployments, getNamedAccounts }) => {
     const { deploy } = deployments;
     const { deployer } = await getNamedAccounts();
 
-    const example = await deploy('Example', {
+    const PoS = await deploy('ProofOfStorage', {
         from: deployer,
     });
 
-    console.log('Example deployed to:', example.address);
+    console.log('ProofOfStorage deployed to:', PoS.address);
 
     if (await getChainId() !== '31337') {
         await hre.run('verify:verify', {
-            address: example.address,
+            address: PoS.address,
         });
     }
 };
