@@ -4,7 +4,7 @@
     Created by DeNet
 */
 
-pragma solidity >=0.4.22 <0.9.0;
+pragma solidity ^0.8.0;
 
 import "./owner.sol";
 import "./IUserStorage.sol";
@@ -90,7 +90,7 @@ contract ProofOfStorage is Ownable, CryptoProofs {
   
   address public user_storage_address;
   address public payments_address;
-  uint256 private max_blocks_after_proof = 100;
+  uint256 private _max_blocks_after_proof = 100;
   
   constructor(
       address _storage_address,
@@ -161,7 +161,7 @@ contract ProofOfStorage is Ownable, CryptoProofs {
         
         // update root hash if it needed
         if (new_hash != _cur_user_root_hash) {
-            UpdateLastRootHash(_user, new_hash, new_nonce, _updater);
+            _UpdateLastRootHash(_user, new_hash, new_nonce, _updater);
         }
     }
     
@@ -200,13 +200,13 @@ contract ProofOfStorage is Ownable, CryptoProofs {
       (_token_to_pay, _amount_returns, _blocks_complited) = getUserRewardInfo(_senders[1]);
       
       
-      require(_block_number > block.number - max_blocks_after_proof, "Too old proof");
+      require(_block_number > block.number - _max_blocks_after_proof, "Too old proof");
       require(isValidMerkleTreeProof(_user_root_hash, merkleProof), "Wrong merkleProof");
       require(verifyFileProof(_senders[0], _file, _block_number, _blocks_complited ), "Not match difficulty");
       require(_file_hash == merkleProof[0] || _file_hash == merkleProof[1], "not found _file_hash in merkleProof");
       
-      takePay(_token_to_pay, _senders[1], _senders[0], _amount_returns);
-      UpdateLastBlockNumber(_senders[1], uint32(block.number));
+      _takePay(_token_to_pay, _senders[1], _senders[0], _amount_returns);
+      _UpdateLastBlockNumber(_senders[1], uint32(block.number));
       
       
   }
@@ -246,7 +246,7 @@ contract ProofOfStorage is Ownable, CryptoProofs {
         return (_token_pay, amount_returns, _blocks_complited);
     }
     
-    function takePay(address _token, address _from , address _to, uint256 _amount) private {
+    function _takePay(address _token, address _from , address _to, uint256 _amount) private {
         IPayments _payment = IPayments(payments_address);
         _payment.localTransferFrom ( _token,  _from,  _to, _amount);
     }
@@ -258,12 +258,12 @@ contract ProofOfStorage is Ownable, CryptoProofs {
     }
   
   
-  function UpdateLastBlockNumber(address  _user_address, uint32 _block_number) private {
+  function _UpdateLastBlockNumber(address  _user_address, uint32 _block_number) private {
       IUserStorage  _storage = IUserStorage(user_storage_address);
       _storage.UpdateLastBlockNumber( _user_address, _block_number);
   }
   
-  function UpdateLastRootHash(address _user_address, bytes32 _user_root_hash, uint64 _nonce, address _updater) private {
+  function _UpdateLastRootHash(address _user_address, bytes32 _user_root_hash, uint64 _nonce, address _updater) private {
       IUserStorage  _storage = IUserStorage(user_storage_address);
       _storage.UpdateRootHash(_user_address, _user_root_hash, _nonce, _updater);
   }

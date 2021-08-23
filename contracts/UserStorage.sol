@@ -50,41 +50,41 @@ contract UserStorage is Ownable {
     
     
     
-    mapping (address => user_data)  private users;
+    mapping (address => user_data)  private _users;
     
     function GetUserPayToken(address _user_address) public view returns(address) {
-        return users[_user_address].pay_token;
+        return _users[_user_address].pay_token;
     }
     
     function GetUserLastBlockNumber(address _user_address) public view returns(uint32) {
-         if (users[_user_address].last_block_number == 0) {
+         if (_users[_user_address].last_block_number == 0) {
              return uint32(block.number - 10000);
          }
-         return users[_user_address].last_block_number;
+         return _users[_user_address].last_block_number;
     }
     
     function GetUserRootHash(address _user_address) public view returns (bytes32, uint256) {
-         return (users[_user_address].user_root_hash, users[_user_address].nonce);
+         return (_users[_user_address].user_root_hash, _users[_user_address].nonce);
         
     }
     
     function UpdateRootHash(address  _user_address, bytes32 _user_root_hash, uint64 _nonce, address _updater) onlyPoS public {
        
-        require(_nonce >= users[_user_address].nonce && _user_root_hash != users[_user_address].user_root_hash);
+        require(_nonce >= _users[_user_address].nonce && _user_root_hash != _users[_user_address].user_root_hash);
         
-        users[_user_address].user_root_hash = _user_root_hash;
-        users[_user_address].nonce = _nonce;
+        _users[_user_address].user_root_hash = _user_root_hash;
+        _users[_user_address].nonce = _nonce;
         
         emit ChngeRootHash(_user_address, _updater, _user_root_hash);
     }
     
     function UpdateLastBlockNumber(address  _user_address, uint32 _block_number) onlyPoS public {
-        require (_block_number > users[_user_address].last_block_number);
-        users[_user_address].last_block_number = _block_number;
+        require (_block_number > _users[_user_address].last_block_number);
+        _users[_user_address].last_block_number = _block_number;
     }
     
     function SetUserPlan(address _user_address, address _token) onlyPoS public {
-        users[_user_address].pay_token = _token;
+        _users[_user_address].pay_token = _token;
 
         emit ChangePaymentMethod(_user_address, _token);
     }

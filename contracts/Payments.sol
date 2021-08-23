@@ -45,7 +45,7 @@ contract Payments  is Ownable {
             address indexed _to,
             uint _value);
     
-    event _registerToken(
+    event registerToken(
             address indexed _token,
             uint8 indexed _id
         );
@@ -54,17 +54,17 @@ contract Payments  is Ownable {
         mapping (address => uint)
     ) public balances;
     
-    uint8 tokensCount = 0;
-    address[] knowableTokens;
+    uint8 _tokensCount = 0;
+    address[] _knowableTokens;
     
-    function registerToken(address _token) private {
-        tokensCount++;
-        knowableTokens.push(_token);
-        emit _registerToken(_token, tokensCount-1); 
+    function _registerToken(address _token) private {
+        _tokensCount++;
+        _knowableTokens.push(_token);
+        emit registerToken(_token, _tokensCount-1); 
         
     }
     
-    function addBalance(address _token, address _address, uint _balance) private {
+    function _addBalance(address _token, address _address, uint _balance) private {
         balances[_token][_address] = balances[_token][_address].add(_balance);
     }
     
@@ -87,18 +87,18 @@ contract Payments  is Ownable {
         
         bool founded = false;
         
-        for (uint8 i = 0; i < tokensCount; i++) {
-            if (knowableTokens[i] == _token) {
+        for (uint8 i = 0; i < _tokensCount; i++) {
+            if (_knowableTokens[i] == _token) {
                 founded = true;
                 break;
             }
         }
 
-        if (!founded) registerToken(_token);
+        if (!founded) _registerToken(_token);
         
         IERC20 tok = IERC20(_token);
         tok.transferFrom(_user_address, address(this), _amount);
-        addBalance(_token, _user_address, _amount);
+        _addBalance(_token, _user_address, _amount);
     }
     
      /**
