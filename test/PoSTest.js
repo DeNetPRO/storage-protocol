@@ -19,16 +19,16 @@ contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
 
     it('should deposit successfully', async function () {
         await this.token.approve(this.payments.address, '1000', { from: w1 });
-        const result = await this.pos.makeDeposit(this.token.address, 1000, { from: w1 });
+        await this.pos.makeDeposit(this.token.address, 1000, { from: w1 });
         // expectEvent(result, 'Transfer', { from: w1, to: this.payments.address, value: '1000'});
     });
 
     it('should withdraw successfully', async function () {
         await this.token.approve(this.payments.address, '1000', { from: w1 });
-        const result1 = await this.pos.makeDeposit(this.token.address, 1000, { from: w1 });
+        await this.pos.makeDeposit(this.token.address, 1000, { from: w1 });
         // expectEvent(result1, 'Transfer', { from: w1, to: this.payments.address, value: '1000'});
 
-        const result2 = await this.pos.closeDeposit(this.token.address, { from: w1 });
+        await this.pos.closeDeposit(this.token.address, { from: w1 });
         // expectEvent(result2, 'Transfer', { from: this.payments.address, to: w1, value: '1000'});
     });
 });
