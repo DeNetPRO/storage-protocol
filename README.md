@@ -25,6 +25,45 @@ Name|Description|Network|Address|Updated
 |ProofOfStorage|Main contract for getting reward by ProofOfStorage|Kovan|[0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B](https://kovan.etherscan.io/address/0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B)|May-22-2021
 |DFILE Testnet Token|Ready to Use|Kovan|[0x0d3C95079Ff0B4cf055a65EF4b63BbB047456848](https://kovan.etherscan.io/address/0x0d3C95079Ff0B4cf055a65EF4b63BbB047456848)|May-21-2021
 
+## User Stroage
+
+Contract for storing last version of storage root hash and emit data about updater for nodes uppdate, calling only from ProofOfStorage.
+
+Available methods:
+
+- updateRootHash (call from PoS, if updated user root hash from valid proof or signature)
+- updateLastBlockNumber (call from PoS, if valid proof)
+- setUserPlan (call from PoS, if updated Token for payments)
+
+
+## Payments
+
+Contract for make local transfers for rewarding for PoS actions, calling only from ProofOfStorage.
+
+Available methods:
+
+- localTransferFrom (call from PoS if valid proof)
+- depositToLocal (deposit funds from other token, call from PoS if deposit)
+- closeDeposit (withdraw funds, call from PoS if closing deposit)
+
+## ProofOfStorage
+
+Main contract for getting reward by ProofOfStorage.
+
+Available methods:
+
+- makeDeposit (deposit reward for storage)
+- closeDeposit (withdraw rewards)
+- sendProof (Send proof from node)
+- sendProofFrom (Send proof for other node)
+- getUserRewardInfo (Returns info about user reward for ProofOfStorage)
+- getUserRootHash (get last uploaded user root hash)
+
+
+![image](https://user-images.githubusercontent.com/9944728/130633580-071a0333-bb7b-4381-b8fc-6d386cb4154a.png)
+
+More about PoS will available [here](./docs/digital paper.pdf)
+
 ## Benchmarks
 
  **Est Gas Amount to send proof**
