@@ -1,14 +1,13 @@
-const { expectEvent } = require('@openzeppelin/test-helpers');
+// const { expectEvent } = require('@openzeppelin/test-helpers');
 
 const ProofOfStorage = artifacts.require('ProofOfStorage');
 const Payments = artifacts.require('Payments');
 const UserStorage = artifacts.require('UserStorage');
 const TokenMock = artifacts.require('TokenMock');
-const ERC20 = artifacts.require('ERC20');
 
 contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
     beforeEach(async function () {
-        this.token = await TokenMock.new("Token", "TKN");
+        this.token = await TokenMock.new('Token', 'TKN');
         this.pos = await ProofOfStorage.new('0x0000000000000000000000000000000000000000', '0x0000000000000000000000000000000000000000', '10000000');
         this.userStorage = await UserStorage.new('DeNet UserStorage', this.pos.address);
         this.payments = await Payments.new('DeNet Payments', this.pos.address);
