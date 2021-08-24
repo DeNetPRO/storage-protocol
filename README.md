@@ -62,7 +62,7 @@ Available methods:
 
 ![image](https://user-images.githubusercontent.com/9944728/130633580-071a0333-bb7b-4381-b8fc-6d386cb4154a.png)
 
-More about PoS will available [here](./docs/digital paper.pdf)
+More about PoS will available [in docs](/docs/digital%20paper.pdf)
 
 ## Benchmarks
 
