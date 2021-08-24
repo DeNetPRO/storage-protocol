@@ -8,13 +8,15 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/Math.sol";
+import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
-import "./IUserStorage.sol";
-import "./IPayments.sol";
+import "./interfaces/IUserStorage.sol";
+import "./interfaces/IPayments.sol";
 
 
+// TODO: sha256 => keccak256
 contract CryptoProofs {
-    event wrongError(bytes32 wrong_hash);
+    event WrongError(bytes32 wrong_hash);
 
     uint256 public base_difficulty;
 
@@ -54,6 +56,7 @@ contract CryptoProofs {
         return _signer == ecrecover(sha256(message), v, r, s);
     }
 
+    // TODO: transform merkle proof verification to efficient as OZ
     function isValidMerkleTreeProof(
         bytes32 _root_hash,
         bytes32[] calldata proof
@@ -122,26 +125,13 @@ contract ProofOfStorage is Ownable, CryptoProofs {
         bytes calldata _file,
         bytes32[] calldata merkleProof
     ) public {
-        address[2] memory _senders = [msg.sender, _user_address];
-
-        // verify Signature
-        require(
-            isValidSign(
-                _user_address,
-                abi.encodePacked(
-                    _user_root_hash,
-                    uint256(_user_root_hash_nonce)
-                ),
-                _user_signature
-            ),
-            "wrong signature"
-        );
-
-        _sendProofFrom(
-            _senders,
+        sendProofFrom(
+            msg.sender,
+            _user_address,
             _block_number,
             _user_root_hash,
             _user_root_hash_nonce,
+            _user_signature,
             _file,
             merkleProof
         );
@@ -158,18 +148,16 @@ contract ProofOfStorage is Ownable, CryptoProofs {
         bytes32[] calldata merkleProof
     ) public {
         address[2] memory _senders = [_node_address, _user_address];
-        // verify Signature
-        require(
-            isValidSign(
-                _user_address,
-                abi.encodePacked(
-                    _user_root_hash,
-                    uint256(_user_root_hash_nonce)
-                ),
-                _user_signature
-            ),
-            "wrong signature"
+
+        // TODO: switch to keccak256
+        address signer = ECDSA.recover(
+            keccak256(abi.encodePacked(
+                _user_root_hash,
+                uint256(_user_root_hash_nonce)
+            )),
+            _user_signature
         );
+        require(_user_address == signer);
 
         _sendProofFrom(
             _senders,
@@ -273,12 +261,12 @@ contract ProofOfStorage is Ownable, CryptoProofs {
         );
 
         _takePay(_token_to_pay, _senders[1], _senders[0], _amount_returns);
-        _UpdateLastBlockNumber(_senders[1], uint32(block.number));
+        _updateLastBlockNumber(_senders[1], uint32(block.number));
     }
 
     function setUserPlan(address _token) public {
         IUserStorage _storage = IUserStorage(user_storage_address);
-        _storage.SetUserPlan(msg.sender, _token);
+        _storage.setUserPlan(msg.sender, _token);
     }
 
     /*
@@ -305,11 +293,11 @@ contract ProofOfStorage is Ownable, CryptoProofs {
         IPayments _payment = IPayments(payments_address);
 
         IUserStorage _storage = IUserStorage(user_storage_address);
-        address _token_pay = _storage.GetUserPayToken(_user);
+        address _token_pay = _storage.getUserPayToken(_user);
         uint256 user_balance = _payment.getBalance(_token_pay, _user);
 
         uint256 _amount_per_block = user_balance / 2102400; // balance / (60 * 60 * 24 * 365) / 15
-        uint32 _cur_block = _storage.GetUserLastBlockNumber(_user);
+        uint32 _cur_block = _storage.getUserLastBlockNumber(_user);
         uint32 _blocks_complited = uint32(block.number - _cur_block);
         uint256 amount_returns = _blocks_complited * _amount_per_block;
 
@@ -332,14 +320,14 @@ contract ProofOfStorage is Ownable, CryptoProofs {
         returns (bytes32, uint256)
     {
         IUserStorage _storage = IUserStorage(user_storage_address);
-        return _storage.GetUserRootHash(_user);
+        return _storage.getUserRootHash(_user);
     }
 
-    function _UpdateLastBlockNumber(address _user_address, uint32 _block_number)
+    function _updateLastBlockNumber(address _user_address, uint32 _block_number)
         private
     {
         IUserStorage _storage = IUserStorage(user_storage_address);
-        _storage.UpdateLastBlockNumber(_user_address, _block_number);
+        _storage.updateLastBlockNumber(_user_address, _block_number);
     }
 
     function _UpdateLastRootHash(
@@ -349,7 +337,7 @@ contract ProofOfStorage is Ownable, CryptoProofs {
         address _updater
     ) private {
         IUserStorage _storage = IUserStorage(user_storage_address);
-        _storage.UpdateRootHash(
+        _storage.updateRootHash(
             _user_address,
             _user_root_hash,
             _nonce,

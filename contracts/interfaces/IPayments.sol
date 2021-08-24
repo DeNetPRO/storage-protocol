@@ -15,7 +15,14 @@ interface IPayments {
         uint256 _value
     );
 
-    event RegisterToken(address indexed _token, uint8 indexed _id);
+    event ChangePoSContract(
+        address indexed PoS_Contract_Address
+    );
+
+    event RegisterToken(
+        address indexed _token,
+        uint256 indexed _id
+    );
 
     function getBalance(address _token, address _address)
         external
