@@ -75,12 +75,8 @@ More about PoS will available [here](./docs/digital paper.pdf)
 |16kb|10,581,008 gas|[Kovan Testnet](https://kovan.etherscan.io/tx/0xcdca6a4c3b8db736a4c75925255423bdffeddd4b12c38f3e68caa5b083c8f7fe)|Yes|
 
  **Est Gas Amount to saving and updating storage root hash**
-
-|op type|Gas|
-|---|---|
-|First Set|41,974 gas|
-|Update|26,974 gas|
-
+ 
+![image](https://user-images.githubusercontent.com/9944728/130641639-c150d81b-2090-4945-8949-82a2d8a5ffaf.png)
 
 ## WIP 
 
