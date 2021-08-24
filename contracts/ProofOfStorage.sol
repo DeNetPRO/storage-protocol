@@ -147,11 +147,9 @@ contract ProofOfStorage is Ownable, CryptoProofs {
         bytes calldata _file,
         bytes32[] calldata merkleProof
     ) public {
-        address[2] memory _senders = [_node_address, _user_address];
-
         // TODO: switch to keccak256
         address signer = ECDSA.recover(
-            keccak256(abi.encodePacked(
+            sha256(abi.encodePacked(
                 _user_root_hash,
                 uint256(_user_root_hash_nonce)
             )),
@@ -160,7 +158,8 @@ contract ProofOfStorage is Ownable, CryptoProofs {
         require(_user_address == signer);
 
         _sendProofFrom(
-            _senders,
+            _node_address,
+            _user_address,
             _block_number,
             _user_root_hash,
             _user_root_hash_nonce,
@@ -185,7 +184,7 @@ contract ProofOfStorage is Ownable, CryptoProofs {
 
         // update root hash if it needed
         if (new_hash != _cur_user_root_hash) {
-            _UpdateLastRootHash(_user, new_hash, new_nonce, _updater);
+            _updateLastRootHash(_user, new_hash, new_nonce, _updater);
         }
     }
 
@@ -201,13 +200,9 @@ contract ProofOfStorage is Ownable, CryptoProofs {
         return isMatchDifficulty(uint256(_file_proof), _blocks_complited);
     }
 
-    /*
-    _senders[0] = _proofer
-    _senders[1] = _user_address
-  */
-
     function _sendProofFrom(
-        address[2] memory _senders,
+        address _proofer,
+        address _user_address,
         uint32 _block_number,
         bytes32 _user_root_hash,
         uint64 _user_root_hash_nonce,
@@ -216,27 +211,24 @@ contract ProofOfStorage is Ownable, CryptoProofs {
     ) private {
         // not need, with using signature checking
         require(
-            _senders[0] != address(0) && _senders[1] != address(0),
+            _proofer != address(0) && _user_address != address(0),
             "address can't be zero"
         );
 
         // warning test function without checking  DigitalSIgnature from User SEnding File
         _updateRootHash(
-            _senders[1],
-            _senders[0],
+            _user_address,
+            _proofer,
             _user_root_hash,
             _user_root_hash_nonce
         );
 
-        address _token_to_pay;
-        uint256 _amount_returns;
-        uint256 _blocks_complited;
-
         bytes32 _file_hash = sha256(_file);
-
-        (_token_to_pay, _amount_returns, _blocks_complited) = getUserRewardInfo(
-            _senders[1]
-        );
+        (
+            address _token_to_pay,
+            uint256 _amount_returns,
+            uint256 _blocks_complited
+        ) = getUserRewardInfo(_user_address);
 
         require(
             _block_number > block.number - _max_blocks_after_proof,
@@ -248,7 +240,7 @@ contract ProofOfStorage is Ownable, CryptoProofs {
         );
         require(
             verifyFileProof(
-                _senders[0],
+                _proofer,
                 _file,
                 _block_number,
                 _blocks_complited
@@ -260,8 +252,8 @@ contract ProofOfStorage is Ownable, CryptoProofs {
             "not found _file_hash in merkleProof"
         );
 
-        _takePay(_token_to_pay, _senders[1], _senders[0], _amount_returns);
-        _updateLastBlockNumber(_senders[1], uint32(block.number));
+        _takePay(_token_to_pay, _user_address, _proofer, _amount_returns);
+        _updateLastBlockNumber(_user_address, uint32(block.number));
     }
 
     function setUserPlan(address _token) public {
@@ -270,7 +262,7 @@ contract ProofOfStorage is Ownable, CryptoProofs {
     }
 
     /*
-    Returns info about user reward for ProofOfStorage
+     Returns info about user reward for ProofOfStorage
 
         # Input
             @_user - User Address
@@ -279,8 +271,7 @@ contract ProofOfStorage is Ownable, CryptoProofs {
             @_token_ddress - Token Address
             @_amount - Total Token Amount for PoS
             @_cur_block - Last Proof Block
-
-  */
+    */
     function getUserRewardInfo(address _user)
         public
         view
@@ -330,7 +321,7 @@ contract ProofOfStorage is Ownable, CryptoProofs {
         _storage.updateLastBlockNumber(_user_address, _block_number);
     }
 
-    function _UpdateLastRootHash(
+    function _updateLastRootHash(
         address _user_address,
         bytes32 _user_root_hash,
         uint64 _nonce,
