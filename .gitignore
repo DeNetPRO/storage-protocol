@@ -9,3 +9,4 @@ build
 .coverage_artifacts
 .idea
 .env
+.DS_Store
