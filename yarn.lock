@@ -596,10 +596,10 @@
     find-up "^4.1.0"
     fs-extra "^8.1.0"
 
-"@openzeppelin/contracts@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-4.1.0.tgz#baec89a7f5f73e3d8ea582a78f1980134b605375"
-  integrity sha512-TihZitscnaHNcZgXGj9zDLDyCqjziytB4tMCwXq0XimfWkAjBYyk5/pOsDbbwcavhlc79HhpTEpQcrMnPVa1mw==
+"@openzeppelin/contracts@^4.3.0":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-4.3.0.tgz#345236d4ec73ef381ab4907c6ef66fd55e5dedad"
+  integrity sha512-+uBDl/TrmR0Kch6mq3tuxMex/fK7huR6+fQMae+zJk1K5T+dp0pFl12Hbc+1L6oYMXoyDSBJ8zqhRIntrREDFA==
 
 "@openzeppelin/test-helpers@^0.5.11":
   version "0.5.11"
@@ -7342,10 +7342,10 @@ solc@^0.4.20:
     semver "^5.3.0"
     yargs "^4.7.1"
 
-solc@^0.8.6:
-  version "0.8.6"
-  resolved "https://registry.yarnpkg.com/solc/-/solc-0.8.6.tgz#e4341fa6780137df97b94a0cfbd59b3f2037d0e0"
-  integrity sha512-miiDaWdaUnD7A6Cktb/2ug9f+ajcOCDYRr7vgbPEsMoutSlBtp5rca57oMg8iHSuM7jilwdxePujWI/+rbNftQ==
+solc@^0.8.7:
+  version "0.8.7"
+  resolved "https://registry.yarnpkg.com/solc/-/solc-0.8.7.tgz#54434959cc3d69a569ad8853c0d9ee1338da0aab"
+  integrity sha512-p8Zi+YcGN22P3Stb6KJhNypD9xSnNF3D6eIw6LyxZpMIVpcwrG8fTaXeEbKITmlp14DC1iZ4BC4aV7r7gJ/EJw==
   dependencies:
     command-exists "^1.2.8"
     commander "3.0.2"
