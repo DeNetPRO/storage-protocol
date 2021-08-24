@@ -54,8 +54,13 @@ contract Payments is IPayments, Ownable {
         require(_amount > 0);
         _registerTokenIfNeeded(_token);
 
+        // TODO: fix for token with transfer fees
+        uint256 balanceBefore = IERC20(_token).balanceOf(address(this));
         IERC20(_token).transferFrom(_account, address(this), _amount);
-        _addBalance(_token, _account, _amount);
+        uint256 balanceAfter = IERC20(_token).balanceOf(address(this));
+        balances[_token][_account] = balances[_token][_account].add(
+            balanceAfter.sub(balanceBefore)
+        );
     }
 
     /**
@@ -66,10 +71,6 @@ contract Payments is IPayments, Ownable {
         uint256 amount = balances[_token][_account];
         balances[_token][_account] = 0;
         IERC20(_token).transfer(_account, amount);
-    }
-
-    function _addBalance(address _token, address _address, uint256 _balance) private {
-        balances[_token][_address] = balances[_token][_address].add(_balance);
     }
 
     function _registerTokenIfNeeded(address _token) private {

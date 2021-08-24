@@ -64,7 +64,7 @@ contract UserStorage is IUserStorage, Ownable {
     ) public override onlyPoS {
         require(
             _nonce >= _users[_user_address].nonce &&
-                _user_root_hash != _users[_user_address].user_root_hash
+            _user_root_hash != _users[_user_address].user_root_hash
         );
 
         _users[_user_address].user_root_hash = _user_root_hash;
