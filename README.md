@@ -1,6 +1,6 @@
 # Storage Protocol
 
-Storage Protocol made by DFILE Team with support from 1inch network.
+Storage Protocol made by DeNet Team.
 
 
 [![Build Status](https://github.com/denetpro/storage-protocol/workflows/CI/badge.svg)](https://github.com/denetpro/storage-protocol/actions)
