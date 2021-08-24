@@ -2,7 +2,6 @@
 
 Storage Protocol made by DeNet Team.
 
-
 [![Build Status](https://github.com/denetpro/storage-protocol/workflows/CI/badge.svg)](https://github.com/denetpro/storage-protocol/actions)
 [![Coverage Status](https://coveralls.io/repos/github/denetpro/storage-protocol/badge.svg?branch=to-deploy)](https://coveralls.io/github/denetpro/storage-protocol/?branch=to-deploy)
 
@@ -25,7 +24,7 @@ Name|Description|Network|Address|Updated
 |ProofOfStorage|Main contract for getting reward by ProofOfStorage|Kovan|[0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B](https://kovan.etherscan.io/address/0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B)|May-22-2021
 |DFILE Testnet Token|Ready to Use|Kovan|[0x0d3C95079Ff0B4cf055a65EF4b63BbB047456848](https://kovan.etherscan.io/address/0x0d3C95079Ff0B4cf055a65EF4b63BbB047456848)|May-21-2021
 
-## User Stroage
+## User Storage
 
 Contract for storing last version of storage root hash and emit data about updater for nodes uppdate, calling only from ProofOfStorage.
 
