@@ -21,11 +21,20 @@ Proof-of-Storage contract helps nodes and clients achieve consensus and auto-sca
 
 ## Dev Statuses
 
-|Contract|Current Network|Status
-|---|---|---|
-|UserStorage|[Kovan Testnet](https://kovan.etherscan.io/address/0x6C5eb19854A80037C7E911128CFF13E81841A40F#events)|beta
-|Payments|[Kovan Testnet](https://kovan.etherscan.io/address/0xA260B0aD50fB996cEffa614bAb75846E06991622#events)|beta
-|ProofOfStorage|[Kovan Testnet](https://kovan.etherscan.io/address/0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B)|alpha
+|Contract|Network|Address|Status
+|---|---|---|---|
+|UserStorage|Kovan Testnet|[`0x6C5eb19854A80037C7E911128CFF13E81841A40F`](https://kovan.etherscan.io/address/0x6C5eb19854A80037C7E911128CFF13E81841A40F)|Beta
+|Payments|Kovan Testnet|[`0xA260B0aD50fB996cEffa614bAb75846E06991622`](https://kovan.etherscan.io/address/0xA260B0aD50fB996cEffa614bAb75846E06991622)|Beta
+|ProofOfStorage|Kovan Testnet|[`0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B`](https://kovan.etherscan.io/address/0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B)|Alpha
+
+## Contracts
+
+Name|Network|Address|Updated|Status
+|---|---|---|---|
+|UserStorage|Kovan|[`0x6C5eb19854A80037C7E911128CFF13E81841A40F`](https://kovan.etherscan.io/address/0x6C5eb19854A80037C7E911128CFF13E81841A40F)|May-26-2021|Beta
+|Payments|Kovan|[`0xA260B0aD50fB996cEffa614bAb75846E06991622`](https://kovan.etherscan.io/address/0xA260B0aD50fB996cEffa614bAb75846E06991622)|Jul-02-2021|Beta
+ProofOfStorage|Kovan|[`0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B`](https://kovan.etherscan.io/address/0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B)|May-22-2021|Alpha
+|DFILE Testnet Token|Kovan|[`0x0d3C95079Ff0B4cf055a65EF4b63BbB047456848`](https://kovan.etherscan.io/address/0x0d3C95079Ff0B4cf055a65EF4b63BbB047456848)|May-21-2021|-
 
 ## Problem description:
 
@@ -35,7 +44,7 @@ Consensus algorithm requirements:
 - Minimum blockchain using
 - Infinity scalability 
 - Decentralized 
-- ZeroKnowlage Proofs (no sending full file for proof, or no using third-party)
+- Zero Knowledge Proofs (no sending full file for proof, or no using third-party)
 - Proving files without any metadata storing in blockchain
 - The complexity of the security of your own blockchain
 
@@ -58,15 +67,6 @@ Where:
 - **reward** - min((1/365 x days from last proof), 7) x deposited amount
 
 More about PoS will available [in docs](/docs/digital%20paper.pdf)
-
-## Contracts
-
-Name|Network|Address|Updated
-|---|---|---|---|
-|UserStorage|Kovan|[0x6C5eb19854A80037C7E911128CFF13E81841A40F](https://kovan.etherscan.io/address/0x6C5eb19854A80037C7E911128CFF13E81841A40F)|May-26-2021 
-|Payments|Kovan|[0xA260B0aD50fB996cEffa614bAb75846E06991622](https://kovan.etherscan.io/address/0xA260B0aD50fB996cEffa614bAb75846E06991622)|Jul-02-2021
-ProofOfStorage|Kovan|[0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B](https://kovan.etherscan.io/address/0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B)|May-22-2021
-|DFILE Testnet Token|Kovan|[0x0d3C95079Ff0B4cf055a65EF4b63BbB047456848](https://kovan.etherscan.io/address/0x0d3C95079Ff0B4cf055a65EF4b63BbB047456848)|May-21-2021
 
 ### Smart contracts:
 
