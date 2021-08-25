@@ -19,18 +19,10 @@ Proof-of-Storage contract helps nodes and clients achieve consensus and auto-sca
 - Support any ERC20 tokens for payments
 - Gas limit of one proof lower than usual token swap
 
-## Dev Statuses
-
-|Contract|Network|Address|Status
-|---|---|---|---|
-|UserStorage|Kovan Testnet|[`0x6C5eb19854A80037C7E911128CFF13E81841A40F`](https://kovan.etherscan.io/address/0x6C5eb19854A80037C7E911128CFF13E81841A40F)|Beta
-|Payments|Kovan Testnet|[`0xA260B0aD50fB996cEffa614bAb75846E06991622`](https://kovan.etherscan.io/address/0xA260B0aD50fB996cEffa614bAb75846E06991622)|Beta
-|ProofOfStorage|Kovan Testnet|[`0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B`](https://kovan.etherscan.io/address/0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B)|Alpha
-
 ## Contracts
 
 Name|Network|Address|Updated|Status
-|---|---|---|---|
+|---|---|---|---|---|
 |UserStorage|Kovan|[`0x6C5eb19854A80037C7E911128CFF13E81841A40F`](https://kovan.etherscan.io/address/0x6C5eb19854A80037C7E911128CFF13E81841A40F)|May-26-2021|Beta
 |Payments|Kovan|[`0xA260B0aD50fB996cEffa614bAb75846E06991622`](https://kovan.etherscan.io/address/0xA260B0aD50fB996cEffa614bAb75846E06991622)|Jul-02-2021|Beta
 ProofOfStorage|Kovan|[`0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B`](https://kovan.etherscan.io/address/0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B)|May-22-2021|Alpha
