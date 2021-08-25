@@ -23,10 +23,10 @@ Proof-of-Storage contract helps nodes and clients achieve consensus and auto-sca
 
 Name|Network|Address|Updated|Status
 |---|---|---|---|---|
-|UserStorage|Kovan|[`0x6C5eb19854A80037C7E911128CFF13E81841A40F`](https://kovan.etherscan.io/address/0x6C5eb19854A80037C7E911128CFF13E81841A40F)|May-26-2021|Beta
-|Payments|Kovan|[`0xA260B0aD50fB996cEffa614bAb75846E06991622`](https://kovan.etherscan.io/address/0xA260B0aD50fB996cEffa614bAb75846E06991622)|Jul-02-2021|Beta
-ProofOfStorage|Kovan|[`0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B`](https://kovan.etherscan.io/address/0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B)|May-22-2021|Alpha
-|DFILE Testnet Token|Kovan|[`0x0d3C95079Ff0B4cf055a65EF4b63BbB047456848`](https://kovan.etherscan.io/address/0x0d3C95079Ff0B4cf055a65EF4b63BbB047456848)|May-21-2021|-
+|UserStorage|Kovan|[`0x6C5eb19854A80037C7E911128CFF13E81841A40F`](https://kovan.etherscan.io/address/0x6C5eb19854A80037C7E911128CFF13E81841A40F)|2021-05-26|Beta
+|Payments|Kovan|[`0xA260B0aD50fB996cEffa614bAb75846E06991622`](https://kovan.etherscan.io/address/0xA260B0aD50fB996cEffa614bAb75846E06991622)|2021-07-02|Beta
+ProofOfStorage|Kovan|[`0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B`](https://kovan.etherscan.io/address/0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B)|2021-05-22|Alpha
+|DFILE Token|Kovan|[`0x0d3C95079Ff0B4cf055a65EF4b63BbB047456848`](https://kovan.etherscan.io/address/0x0d3C95079Ff0B4cf055a65EF4b63BbB047456848)|2021-05-21|-
 
 ## Problem description:
 
