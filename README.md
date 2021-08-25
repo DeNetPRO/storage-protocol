@@ -61,12 +61,12 @@ More about PoS will available [in docs](/docs/digital%20paper.pdf)
 
 ## Contracts
 
-Name|Description|Network|Address|Updated
-|---|---|---|---|---|
-|UserStorage|Contract for storing the last version of storage root hash and emit data about updater for nodes updated|Kovan|[0x6C5eb19854A80037C7E911128CFF13E81841A40F](https://kovan.etherscan.io/address/0x6C5eb19854A80037C7E911128CFF13E81841A40F)|May-26-2021 
-|Payments|Contract for make local transfers for rewarding PoS actions|Kovan|[0xA260B0aD50fB996cEffa614bAb75846E06991622](https://kovan.etherscan.io/address/0xA260B0aD50fB996cEffa614bAb75846E06991622)|Jul-02-2021
-ProofOfStorage|Main contract for getting rewarded by ProofOfStorage|Kovan|[0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B](https://kovan.etherscan.io/address/0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B)|May-22-2021
-|DFILE Testnet Token|Ready to Use|Kovan|[0x0d3C95079Ff0B4cf055a65EF4b63BbB047456848](https://kovan.etherscan.io/address/0x0d3C95079Ff0B4cf055a65EF4b63BbB047456848)|May-21-2021
+Name|Network|Address|Updated
+|---|---|---|---|
+|UserStorage|Kovan|[0x6C5eb19854A80037C7E911128CFF13E81841A40F](https://kovan.etherscan.io/address/0x6C5eb19854A80037C7E911128CFF13E81841A40F)|May-26-2021 
+|Payments|Kovan|[0xA260B0aD50fB996cEffa614bAb75846E06991622](https://kovan.etherscan.io/address/0xA260B0aD50fB996cEffa614bAb75846E06991622)|Jul-02-2021
+ProofOfStorage|Kovan|[0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B](https://kovan.etherscan.io/address/0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B)|May-22-2021
+|DFILE Testnet Token|Kovan|[0x0d3C95079Ff0B4cf055a65EF4b63BbB047456848](https://kovan.etherscan.io/address/0x0d3C95079Ff0B4cf055a65EF4b63BbB047456848)|May-21-2021
 
 ### Smart contracts:
 
