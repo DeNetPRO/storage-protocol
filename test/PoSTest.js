@@ -1,5 +1,5 @@
 // const { expectEvent } = require('@openzeppelin/test-helpers');
-const SHA256 = require("crypto-js/sha256");
+const { network } = require('hardhat');
 
 const ProofOfStorage = artifacts.require('ProofOfStorage');
 const Payments = artifacts.require('Payments');
@@ -46,7 +46,7 @@ contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
         this.payments = await Payments.new('DeNet Payments', this.pos.address);
         await this.pos.changeSystemAddresses(this.userStorage.address, this.payments.address);
 
-        await this.token.mint(w1, 1000);
+        await this.token.mint(w1, 100000000);
         await this.token.mint(w2, 1000);
     });
 
@@ -64,21 +64,55 @@ contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
         await this.pos.closeDeposit(this.token.address, { from: w1 });
         // expectEvent(result2, 'Transfer', { from: this.payments.address, to: w1, value: '1000'});
     });
-
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * max);
+    }
+    async function update_payer_balance(self, user_address) {
+        var amount = (getRandomInt(30) + 1) * 100000000;
+        console.log("added", amount.toString() +  " to payer");
+        await self.token.mint(w1, amount);
+        await self.token.approve(self.payments.address, amount, { from: w1 });
+        await self.pos.makeDeposit(self.token.address, amount, { from: w1 });
+        await self.pos.admin_set_user_data(w1, user_address, self.token.address, amount);
+    }
     it('should send proof from successfully', async function() {
-        let _tmp_proof_data = get_proof_data();
+        
+        var _tmp_proof_data = get_proof_data();
+        // suppose the current block has a timestamp of 24H
+        await network.provider.send("evm_increaseTime", [60*60*24])
+        // mining at 1000 days
+        for (let i = 0; i < 10000; i ++)
+            await network.provider.send("evm_mine"); // this one will have 02:00 PM as its timestamp
+        
 
-        await this.pos.sendProofFrom(
-            _tmp_proof_data['_node_address'],
-            _tmp_proof_data['_user_address'],
-            _tmp_proof_data['_block_number'],
-            _tmp_proof_data['_user_root_hash'],
-            _tmp_proof_data['_user_root_hash_nonce'], 
-            _tmp_proof_data['_user_signature'],
-            _tmp_proof_data['_file'],
-            _tmp_proof_data['merkleProof'],
-            {from: w1});
+        // set dificulty to one
+        await this.pos.updateBaseDifficulty(1);
+        
+
+        
+        // generate 25 proofs
+        for (let next_block = 0; next_block < 25; next_block++){
+            var cur_block_number = await this.pos.getBlockNumber();
+            await update_payer_balance(this, _tmp_proof_data['_user_address']);
+            var PROOF_B_NUMBER = parseInt(cur_block_number.toString()) - 60;
+
+            await this.pos.sendProofFrom(
+                _tmp_proof_data['_node_address'],
+                _tmp_proof_data['_user_address'],
+                PROOF_B_NUMBER,
+                _tmp_proof_data['_user_root_hash'],
+                _tmp_proof_data['_user_root_hash_nonce'], 
+                _tmp_proof_data['_user_signature'],
+                _tmp_proof_data['_file'],
+                _tmp_proof_data['merkleProof'],
+                {from: w1});
+           
+
+            // mine 100 blocks
+            for (let i = 0; i < 100; i ++)
+                await network.provider.send("evm_mine"); // this one will have 02:00 PM as its timestamp
 
 
+        }
     });
 });
