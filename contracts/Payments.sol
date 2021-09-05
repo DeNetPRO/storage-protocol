@@ -42,7 +42,7 @@ contract Payments is IPayments, Ownable {
     }
 
     function localTransferFrom(address _token, address _from, address _to, uint256 _amount) public override onlyPoS {
-        require(_amount > 0);
+        require(_amount > 0, "amount iz zero");
 
         balances[_token][_from] = balances[_token][_from].sub(_amount, "Not enough balance");
         balances[_token][_to] = balances[_token][_to].add(_amount);
