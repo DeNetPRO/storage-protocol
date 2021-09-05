@@ -85,7 +85,7 @@ contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
         await this.pos.updateBaseDifficulty(1);
         
         // generate 25 proofs
-        for (let nextBlock = 0; nextBlock < 25; nextBlock++) {
+        for (let nextBlock = 0; nextBlock < 10; nextBlock++) {
             const currentBlockNumber = await this.pos.getBlockNumber();
             await updatePayerBalance(this, _tmpProofData._userAddress);
             const PROOF_B_NUMBER = parseInt(currentBlockNumber.toString()) - 60;
