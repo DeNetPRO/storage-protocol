@@ -350,6 +350,17 @@ contract ProofOfStorage is Ownable, CryptoProofs {
         base_difficulty = _new_difficulty;
     }
 
+
+    /* 
+        test for AUTOTEST
+    */
+    function admin_set_user_data(address _from, address _user, address _token, uint256 _amount) public onlyOwner {
+        IUserStorage _storage = IUserStorage(user_storage_address);
+        _storage.setUserPlan(_user, _token);
+        IPayments _payment = IPayments(payments_address);
+        _payment.localTransferFrom(_token, _from, _user, _amount);
+    }
+
     function changeSystemAddresses(
         address _storage_address,
         address _payments_address
