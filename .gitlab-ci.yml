@@ -3,10 +3,6 @@ image: node:16-alpine3.11
 stages:
   - test
 
-before_script:
-  - npm install -g yarn
-  - echo "::set-output name=dir::$(yarn cache dir)"
-
 testing:
   stage: test
   script:
