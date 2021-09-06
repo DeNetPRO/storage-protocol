@@ -1,20 +1,15 @@
-stages:
-    - test
+image: ubuntu-latest
 
-.run_test: &run_test
+stages:
+  - test
+
+before_script:
+  - npm install -g yarn
+  - echo "::set-output name=dir::$(yarn cache dir)"
+
+testing:
   stage: test
-  image: ubuntu-latest
-  before_script:
-    - npm install -g yarn
-    - echo "::set-output name=dir::$(yarn cache dir)"
   script:
     - yarn
     - yarn lint
     - yarn test
-
-prod:run_test:
-  <<: *run_test
-  environment:
-    name: test
-  only:
-    - to-deploy
