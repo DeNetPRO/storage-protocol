@@ -107,6 +107,19 @@ contract ProofOfStorage is Ownable, CryptoProofs {
     address public payments_address;
     uint256 private _max_blocks_after_proof = 100;
 
+    // 
+    /*
+        This Parametr using to get amount of reward per one mined block.
+
+        Formula (60 * 60 * 24 * 365) / AvBlockTime
+
+        For Ethereum - 2102400
+        For Matic - 15768000
+        For BSC - 6307200
+
+    */
+    uint256 constant public REWARD_DIFFICULTY = 2102400;  
+
     constructor(
         address _storage_address,
         address _payments_address,
@@ -284,15 +297,15 @@ contract ProofOfStorage is Ownable, CryptoProofs {
         IPayments _payment = IPayments(payments_address);
 
         IUserStorage _storage = IUserStorage(user_storage_address);
-        address _token_pay = _storage.getUserPayToken(_user);
-        uint256 user_balance = _payment.getBalance(_token_pay, _user);
+        address _tokenPay = _storage.getUserPayToken(_user);
+        uint256 _userBalance = _payment.getBalance(_tokenPay, _user);
 
-        uint256 _amount_per_block = user_balance / 2102400; // balance / (60 * 60 * 24 * 365) / 15
-        uint32 _cur_block = _storage.getUserLastBlockNumber(_user);
-        uint32 _blocks_complited = uint32(block.number - _cur_block);
-        uint256 amount_returns = _blocks_complited * _amount_per_block;
+        uint256 _amountPerBlock = _userBalance / REWARD_DIFFICULTY; 
+        uint256 _lastBlockNumber = _storage.getUserLastBlockNumber(_user);
+        uint256 _proovedBlocks = block.number - _lastBlockNumber;
+        uint256 _amountReturns = _proovedBlocks * _amountPerBlock;
 
-        return (_token_pay, amount_returns, _blocks_complited);
+        return (_tokenPay, _amountReturns, _proovedBlocks);
     }
 
     function _takePay(

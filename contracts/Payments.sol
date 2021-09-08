@@ -22,7 +22,7 @@ contract Payments is IPayments, Ownable, StorageToken, PoSAdmin {
     address public oldPaymentAddress;
     uint256 private _autoMigrationTimeEnds = 0;
 
-    mapping (address =>  uint) public balances;
+    // mapping (address =>  uint) public balances;
 
     constructor(
             address _address, 
@@ -63,11 +63,11 @@ contract Payments is IPayments, Ownable, StorageToken, PoSAdmin {
                 migrateFromOldPayments(_to);
             }
         }
-        require (balances[_from]  >= _amount, "Not enough balance");
+        require (_balances[_from]  >= _amount, "Not enough balance");
         require (0  <  _amount, "Amount < 0");
         
-        balances[_from] = balances[_from].sub(_amount, "Not enough balance");
-        balances[_to] = balances[_to].add(_amount);
+        _balances[_from] = _balances[_from].sub(_amount, "Not enough balance");
+        _balances[_to] = _balances[_to].add(_amount);
         
         emit LocalTransferFrom(_token, _from, _to, _amount);
     }
