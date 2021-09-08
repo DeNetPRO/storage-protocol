@@ -8,8 +8,8 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "./ERC20Unsafe.sol";
+
 
 import "./interfaces/IUserStorage.sol";
 import "./interfaces/IPayments.sol";
@@ -101,15 +101,14 @@ contract feeCollector is Ownable {
 contract StorageToken is  ERC20, Ownable, feeCollector{
     using SafeMath for uint256;
     using SafeMath for uint16;
-    uint256 public dfileBalance = 4000000000000000000; // 25 DFILE per TB year start price
     
+    uint256 public dfileBalance = 4000000000000000000; // 25 DFILE per TB year start price
     address public DeNetFileToken = 0x0d3C95079Ff0B4cf055a65EF4b63BbB047456848;
     
     constructor (string memory name_, string memory symbol_)  ERC20(name_, symbol_) {
         _mint(recipient_fee, fee_limit); // mint start capital
     }
     
-   
     // only for test
     function changeTokenAddress(address newAddress) public onlyOwner {
         DeNetFileToken = newAddress;
@@ -156,7 +155,7 @@ contract StorageToken is  ERC20, Ownable, feeCollector{
     }
     
     function  _closeAllDeposit() internal  {
-        closeAllDeposiByAddresst(msg.sender);
+        _closeAllDeposiByAddresst(msg.sender);
     }
     
     function  _closeAllDeposiByAddresst(address account) internal  {
@@ -182,7 +181,6 @@ contract StorageToken is  ERC20, Ownable, feeCollector{
         DFILEToken.transfer(account, dfile_return);
         
     }
-    
        
     /*
             Balance OF with fee collector changer 
@@ -202,7 +200,7 @@ contract StorageToken is  ERC20, Ownable, feeCollector{
         _name = "Deleted";
         _symbol = "Deleted";
         require (fee_collected == 0, "fee is not zero");
-        selfdestruct(payable(owner));
+        selfdestruct(payable(owner()));
     }
     
     function _collectFee()  internal virtual {

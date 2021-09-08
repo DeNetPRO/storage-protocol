@@ -10,74 +10,80 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
+import "./StorageToken.sol";
+import "./PoSAdmin.sol";
 import "./interfaces/IPayments.sol";
 
 
-contract Payments is IPayments, Ownable {
+contract Payments is IPayments, Ownable, StorageToken, PoSAdmin {
     using SafeMath for uint256;
 
-    string public name;
-    address public PoS_Contract_Address;
     uint256 private _tokensCount;
-    mapping(address => bool) private _knownTokens;
-    mapping(address => mapping(address => uint256)) public balances;
+    address public oldPaymentAddress;
+    uint256 private _autoMigrationTimeEnds = 0;
 
-    modifier onlyPoS() {
-        require(msg.sender == PoS_Contract_Address, "Access denied");
-        _;
+    mapping (address =>  uint) public balances;
+
+    constructor(
+            address _address, 
+            address _oldPaymentsAddress,
+            string memory _tokenName,
+            string memory _tokenSymbol,
+            uint  _endTime
+    ) PoSAdmin(_address) StorageToken(_tokenName, _tokenSymbol) {
+        oldPaymentAddress = _oldPaymentsAddress;
+        _autoMigrationTimeEnds = _endTime;
     }
 
-    constructor(string memory _name, address _address) {
-        name = _name;
-        PoS_Contract_Address = _address;
+    function canMigrate(address _user) public view returns (bool) {
+        return IPayments(oldPaymentAddress).getBalance(_user, DeNetFileToken) > 0;
     }
 
-    function getBalance(address _token, address _address) public view override returns (uint256 result) {
-        return balances[_token][_address];
+    function migrateFromOldPayments(address _user) public {
+        IPayments oldPay = IPayments(oldPaymentAddress);
+        uint256 oldBalance = oldPay.getBalance(_user, DeNetFileToken);
+        oldPay.localTransferFrom(DeNetFileToken,_user, address(this), oldBalance);
+        oldPay.closeDeposit(address(this), DeNetFileToken);
+        _mint(_user, _getDepositReturns(oldBalance));
+        dfileBalance = dfileBalance.add(oldBalance);
     }
 
-    function changePoS(address _new_address) public onlyOwner {
-        PoS_Contract_Address = _new_address;
-        emit ChangePoSContract(_new_address);
+    function getBalance(address _token, address _address) public override view returns (uint result) {
+        return balanceOf(_address);
     }
 
-    function localTransferFrom(address _token, address _from, address _to, uint256 _amount) public override onlyPoS {
-        require(_amount > 0, "amount iz zero");
-
-        balances[_token][_from] = balances[_token][_from].sub(_amount, "Not enough balance");
-        balances[_token][_to] = balances[_token][_to].add(_amount);
-
+    function localTransferFrom(address _token, address _from, address _to, uint _amount)  override public onlyPoS {
+        if (block.timestamp <= _autoMigrationTimeEnds) {
+            
+            if (canMigrate(_from)) {
+                migrateFromOldPayments(_from);
+            }
+            
+            if (canMigrate(_to)) {
+                migrateFromOldPayments(_to);
+            }
+        }
+        require (balances[_from]  >= _amount, "Not enough balance");
+        require (0  <  _amount, "Amount < 0");
+        
+        balances[_from] = balances[_from].sub(_amount, "Not enough balance");
+        balances[_to] = balances[_to].add(_amount);
+        
         emit LocalTransferFrom(_token, _from, _to, _amount);
     }
 
-    function depositToLocal(address _account, address _token, uint256 _amount) public override onlyPoS {
-        require(_amount > 0);
-        _registerTokenIfNeeded(_token);
 
-        // TODO: fix for token with transfer fees
-        uint256 balanceBefore = IERC20(_token).balanceOf(address(this));
-        IERC20(_token).transferFrom(_account, address(this), _amount);
-        uint256 balanceAfter = IERC20(_token).balanceOf(address(this));
-        balances[_token][_account] = balances[_token][_account].add(
-            balanceAfter.sub(balanceBefore)
-        );
+
+    function depositToLocal(address _user_address, address _token, uint _amount)  override public onlyPoS{
+        _depositByAddress(_user_address, _amount);
     }
+
 
     /**
         TODO:
             - add vesting/unlockable balance
      **/
     function closeDeposit(address _account, address _token) public override onlyPoS {
-        uint256 amount = balances[_token][_account];
-        balances[_token][_account] = 0;
-        IERC20(_token).transfer(_account, amount);
-    }
-
-    function _registerTokenIfNeeded(address _token) private {
-        if (!_knownTokens[_token]) {
-            _tokensCount++;
-            _knownTokens[_token] = true;
-            emit RegisterToken(_token, _tokensCount - 1);
-        }
+        _closeAllDeposiByAddresst(_account);
     }
 }
