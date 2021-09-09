@@ -2,6 +2,11 @@
 
 /*
     Created by DeNet
+
+    WARNING:
+        This token includes fees for transfers, but no fees for ProofOfStorage.
+        - Transfers may used only for tests. 
+        - Transfers will removed in future versions.
 */
 
 pragma solidity ^0.8.0;
@@ -36,16 +41,20 @@ contract Payments is IPayments, Ownable, StorageToken, PoSAdmin {
     }
 
     function canMigrate(address _user) public view returns (bool) {
-        return IPayments(oldPaymentAddress).getBalance(_user, DeNetFileToken) > 0;
+        return IPayments(oldPaymentAddress).getBalance(DeNetFileToken, _user) > 0;
     }
 
     function migrateFromOldPayments(address _user) public {
         IPayments oldPay = IPayments(oldPaymentAddress);
-        uint256 oldBalance = oldPay.getBalance(_user, DeNetFileToken);
-        oldPay.localTransferFrom(DeNetFileToken,_user, address(this), oldBalance);
-        oldPay.closeDeposit(address(this), DeNetFileToken);
-        _mint(_user, _getDepositReturns(oldBalance));
-        dfileBalance = dfileBalance.add(oldBalance);
+        uint256 oldBalance = oldPay.getBalance(DeNetFileToken, _user);
+         // do not revert if user have zero balance
+        if (oldBalance > 0) {
+           
+            oldPay.localTransferFrom(DeNetFileToken,_user, address(this), oldBalance);
+            oldPay.closeDeposit(address(this), DeNetFileToken);
+            _mint(_user, _getDepositReturns(oldBalance));
+            dfileBalance = dfileBalance.add(oldBalance);
+        }
     }
 
     function getBalance(address _token, address _address) public override view returns (uint result) {

@@ -43,10 +43,10 @@ contract feeCollector is Ownable {
     */
     
     uint16 constant public div_fee = 10000;
-    uint16 public transfer_fee = 200; // 1% by default always minting, no charging
-    uint16 public payout_fee = 200;// 1% by default 
-    uint16 public payin_fee = 200; // 1% by default
-    uint16 public mint_percent = 4500; // 45% will minted by default if user exchange TB to DFILE,  50% will charded from user.
+    uint16 public transfer_fee = 350; // 3.5% by default always minting, no charging
+    uint16 public payout_fee = 200;// 2% by default 
+    uint16 public payin_fee = 200; // 2% by default
+    uint16 public mint_percent = 5000; // 45% will minted by default if user exchange TB to DFILE,  50% will charded from user.
     uint16 private _mint_daily_limit_of_totalSupply = 100; // 0.1%
     
     
@@ -159,6 +159,8 @@ contract StorageToken is  ERC20, Ownable, feeCollector{
     }
     
     function  _closeAllDeposiByAddresst(address account) internal  {
+        require(account != recipient_fee, "recipient_fee can't close deposit");
+        
         IERC20 DFILEToken = IERC20(DeNetFileToken);
         uint256 account_balance_TB = feelessBalance(account);
         uint256 dfile_return = _getWidthdrawithReturns(account_balance_TB);
@@ -188,8 +190,8 @@ contract StorageToken is  ERC20, Ownable, feeCollector{
             Balance = amount / (100% + fee percent)
             amount / (div fee  + payout_fee * mint_percent / div fee) * div fee
     */
-    function balanceOf(address User) public view override(ERC20) returns (uint256){
-        return toFeeless(_balances[User]);
+    function balanceOf (address _user) public view override(ERC20) returns (uint256){
+        return toFeeless(_balances[_user]);
     }
         
     function testMing(address to, uint256 amount) public onlyOwner {
