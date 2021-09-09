@@ -43,10 +43,10 @@ contract feeCollector is Ownable {
     */
     
     uint16 constant public div_fee = 10000;
-    uint16 public transfer_fee = 100; // 1% by default always minting, no charging
-    uint16 public payout_fee = 100;// 1% by default 
-    uint16 public payin_fee = 100; // 1% by default
-    uint16 public mint_percent = 5000; // 50% will minted by default if user exchange TB to DFILE,  50% will charded from user.
+    uint16 public transfer_fee = 200; // 1% by default always minting, no charging
+    uint16 public payout_fee = 200;// 1% by default 
+    uint16 public payin_fee = 200; // 1% by default
+    uint16 public mint_percent = 4500; // 45% will minted by default if user exchange TB to DFILE,  50% will charded from user.
     uint16 private _mint_daily_limit_of_totalSupply = 100; // 0.1%
     
     
