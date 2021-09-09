@@ -2,7 +2,7 @@
     "extends": "solhint:recommended",
     "rules": {
         "compiler-version": ["error", "^0.8.0"],
-        "private-vars-leading-underscore": "error",
+        "private-vars-leading-underscore": "warn",
         "func-visibility": ["error", { "ignoreConstructors": true }]
     }
 }

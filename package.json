@@ -41,8 +41,8 @@
     "lint:fix": "yarn run lint:js:fix && yarn run lint:sol:fix",
     "lint:js": "eslint .",
     "lint:js:fix": "eslint . --fix",
-    "lint:sol": "solhint --max-warnings 130 \"contracts/**/*.sol\"",
-    "lint:sol:fix": "solhint --max-warnings 125 \"contracts/**/*.sol\" --fix",
+    "lint:sol": "solhint --max-warnings 150 \"contracts/**/*.sol\"",
+    "lint:sol:fix": "solhint --max-warnings 150 \"contracts/**/*.sol\" --fix",
     "test": "hardhat test"
   }
 }
