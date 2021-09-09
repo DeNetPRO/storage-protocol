@@ -37,15 +37,16 @@ contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
             ],
         };
     }
-    async function getBalance(self, address, callback) {
-        let result = await self.payments.balanceOf(address);
+    
+    async function getBalance (self, address, callback) {
+        const result = await self.payments.balanceOf(address);
         callback(result.toString());
-    } 
+    }
     beforeEach(async function () {
         this.token = await TokenMock.new('Token', 'TKN');
         this.pos = await ProofOfStorage.new('0x0000000000000000000000000000000000000000', '0x0000000000000000000000000000000000000000', '10000000');
         this.userStorage = await UserStorage.new('DeNet UserStorage', this.pos.address);
-        this.payments = await Payments.new(this.pos.address, this.pos.address, "Terabyte Years", "TB/Year", 1);
+        this.payments = await Payments.new(this.pos.address, this.pos.address, 'Terabyte Years', 'TB/Year', 1);
         await this.payments.changeTokenAddress(this.token.address);
         await this.pos.changeSystemAddresses(this.userStorage.address, this.payments.address);
         
@@ -56,7 +57,7 @@ contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
     it('should deposit successfully', async function () {
         await this.token.approve(this.payments.address, '1000', { from: w1 });
         await this.pos.makeDeposit(this.token.address, 1000, { from: w1 });
-        await getBalance(this, w1, (res) => {console.log("Balance " + res)});
+        await getBalance(this, w1, (res) => { console.log('Balance ' + res); });
         // expectEvent(result, 'Transfer', { from: w1, to: this.payments.address, value: '1000'});
     });
 
@@ -66,7 +67,7 @@ contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
         // expectEvent(result1, 'Transfer', { from: w1, to: this.payments.address, value: '1000'});
 
         await this.pos.closeDeposit(this.token.address, { from: w1 });
-        await getBalance(this, w1, (res) => {console.log("Balance " + res)});
+        await getBalance(this, w1, (res) => { console.log('Balance ' + res); });
         // expectEvent(result2, 'Transfer', { from: this.payments.address, to: w1, value: '1000'});
     });
     function getRandomInt (max) {
@@ -78,19 +79,18 @@ contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
         await self.token.mint(w1, amount);
         await self.token.approve(self.payments.address, amount, { from: w1 });
         await self.pos.makeDeposit(self.token.address, amount, { from: w1 });
-        let resultBalance = await self.payments.balanceOf(w1);
-        console.log("Transfering " + resultBalance.toString() + " TB");
+        const resultBalance = await self.payments.balanceOf(w1);
+        console.log('Transfering ' + resultBalance.toString() + ' TB');
         await self.pos.admin_set_user_data(w1, userAddress, self.token.address, resultBalance);
     }
     
-
-    async function showBalances(self, _tmp, _type) {
+    async function showBalances (self, _tmp, _type) {
         await getBalance(self, _tmp._userAddress, (res) => {
             console.log('[' + _type + '] User Balance Of TB', res);
-        })
+        });
         await getBalance(self, _tmp._nodeAddress, (res) => {
             console.log('[' + _type + '] Node Balance Of TB', res);
-        })
+        });
     }
 
     it('should send proof from successfully', async function () {
@@ -105,11 +105,10 @@ contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
         
         // generate 25 proofs
         for (let nextBlock = 0; nextBlock < 10; nextBlock++) {
-           
-            await showBalances(this, _tmpProofData, "Before Payin");
+            await showBalances(this, _tmpProofData, 'Before Payin');
             const currentBlockNumber = await this.pos.getBlockNumber();
             await updatePayerBalance(this, _tmpProofData._userAddress);
-            await showBalances(this, _tmpProofData, "After Payin");
+            await showBalances(this, _tmpProofData, 'After Payin');
             
             const PROOF_B_NUMBER = parseInt(currentBlockNumber.toString()) - 60;
 
@@ -123,7 +122,7 @@ contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
                 _tmpProofData._file,
                 _tmpProofData.merkleProof,
                 { from: w1 });
-            await showBalances(this, _tmpProofData, "After SendProof");
+            await showBalances(this, _tmpProofData, 'After SendProof');
             // mine 100 blocks
             for (let i = 0; i < 100; i++) { await network.provider.send('evm_mine'); } // this one will have 02:00 PM as its timestamp
         }
