@@ -13,7 +13,7 @@ const amount100 = '100000000000000000000';
 const amount100k = '100000000000000000000000';
 const e16 = new BN('10000000000000000', 10);
 
-contract('StorageToken', async function ([_, w1, w2, w3]) {
+contract('StorageToken', async function ([_, w1, w2, w3, w4]) {
     beforeEach(async function () {
         /* Deploy Contracts */
         await network.provider.send('evm_increaseTime', [60 * 60 * 24]); // set block time 24H
@@ -120,9 +120,9 @@ contract('StorageToken', async function ([_, w1, w2, w3]) {
         await logBalance(w2, this.token);
         await logBalance(w2, this.newPayments);
 
-        console.log('----------- Transfer 1000TB From w1 to w2 -----------');
-        await this.newPayments.transfer(w2, e16.mul(new BN(1000)), { from: w1 });
-
+        console.log('----------- Transfer 0.1 TB From w1 to w2 -----------');
+        await this.newPayments.transfer(w2, e16.mul(new BN(10)), { from: w1 });
+        
         console.log('----------- Account 1 Balances -----------');
         await logBalance(w1, this.token);
         await logBalance(w1, this.newPayments);
@@ -130,10 +130,12 @@ contract('StorageToken', async function ([_, w1, w2, w3]) {
         console.log('----------- Account 2 Balances -----------');
         await logBalance(w2, this.token);
         await logBalance(w2, this.newPayments);
-
+        await this.newPayments.testMint(w4,  amount100);
         console.log('----------- Close Deposits -----------');
         await this.pos.closeDeposit(this.token.address, { from: w1 });
         await this.pos.closeDeposit(this.token.address, { from: w2 });
+
+        
 
         console.log('----------- Account 1 Balances -----------');
         await logBalance(w1, this.token);
@@ -146,6 +148,8 @@ contract('StorageToken', async function ([_, w1, w2, w3]) {
         console.log('----------- Account Fees Balances -----------');
         await logBalance(w2, this.token);
         await logBalance(w2, this.newPayments);
+
+        
 
         console.log('----------- Show Fees -----------');
         const _supply = await this.newPayments.totalSupply();

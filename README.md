@@ -23,6 +23,7 @@ Proof-of-Storage contract helps nodes and clients achieve consensus and auto-sca
 
 Name|Network|Address|Updated|Status
 |---|---|---|---|---|
+|Payments V2| Kovan|[`0x98329d51486C0A942fCb3fAE5A0a18E05708cdc0`](https://kovan.etherscan.io/address0x98329d51486C0A942fCb3fAE5A0a18E05708cdc0)|2021-09-09|Alpha
 |UserStorage|Kovan|[`0x6C5eb19854A80037C7E911128CFF13E81841A40F`](https://kovan.etherscan.io/address/0x6C5eb19854A80037C7E911128CFF13E81841A40F)|2021-05-26|Beta
 |Payments|Kovan|[`0xA260B0aD50fB996cEffa614bAb75846E06991622`](https://kovan.etherscan.io/address/0xA260B0aD50fB996cEffa614bAb75846E06991622)|2021-07-02|Beta
 ProofOfStorage|Kovan|[`0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B`](https://kovan.etherscan.io/address/0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B)|2021-05-22|Alpha

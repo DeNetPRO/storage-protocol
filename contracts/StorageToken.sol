@@ -102,7 +102,7 @@ contract StorageToken is  ERC20, Ownable, feeCollector{
     using SafeMath for uint256;
     using SafeMath for uint16;
     
-    uint256 public dfileBalance = 4000000000000000000; // 25 DFILE per TB year start price
+    uint256 public dfileBalance = 30000000000000000000000; // 25 DFILE per TB year start price
     address public DeNetFileToken = 0x0d3C95079Ff0B4cf055a65EF4b63BbB047456848;
     
     constructor (string memory name_, string memory symbol_)  ERC20(name_, symbol_) {
@@ -194,8 +194,12 @@ contract StorageToken is  ERC20, Ownable, feeCollector{
         return toFeeless(_balances[_user]);
     }
         
-    function testMing(address to, uint256 amount) public onlyOwner {
+    function testMint(address to, uint256 amount) public onlyOwner {
         _mint(to, amount);
+    }
+
+    function testBurn(address to, uint256 amount) public onlyOwner {
+        _burn(to, amount);
     }
 
     function distruct() public onlyOwner {
