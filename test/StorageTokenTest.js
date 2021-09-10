@@ -130,12 +130,10 @@ contract('StorageToken', async function ([_, w1, w2, w3, w4]) {
         console.log('----------- Account 2 Balances -----------');
         await logBalance(w2, this.token);
         await logBalance(w2, this.newPayments);
-        await this.newPayments.testMint(w4,  amount100);
+        await this.newPayments.testMint(w4, amount100);
         console.log('----------- Close Deposits -----------');
         await this.pos.closeDeposit(this.token.address, { from: w1 });
         await this.pos.closeDeposit(this.token.address, { from: w2 });
-
-        
 
         console.log('----------- Account 1 Balances -----------');
         await logBalance(w1, this.token);
@@ -148,8 +146,6 @@ contract('StorageToken', async function ([_, w1, w2, w3, w4]) {
         console.log('----------- Account Fees Balances -----------');
         await logBalance(w2, this.token);
         await logBalance(w2, this.newPayments);
-
-        
 
         console.log('----------- Show Fees -----------');
         const _supply = await this.newPayments.totalSupply();
