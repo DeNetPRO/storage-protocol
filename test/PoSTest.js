@@ -74,7 +74,7 @@ contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
         return Math.floor(Math.random() * max);
     }
     async function updatePayerBalance (self, userAddress) {
-        const amount = (getRandomInt(30) + 1) * 100000000;
+        const amount = (getRandomInt(30) + 5) * 100000000;
         console.log('added', amount.toString() + ' to payer');
         await self.token.mint(w1, amount);
         await self.token.approve(self.payments.address, amount, { from: w1 });
