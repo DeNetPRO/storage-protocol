@@ -228,7 +228,9 @@ contract StorageToken is  ERC20, Ownable, feeCollector{
     function distruct() public onlyOwner {
         _name = "Deleted";
         _symbol = "Deleted";
-        require (fee_collected == 0, "fee is not zero");
+        IERC20 DFILE = IERC20(DeNetFileToken);
+        DFILE.transfer(msg.sender, DFILE.balanceOf(address(this)));
+        // require (fee_collected == 0, "fee is not zero");
         selfdestruct(payable(owner()));
     }
     
