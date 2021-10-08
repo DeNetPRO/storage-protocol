@@ -5,7 +5,7 @@ const ProofOfStorage = artifacts.require('ProofOfStorage');
 const Payments = artifacts.require('Payments');
 const UserStorage = artifacts.require('UserStorage');
 const TokenMock = artifacts.require('TokenMock');
-const NodeNFT = artifacts.require("DeNetNodeNFT");
+const NodeNFT = artifacts.require('DeNetNodeNFT');
 
 contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
     function getProofData (data) {
@@ -57,7 +57,7 @@ contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
         await this.token.mint(w1, 100000000);
         await this.token.mint(w2, 1000);
 
-        await this.nodeNFT.createNode([192,168,1,1], 8080, {'from': w1});
+        await this.nodeNFT.createNode([192, 168, 1, 1], 8080, { from: w1 });
     });
 
     it('should deposit successfully', async function () {
