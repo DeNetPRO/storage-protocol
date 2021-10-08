@@ -9,8 +9,9 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "./PoSAdmin.sol";
+import "./interfaces/INodeNFT.sol";
 
-contract SimpleNFT {
+contract SimpleNFT is ISimpleINFT {
     using SafeMath for uint256;
   
     // Mapping from token ID to owner
@@ -22,19 +23,16 @@ contract SimpleNFT {
     mapping (address => uint256) public nodeByAddress;
     
     // Mapping from owner to token last token id
-
-    event Transfer(
-        address indexed from,
-        address indexed to,
-        uint256 indexed tokenId
-    );
-    
-    function balanceOf(address owner) public view returns (uint256) {
+    function balanceOf(address owner) public override view returns (uint256) {
         require(owner != address(0), "0x0 is blocked");
         return _ownedTokensCount[owner];
     }
+
+    function getNodeIDByAddress(address _node) public override view returns (uint256) {
+        return nodeByAddress[_node];
+    }
     
-    function ownerOf(uint256 tokenId) public view returns (address) {
+    function ownerOf(uint256 tokenId) public override view returns (address) {
         address owner = _tokenOwner[tokenId];
         require(owner != address(0), "0x0 is blocked");
         return owner;
@@ -80,9 +78,10 @@ contract SimpleNFT {
     }
 }
 
-contract SimpleMetaData is SimpleNFT {
+contract SimpleMetaData is SimpleNFT, IMetaData {
 
     using SafeMath for uint256;
+
     // Token name
     string internal _name;
     
@@ -90,34 +89,10 @@ contract SimpleMetaData is SimpleNFT {
     string internal _symbol;
 
     // Rank degradation per update
-
     uint256 internal _degradation = 10;
-    
-    // Structure for Node
-    struct DeNetNode{
-        uint8[4] ipAddress; // for example [127,0,0,1]
-        uint16 port;
-        uint256 createdAt;
-        uint256 updatedAt;
-        uint256 updatesCount;
-        uint256 rank;
-    }
 
-    
-    
     mapping(uint256 => DeNetNode) private _node;
-    
-    
-    event UpdateNodeStatus(
-        address indexed from,
-        uint256 indexed tokenId,
-        uint8[4]  ipAddress,
-        uint16 port
-        
-    );
-    
-    
-    
+
     constructor(string  memory name_, string  memory symbol_)  {
         _name = name_;
         _symbol = symbol_;
@@ -131,7 +106,8 @@ contract SimpleMetaData is SimpleNFT {
         return _symbol;
     }
     
-    function nodeInfo(uint256 tokenId) public view returns (DeNetNode memory) {
+    
+    function nodeInfo(uint256 tokenId) public override view returns (DeNetNode memory) {
         require(_exists(tokenId), "node not found");
         return _node[tokenId];
     }
@@ -172,7 +148,7 @@ contract SimpleMetaData is SimpleNFT {
     }
 }
 
-contract DeNetNodeNFT is SimpleMetaData, PoSAdmin {
+contract DeNetNodeNFT is SimpleMetaData, PoSAdmin, IDeNetNodeNFT {
     uint256 public nextNodeID = 1;
     uint256 public maxNodeID = 0;
     uint256 public nodesAvailable = 0;
@@ -182,31 +158,27 @@ contract DeNetNodeNFT is SimpleMetaData, PoSAdmin {
         maxNodeID = nodeLimit;
     }
      
-    function createNode(uint8[4] calldata ip, uint16 port) public {
+    function createNode(uint8[4] calldata ip, uint16 port) public returns (uint256){
         require(maxNodeID > nodesAvailable, "Max node count limit exceeded");       
         // if user have not nodes
-        require(nodeByAddress[msg.sender] == 0, "This address already habe node");
+        require(nodeByAddress[msg.sender] == 0, "This address already have node");
         _mint(msg.sender, nextNodeID);
         _setNodeInfo(nextNodeID, ip, port);
         nodeByAddress[msg.sender] = nextNodeID;
         nextNodeID += 1;
         nodesAvailable += 1;
+        return nextNodeID - 1;
     }
     
     function updateNode(uint256 nodeID, uint8[4] calldata ip, uint16 port) public {
         require(ownerOf(nodeID) == msg.sender, "only nft owner can update node");
         _setNodeInfo(nodeID, ip, port);
     }
-    
-    function getNodeById(uint256 nodeID) public view returns (DeNetNode memory) {
-        return nodeInfo(nodeID);
-    }
-    
-    function totalSupply() public  view returns (uint256) {
+    function totalSupply() public override view returns (uint256) {
         return nextNodeID - 1;
     }
 
-    function addSuccessProof(address _nodeOwner) public onlyPoS {
+    function addSuccessProof(address _nodeOwner) public override onlyPoS {
         require(nodeByAddress[_nodeOwner] != 0, "node does not registered");
         _increaseRank(nodeByAddress[_nodeOwner]);
     }

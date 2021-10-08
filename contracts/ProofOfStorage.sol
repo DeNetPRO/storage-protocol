@@ -12,6 +12,7 @@ import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
 import "./interfaces/IUserStorage.sol";
 import "./interfaces/IPayments.sol";
+import "./interfaces/INodeNFT.sol";
 
 
 // TODO: sha256 => keccak256
@@ -106,6 +107,7 @@ contract ProofOfStorage is Ownable, CryptoProofs {
     address public user_storage_address;
     address public payments_address;
     uint256 private _max_blocks_after_proof = 100;
+    address public node_nft_address = address(0);
 
     // 
     /*
@@ -127,6 +129,10 @@ contract ProofOfStorage is Ownable, CryptoProofs {
     ) CryptoProofs(_baseDifficulty) {
         user_storage_address = _storage_address;
         payments_address = _payments_address;
+    }
+
+    function setNodeNFTAddress(address _new) public onlyOwner {
+        node_nft_address = _new;
     }
 
     function sendProof(
@@ -267,6 +273,10 @@ contract ProofOfStorage is Ownable, CryptoProofs {
 
         _takePay(_token_to_pay, _user_address, _proofer, _amount_returns);
         _updateLastBlockNumber(_user_address, uint32(block.number));
+        if (node_nft_address != address(0)) {
+            IDeNetNodeNFT NFT = IDeNetNodeNFT(node_nft_address);
+            NFT.addSuccessProof(_proofer);
+        }
     }
 
     function setUserPlan(address _token) public {

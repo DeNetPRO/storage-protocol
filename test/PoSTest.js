@@ -5,11 +5,12 @@ const ProofOfStorage = artifacts.require('ProofOfStorage');
 const Payments = artifacts.require('Payments');
 const UserStorage = artifacts.require('UserStorage');
 const TokenMock = artifacts.require('TokenMock');
+const NodeNFT = artifacts.require("DeNetNodeNFT");
 
 contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
     function getProofData (data) {
         return {
-            _nodeAddress: '0x537f6af3a07e58986bb5041c304e9eb2283396cd',
+            _nodeAddress: w1,
             _userAddress: '0x250de5e2817233DB3b2Dfb89b6644f178072aDC9',
             _blockNumber: 27072668,
             _userRootHash: '0x08699cde32638e38ee65fde865b8f72d759350e8357b67cbae2db7e32b7375e4',
@@ -47,11 +48,16 @@ contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
         this.pos = await ProofOfStorage.new('0x0000000000000000000000000000000000000000', '0x0000000000000000000000000000000000000000', '10000000');
         this.userStorage = await UserStorage.new('DeNet UserStorage', this.pos.address);
         this.payments = await Payments.new(this.pos.address, this.pos.address, 'Terabyte Years', 'TB/Year', 1);
+        this.nodeNFT = await NodeNFT.new('DeNet Storage Node', 'DEN', this.pos.address, 10);
+    
         await this.payments.changeTokenAddress(this.token.address);
         await this.pos.changeSystemAddresses(this.userStorage.address, this.payments.address);
+        await this.pos.setNodeNFTAddress(this.nodeNFT.address);
         
         await this.token.mint(w1, 100000000);
         await this.token.mint(w2, 1000);
+
+        await this.nodeNFT.createNode([192,168,1,1], 8080, {'from': w1});
     });
 
     it('should deposit successfully', async function () {
