@@ -14,7 +14,8 @@ build:
   stage: build
   script: 
     - yarn
-    - npm i -g solc
+    - apk update
+    - apk add solc
     - solc --abi contracts/*.sol -o builds/
   artifacts:
     paths:
