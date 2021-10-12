@@ -17,4 +17,4 @@ build:
     - solc --abi contracts/*.sol -o builds/
   artifacts:
     paths:
-      - builds/
+      - ./
