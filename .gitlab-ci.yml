@@ -14,10 +14,8 @@ build:
   stage: build
   script: 
     - yarn
-    - npm i @openzeppelin/contracts@4.3.2
-    - npm i @openzeppelin/contract-loader@0.6.2
     - npm i -g solc
     - solcjs --abi contracts/*.sol -o builds/
   artifacts:
     paths:
-      - ./
+      - ./builds/
