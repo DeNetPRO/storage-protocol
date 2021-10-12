@@ -14,6 +14,7 @@ build:
   stage: build
   script: 
     - yarn
+    - apt install solc
     - solc --abi contracts/*.sol -o builds/
   artifacts:
     paths:
