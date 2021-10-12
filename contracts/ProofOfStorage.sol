@@ -101,6 +101,10 @@ contract CryptoProofs {
     function getBlockHash(uint32 _n) public view returns (bytes32) {
         return blockhash(_n);
     }
+
+    function getDifficulty() public view returns(uint256) {
+        return base_difficulty;
+    }
 }
 
 contract ProofOfStorage is Ownable, CryptoProofs {
