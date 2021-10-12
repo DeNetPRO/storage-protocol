@@ -7,7 +7,7 @@
 
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "node_modules/@openzeppelin/contracts/access/Ownable.sol";
 import "./interfaces/IPoSAdmin.sol";
 
 contract PoSAdmin  is IPoSAdmin, Ownable {
