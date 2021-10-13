@@ -21,14 +21,14 @@ contract Governance is Ownable, IGovernance {
     mapping (address => uint256) public lockedAmounts;
     mapping (address => uint256) public unlockTime;
     mapping (uint256 => uint256) public votes;
-    uint256 lock_period = 86400; // one day
+    uint256 public lockPeriod = 86400; // one day
 
     constructor (address _token) {
         depositTokenAddresss = _token;
     }
 
-    function updateLockTime(uint256 new_period) public onlyOwner {
-        lock_period = new_period;
+    function updateLockTime(uint256 newPeriod) public onlyOwner {
+        lockPeriod = newPeriod;
     }
 
     function balanceOf(address account) public view returns(uint256) {
@@ -39,16 +39,16 @@ contract Governance is Ownable, IGovernance {
         return depositedBalance[account];
     }
 
-    function vote(uint256 vote_id,  uint256 vote_power) public {
+    function vote(uint256 voteID,  uint256 votePower) public {
         address account = msg.sender;
-        require(balanceOf(account) >= vote_power, "vote power is more than unlocked deposit");
+        require(balanceOf(account) >= votePower, "vote power > unlocked deposit");
         if (block.timestamp < unlockTime[account]) {
-            lockedAmounts[account] = lockedAmounts[account].add(vote_power);    
+            lockedAmounts[account] = lockedAmounts[account].add(votePower);    
         } else {
-            lockedAmounts[account] = vote_power;
+            lockedAmounts[account] = votePower;
         }
-        unlockTime[account] = block.timestamp + lock_period;
-        votes[vote_id] = votes[vote_id].add(vote_power);
+        unlockTime[account] = block.timestamp + lockPeriod;
+        votes[voteID] = votes[voteID].add(votePower);
     }
 
     function depositToken(uint256 amount) public {
@@ -66,9 +66,9 @@ contract Governance is Ownable, IGovernance {
 
     function withdrawToken(uint256 amount) public {
         IERC20 token = IERC20(depositTokenAddresss);
-        require(balanceOf(msg.sender) >= amount, "Amount more than unlocked deposit balance");
-        token.transfer(msg.sender, amount);
+        require(balanceOf(msg.sender) >= amount, "Amount > unlocked deposit");
         depositedBalance[msg.sender] = depositedBalance[msg.sender].sub(amount);
+        token.transfer(msg.sender, amount);
         emit Withdraw(msg.sender, amount);
     }
 }
