@@ -12,6 +12,74 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./interfaces/IGovernance.sol";
 
+contract Selection is Ownable {
+    using SafeMath for uint;
+
+    mapping (address => uint256) public timeVote; // date of last vote
+
+    uint256 public votesCount;
+    uint256 public votesAmount;
+
+    uint256 public lastVotePeriod; // last vote time 
+    uint256 public minVote;
+    uint256 public maxVote;
+    uint256 public votePeriod; // when update 
+    uint256 public currentState; // current result (between min and max)
+
+    string public contractName;
+
+    constructor (uint _minVote, uint _maxVote, string memory _name, uint _period) {
+        minVote = _minVote;
+        maxVote = _maxVote;
+        contractName = _name;
+        votePeriod = _period;
+        currentState = (minVote  + maxVote) / 2;
+    }
+
+    function getCurPeriod() public view returns(uint) {
+        return block.timestamp / votePeriod;
+    }
+    
+    function getCurrentState() public view returns (uint256){
+        uint nowPeriod = getCurPeriod();
+        if (nowPeriod == lastVotePeriod) {
+            return currentState;
+        } else {
+            if (votesCount != 0) {
+                return (currentState + votesAmount) / (votesCount + 1);
+            } else {
+                return (currentState + maxVote + minVote) / 3;
+            }
+        }
+    }
+
+    function _updateVotes() internal {
+        if (votesCount == 0) {
+            currentState = (currentState + maxVote + minVote) / 3;
+        } else {
+            currentState = (currentState + votesAmount) / (votesCount + 1);
+        }
+        votesCount = 0;
+        votesAmount = 0;
+    }
+
+    function voteFor(address account, uint vote, uint votePower) public onlyOwner {
+        require(vote >= minVote, "vote < minVote");
+        require(vote <= maxVote, "vote < minVote");
+        require(votePower > 0, "votePower < 0");
+        uint nowPeriod = getCurPeriod();
+        if (nowPeriod != lastVotePeriod) {
+            _updateVotes();
+            lastVotePeriod = nowPeriod;
+        }
+        uint accountPeriod = timeVote[account];
+        if (accountPeriod != nowPeriod) {
+            votesAmount += vote * votePower;
+            votesCount += votePower; 
+        }
+    }
+}
+
 contract Governance is Ownable, IGovernance {
     address public depositTokenAddresss = address(0);
 
