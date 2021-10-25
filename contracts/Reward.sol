@@ -32,8 +32,8 @@ contract Reward is Ownable {
     function addReward(address _reciever, uint256 _amount) public onlyOwner{
         require(rewarded[_reciever].add(_amount) < rewardLimit, "Reward limit exceeded");
         IStorageToken _token = IStorageToken(storageTokenAddress);
-        _token.transfer(_reciever, _amount);
         rewarded[_reciever] = rewarded[_reciever].add(_amount);
+        _token.transfer(_reciever, _amount);
         emit Transfer(address(this), _reciever, _amount);
     }
 }

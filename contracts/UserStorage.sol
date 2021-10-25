@@ -24,7 +24,7 @@ contract UserStorage is IUserStorage, Ownable {
     mapping(address => UserData) private _users;
 
     modifier onlyPoS() {
-        require(msg.sender == PoS_Contract_Address);
+        require(msg.sender == PoS_Contract_Address, "Only PoS");
         _;
     }
 
