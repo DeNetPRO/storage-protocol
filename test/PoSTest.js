@@ -122,7 +122,7 @@ contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
         const zeroPad = (num, places) => String(num).padStart(places, '0')
         const currentBlockNumber = await this.pos.getBlockNumber();
         const proofBlockNumber = parseInt(currentBlockNumber.toString()) - 60;
-        await this.pos.updateBaseDifficulty(1e7);
+        await this.pos.updateBaseDifficulty(1e6);
         
         const _tmpProofData = getProofData();
         let tmp_file = "0";
