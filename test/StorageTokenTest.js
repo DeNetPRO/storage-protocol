@@ -44,16 +44,12 @@ contract('StorageToken', async function ([_, w1, w2, w3, w4]) {
         await this.token.approve(this.payments.address, amount100, { from: w1 });
         await this.pos.setUserPlan(this.token.address, { from: w1 });
         await this.pos.makeDeposit(this.token.address, amount100, { from: w1 });
-
-        await logBalance(w1, this.token);
     });
 
     it('should withdraw successfully', async function () {
         await this.token.approve(this.payments.address, amount100, { from: w1 });
         await this.pos.makeDeposit(this.token.address, amount100, { from: w1 });
         await this.pos.closeDeposit(this.token.address, { from: w1 });
-
-        await logBalance(w1, this.token);
     });
 
     /*
@@ -68,7 +64,6 @@ contract('StorageToken', async function ([_, w1, w2, w3, w4]) {
         8. Withdraw for w1, w2
     */
     it('should upgrade successfully', async function () {
-        await logBalance(w1, this.token);
         for (let i = 0; i < 10; i++) {
             /* add balance to account 1 */
             await this.token.approve(this.payments.address, amount100, { from: w1 });
@@ -79,15 +74,8 @@ contract('StorageToken', async function ([_, w1, w2, w3, w4]) {
             await this.pos.makeDeposit(this.token.address, amount100, { from: w2 });
         }
 
-        await logBalance(w1, this.token);
-        console.log('----------- Account 1 Withdraw -----------');
         await this.pos.closeDeposit(this.token.address, { from: w1 });
-        await logBalance(w1, this.token);
 
-        console.log('----------- Account 2 Balances -----------');
-        await logBalance(w2, this.token);
-
-        console.log('----------- Upgrading Contract Payments -----------');
         this.newPayments = await Payments.new(this.pos.address, this.payments.address, 'Terabyte Years', 'TB/Year', 1);
         
         await this.payments.changePoS(this.newPayments.address); // add new payments as PoS
@@ -96,58 +84,20 @@ contract('StorageToken', async function ([_, w1, w2, w3, w4]) {
         await this.pos.changeSystemAddresses(this.userStorage.address, this.newPayments.address);
         
         await this.newPayments.migrateFromOldPayments(w2);
-
-        console.log('----------- Account 1 Balances -----------');
-        await logBalance(w1, this.token);
-        await logBalance(w1, this.newPayments);
         
-        console.log('----------- Account 2 Balances -----------');
-        await logBalance(w2, this.token);
-        await logBalance(w2, this.newPayments);
-        
-        console.log('----------- Account 1 Deposit -----------');
         for (let i = 0; i < 10; i++) {
             /* add balance to account 1 */
             await this.token.approve(this.newPayments.address, amount100, { from: w1 });
             await this.pos.makeDeposit(this.token.address, amount100, { from: w1 });
         }
 
-        console.log('----------- Account 1 Balances -----------');
-        await logBalance(w1, this.token);
-        await logBalance(w1, this.newPayments);
-        
-        console.log('----------- Account 2 Balances -----------');
-        await logBalance(w2, this.token);
-        await logBalance(w2, this.newPayments);
-
-        console.log('----------- Transfer 0.1 TB From w1 to w2 -----------');
         await this.newPayments.transfer(w2, e16.mul(new BN(10)), { from: w1 });
         
-        console.log('----------- Account 1 Balances -----------');
-        await logBalance(w1, this.token);
-        await logBalance(w1, this.newPayments);
-        
-        console.log('----------- Account 2 Balances -----------');
-        await logBalance(w2, this.token);
-        await logBalance(w2, this.newPayments);
         await this.newPayments.testMint(w4, amount100);
-        console.log('----------- Close Deposits -----------');
+
         await this.pos.closeDeposit(this.token.address, { from: w1 });
         await this.pos.closeDeposit(this.token.address, { from: w2 });
 
-        console.log('----------- Account 1 Balances -----------');
-        await logBalance(w1, this.token);
-        await logBalance(w1, this.newPayments);
-        
-        console.log('----------- Account 2 Balances -----------');
-        await logBalance(w2, this.token);
-        await logBalance(w2, this.newPayments);
-
-        console.log('----------- Account Fees Balances -----------');
-        await logBalance(w2, this.token);
-        await logBalance(w2, this.newPayments);
-
-        console.log('----------- Show Fees -----------');
         const _supply = await this.newPayments.totalSupply();
         const _amounts = await this.token.balanceOf(this.newPayments.address);
         console.log('Total TB Supply ', _supply.div(e16) / 100.0);

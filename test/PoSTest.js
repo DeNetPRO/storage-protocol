@@ -81,24 +81,13 @@ contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
     }
     async function updatePayerBalance (self, userAddress) {
         const amount = (getRandomInt(30) + 5) * 100000000;
-        console.log('added', amount.toString() + ' to payer');
         await self.token.mint(w1, amount);
         await self.token.approve(self.payments.address, amount, { from: w1 });
         await self.pos.makeDeposit(self.token.address, amount, { from: w1 });
         const resultBalance = await self.payments.balanceOf(w1);
-        console.log('Transfering ' + resultBalance.toString() + ' TB');
         await self.pos.admin_set_user_data(w1, userAddress, self.token.address, resultBalance);
     }
     
-    async function showBalances (self, _tmp, _type) {
-        await getBalance(self, _tmp._userAddress, (res) => {
-            console.log('[' + _type + '] User Balance Of TB', res);
-        });
-        await getBalance(self, _tmp._nodeAddress, (res) => {
-            console.log('[' + _type + '] Node Balance Of TB', res);
-        });
-    }
-
     it('should send proof from successfully', async function () {
         const _tmpProofData = getProofData();
         // suppose the current block has a timestamp of 24H
@@ -111,13 +100,9 @@ contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
         
         // generate 25 proofs
         for (let nextBlock = 0; nextBlock < 10; nextBlock++) {
-            await showBalances(this, _tmpProofData, 'Before Payin');
             const currentBlockNumber = await this.pos.getBlockNumber();
             await updatePayerBalance(this, _tmpProofData._userAddress);
-            await showBalances(this, _tmpProofData, 'After Payin');
-            
             const PROOF_B_NUMBER = parseInt(currentBlockNumber.toString()) - 60;
-
             await this.pos.sendProofFrom(
                 _tmpProofData._nodeAddress,
                 _tmpProofData._userAddress,
@@ -128,9 +113,32 @@ contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
                 _tmpProofData._file,
                 _tmpProofData.merkleProof,
                 { from: w1 });
-            await showBalances(this, _tmpProofData, 'After SendProof');
             // mine 100 blocks
             for (let i = 0; i < 100; i++) { await network.provider.send('evm_mine'); } // this one will have 02:00 PM as its timestamp
         }
+    });
+
+    it('should difficulty successfull', async function () {
+        const zeroPad = (num, places) => String(num).padStart(places, '0')
+        const currentBlockNumber = await this.pos.getBlockNumber();
+        const proofBlockNumber = parseInt(currentBlockNumber.toString()) - 60;
+        await this.pos.updateBaseDifficulty(1e7);
+        
+        const _tmpProofData = getProofData();
+        let tmp_file = "0";
+        let result = 0;
+        let counter = 1;
+        while (result == false) {
+            tmp_file = tmp_file.substr(tmp_file, tmp_file.length-32) + zeroPad(counter, 32);;
+            result = await this.pos.verifyFileProof(
+                _tmpProofData._nodeAddress,
+                "0x" + tmp_file,
+                proofBlockNumber,
+                500
+            ),
+            counter++;
+        }
+        console.log("Proof iteration count", counter);
+        
     });
 });

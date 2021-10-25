@@ -41,10 +41,8 @@ contract('DeNetNodeNFT', async function ([_, w1, w2, w3]) {
             for (let i = 0; i < 4; i++) {
                 ip.push(getRandomInt(255));
             }
-            console.log('creating for', naddress);
             await this.nodeNFT.createNode(ip, getRandomInt(65554), { from: naddress });
             const NodeID = await this.nodeNFT.totalSupply();
-            console.warn('New Node founded with ' + NodeID + ' ID for ' + naddress);
         }
     });
 
@@ -57,10 +55,8 @@ contract('DeNetNodeNFT', async function ([_, w1, w2, w3]) {
             for (let i = 0; i < 4; i++) {
                 ip.push(getRandomInt(255));
             }
-            console.log('creating for', naddress);
             await this.nodeNFT.createNode(ip, getRandomInt(65554), { from: naddress });
             const NodeID = await this.nodeNFT.totalSupply();
-            console.warn('New Node founded with ' + NodeID + ' ID for ' + naddress);
         }
         
         // Try to Update
@@ -75,15 +71,12 @@ contract('DeNetNodeNFT', async function ([_, w1, w2, w3]) {
             const oldInfo = await this.nodeNFT.nodeInfo(nodeId);
             await this.nodeNFT.updateNode(nodeId, ip, getRandomInt(65554), { from: naddress });
             const newInfo = await this.nodeNFT.nodeInfo(nodeId);
-            console.log(naddress, ' changed from ', oldInfo, ' to ', newInfo);
         }
     });
     it('should reward successfully', async function () {
         await this.token.approve(this.payments.address, amount100, { from: w3 });
         await this.pos.makeDeposit(this.token.address, amount100, { from: w3 });
-        await getBalance(this, w3, (res) => { console.log('Balance ' + res); });
         const balance = await this.payments.balanceOf(w3);
         this.payments.transfer(this.reward.address, balance, { from: w3 });
-        await getBalance(this, this.reward.address, (res) => { console.log('Balance ' + res); });
     });
 });
