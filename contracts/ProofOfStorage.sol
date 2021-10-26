@@ -224,6 +224,8 @@ contract ProofOfStorage is Ownable, CryptoProofs {
         uint32 _block_number,
         uint256 _blocks_complited
     ) public view returns (bool) {
+        require (blockhash(_block_number) != 0x0, "Wrong blockhash");
+
         bytes32 _file_proof = sha256(
             abi.encodePacked(_file, _sender, blockhash(_block_number))
         );
