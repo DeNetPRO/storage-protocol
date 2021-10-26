@@ -98,6 +98,13 @@ contract CryptoProofs {
         return uint32(block.number);
     }
 
+     // Show Proof for Test
+    function getProof(bytes calldata _file, address _sender, uint256 _block_number) public view returns(bytes memory, bytes32) {
+        bytes memory _packed = abi.encodePacked(_file, _sender, blockhash(_block_number));
+        bytes32 _proof = sha256(_packed);
+        return (_packed, _proof);
+    }
+
     function getBlockHash(uint32 _n) public view returns (bytes32) {
         return blockhash(_n);
     }
@@ -211,12 +218,6 @@ contract ProofOfStorage is Ownable, CryptoProofs {
         }
     }
 
-    // Show Proof for Test
-    function getProof(bytes calldata _file, address _sender, uint256 _block_number) public view returns(bytes memory, bytes32) {
-        bytes memory _packed = abi.encodePacked(_file, _sender, blockhash(_block_number));
-        bytes32 _proof = sha256(_packed);
-        return (_packed, _proof);
-    }
     function verifyFileProof(
         address _sender,
         bytes calldata _file,
