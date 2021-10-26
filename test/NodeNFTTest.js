@@ -14,10 +14,6 @@ function getRandomInt (max) {
 }
 
 contract('DeNetNodeNFT', async function ([_, w1, w2, w3]) {
-    async function getBalance (self, address, callback) {
-        const result = await self.payments.balanceOf(address);
-        callback(result.toString());
-    }
     beforeEach(async function () {
         this.token = await TokenMock.new('Token', 'TKN');
         this.pos = await ProofOfStorage.new('0x0000000000000000000000000000000000000000', '0x0000000000000000000000000000000000000000', '10000000');
@@ -42,7 +38,7 @@ contract('DeNetNodeNFT', async function ([_, w1, w2, w3]) {
                 ip.push(getRandomInt(255));
             }
             await this.nodeNFT.createNode(ip, getRandomInt(65554), { from: naddress });
-            const NodeID = await this.nodeNFT.totalSupply();
+            // const NodeID = await this.nodeNFT.totalSupply();
         }
     });
 
@@ -56,7 +52,7 @@ contract('DeNetNodeNFT', async function ([_, w1, w2, w3]) {
                 ip.push(getRandomInt(255));
             }
             await this.nodeNFT.createNode(ip, getRandomInt(65554), { from: naddress });
-            const NodeID = await this.nodeNFT.totalSupply();
+            // const NodeID = await this.nodeNFT.totalSupply();
         }
         
         // Try to Update
@@ -68,9 +64,9 @@ contract('DeNetNodeNFT', async function ([_, w1, w2, w3]) {
             }
             let nodeId = await this.nodeNFT.getNodeIDByAddress(naddress);
             nodeId = nodeId.toString();
-            const oldInfo = await this.nodeNFT.nodeInfo(nodeId);
+            // const oldInfo = await this.nodeNFT.nodeInfo(nodeId);
             await this.nodeNFT.updateNode(nodeId, ip, getRandomInt(65554), { from: naddress });
-            const newInfo = await this.nodeNFT.nodeInfo(nodeId);
+            // const newInfo = await this.nodeNFT.nodeInfo(nodeId);
         }
     });
     it('should reward successfully', async function () {

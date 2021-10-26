@@ -119,26 +119,25 @@ contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
     });
 
     it('should difficulty successfull', async function () {
-        const zeroPad = (num, places) => String(num).padStart(places, '0')
+        const zeroPad = (num, places) => String(num).padStart(places, '0');
         const currentBlockNumber = await this.pos.getBlockNumber();
         const proofBlockNumber = parseInt(currentBlockNumber.toString()) - 60;
         await this.pos.updateBaseDifficulty(1e6);
         
         const _tmpProofData = getProofData();
-        let tmp_file = "0";
+        let tmpFile = '0';
         let result = 0;
         let counter = 1;
-        while (result == false) {
-            tmp_file = tmp_file.substr(tmp_file, tmp_file.length-32) + zeroPad(counter, 32);;
+        while (result === false) {
+            tmpFile = tmpFile.substr(tmpFile, tmpFile.length - 32) + zeroPad(counter, 32);
             result = await this.pos.verifyFileProof(
                 _tmpProofData._nodeAddress,
-                "0x" + tmp_file,
+                '0x' + tmpFile,
                 proofBlockNumber,
                 500
-            ),
+            );
             counter++;
         }
-        console.log("Proof iteration count", counter);
-        
+        console.log('Proof iteration count', counter);
     });
 });

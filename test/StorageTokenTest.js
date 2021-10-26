@@ -30,15 +30,6 @@ contract('StorageToken', async function ([_, w1, w2, w3, w4]) {
         await this.token.mint(w2, amount100k);
         await this.token.mint(w3, amount100k);
     });
-    
-    /* Beautify token logging balances */
-    async function logBalance (address, _tkn) {
-        const symbol = await _tkn.symbol();
-        const result = await _tkn.balanceOf(address);
-        console.log(
-            address + ' => ' + parseInt(result.div(e16).toString(10)) / 100.0 + ' ' + symbol,
-        );
-    }
 
     it('should deposit successfully', async function () {
         await this.token.approve(this.payments.address, amount100, { from: w1 });
