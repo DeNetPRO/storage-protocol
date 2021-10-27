@@ -2,6 +2,8 @@
 
 /*
     Created by DeNet
+
+    Proof Of Storage  - Consensus for Decentralized Storage.
 */
 
 pragma solidity ^0.8.0;
@@ -154,6 +156,8 @@ contract Depositable {
 }
 
 contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
+    using SafeMath for uint;
+
     address public user_storage_address;
     uint256 private _max_blocks_after_proof = 100;
     address public node_nft_address = address(0);
@@ -271,7 +275,31 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
         );
         return isMatchDifficulty(uint256(_file_proof), _blocks_complited);
     }
+    function _checkoutNFT(address _proofer) internal { 
+        if (node_nft_address != address(0)) {
+            IDeNetNodeNFT NFT = IDeNetNodeNFT(node_nft_address);
+            uint timeFromLastProof = block.timestamp - NFT.getLastUpdateByAddress(_proofer);
+            /* 
+                100% = 4320000
+                2% = 86400 (1 day)
 
+                Difficulty += 0-2% per proof if it faster than one day
+            */
+            if (timeFromLastProof <= 86400) {
+                base_difficulty = base_difficulty.mul(4320000 + (86400 - timeFromLastProof)).div(4320000);
+            } else {
+                timeFromLastProof = timeFromLastProof % 86400;
+                base_difficulty = base_difficulty.mul(8640000 - (86400 - timeFromLastProof)).div(8640000);
+            }
+
+            /* 
+                100% = 8640000
+                1% = 86400
+                difficulty -= 0-1% (pseudo randomly) per proof if it slower than one day
+            */
+            NFT.addSuccessProof(_proofer);
+        }
+    }
     function _sendProofFrom(
         address _proofer,
         address _user_address,
@@ -326,10 +354,7 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
 
         _takePay(_token_to_pay, _user_address, _proofer, _amount_returns);
         _updateLastBlockNumber(_user_address, uint32(block.number));
-        if (node_nft_address != address(0)) {
-            IDeNetNodeNFT NFT = IDeNetNodeNFT(node_nft_address);
-            NFT.addSuccessProof(_proofer);
-        }
+        _checkoutNFT(_proofer);
     }
 
     function setUserPlan(address _token) public {

@@ -96,7 +96,7 @@ contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
         for (let i = 0; i < 10000; i++) { await network.provider.send('evm_mine'); } // this one will have 02:00 PM as its timestamp
 
         // set dificulty to one
-        await this.pos.updateBaseDifficulty(1);
+        await this.pos.updateBaseDifficulty(100);
         
         // generate 25 proofs
         for (let nextBlock = 0; nextBlock < 10; nextBlock++) {

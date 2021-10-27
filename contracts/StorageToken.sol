@@ -102,7 +102,7 @@ contract StorageToken is  ERC20, Ownable, feeCollector{
     using SafeMath for uint16;
     
     uint256 public pairTokenBalance = 3000000; // 3 USDC
-    address public pairTokenAddress = 0x2058A9D7613eEE744279e3856Ef0eAda5FCbaA7e;
+    address public pairTokenAddress = 0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174; // Polygon USDC
     
     constructor (string memory name_, string memory symbol_)  ERC20(name_, symbol_) {
         _mint(recipient_fee, fee_limit.div(10)); // mint start capital

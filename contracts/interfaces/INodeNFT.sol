@@ -50,4 +50,6 @@ interface IDeNetNodeNFT {
 
      // PoS Only can ecevute
      function addSuccessProof(address _nodeOwner) external;
+
+     function getLastUpdateByAddress(address _user) external view returns(uint256);
 }

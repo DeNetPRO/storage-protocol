@@ -21,6 +21,7 @@ contract UserStorage is IUserStorage, Ownable {
 
     string public name;
     address public PoS_Contract_Address;
+    uint256 public lastProofRange = 10000;
     mapping(address => UserData) private _users;
 
     modifier onlyPoS() {
@@ -44,7 +45,7 @@ contract UserStorage is IUserStorage, Ownable {
 
     function getUserLastBlockNumber(address _user_address) public view override returns (uint32) {
         if (_users[_user_address].last_block_number == 0) {
-            return uint32(block.number - 10000);
+            return uint32(block.number - lastProofRange);
         }
         return _users[_user_address].last_block_number;
     }
@@ -75,6 +76,12 @@ contract UserStorage is IUserStorage, Ownable {
 
     function updateLastBlockNumber(address _user_address, uint32 _block_number) public override onlyPoS {
         require(_block_number > _users[_user_address].last_block_number);
+        if (_users[_user_address].last_block_number != 0) {
+            lastProofRange = _block_number - _users[_user_address].last_block_number;
+            if (lastProofRange > 150000) {
+                lastProofRange = 150000;
+            }
+        }
         _users[_user_address].last_block_number = _block_number;
     }
 

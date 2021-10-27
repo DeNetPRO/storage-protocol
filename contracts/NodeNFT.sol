@@ -196,4 +196,8 @@ contract DeNetNodeNFT is SimpleMetaData, PoSAdmin, IDeNetNodeNFT {
         _transferFrom(_oldOwner, _to, _nodeID);
         _increaseRank(_nodeID);
     }
+
+    function getLastUpdateByAddress(address _user) public override view returns(uint256) {
+        return nodeInfo(getNodeIDByAddress(_user)).updatedAt;
+    }
 }
