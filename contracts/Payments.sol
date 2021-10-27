@@ -41,19 +41,19 @@ contract Payments is IPayments, Ownable, StorageToken, PoSAdmin {
     }
 
     function canMigrate(address _user) public view returns (bool) {
-        return IPayments(oldPaymentAddress).getBalance(DeNetFileToken, _user) > 0;
+        return IPayments(oldPaymentAddress).getBalance(pairTokenAddress, _user) > 0;
     }
 
     function migrateFromOldPayments(address _user) public {
         IPayments oldPay = IPayments(oldPaymentAddress);
-        uint256 oldBalance = oldPay.getBalance(DeNetFileToken, _user);
+        uint256 oldBalance = oldPay.getBalance(pairTokenAddress, _user);
          // do not revert if user have zero balance
         if (oldBalance > 0) {
            
-            oldPay.localTransferFrom(DeNetFileToken,_user, address(this), oldBalance);
-            oldPay.closeDeposit(address(this), DeNetFileToken);
+            oldPay.localTransferFrom(pairTokenAddress,_user, address(this), oldBalance);
+            oldPay.closeDeposit(address(this), pairTokenAddress);
             _mint(_user, _getDepositReturns(oldBalance));
-            dfileBalance = dfileBalance.add(oldBalance);
+            pairTokenBalance = pairTokenBalance.add(oldBalance);
         }
     }
 

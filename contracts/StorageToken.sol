@@ -51,7 +51,7 @@ contract feeCollector is Ownable {
     
     
     address public recipient_fee = 0x3D71E8A1A1038623A2dEF831ABDF390897Eb1D77; // for testnet only
-    uint256 public fee_limit = 100000000000000000000; // 100 TB 
+    uint256 public fee_limit = 1000000000000000000; // 1 TB 
     uint256 public fee_collected = 0;
      
     function _addFee(uint256 amount) internal  {
@@ -101,43 +101,25 @@ contract StorageToken is  ERC20, Ownable, feeCollector{
     using SafeMath for uint256;
     using SafeMath for uint16;
     
-    uint256 public dfileBalance = 30000000000000000000000; // for dfile 30000000000000000000000; // 300 DFILE per TB year start price
-    address public DeNetFileToken = 0x2058A9D7613eEE744279e3856Ef0eAda5FCbaA7e;
+    uint256 public pairTokenBalance = 3000000; // 3 USDC
+    address public pairTokenAddress = 0x2058A9D7613eEE744279e3856Ef0eAda5FCbaA7e;
     
     constructor (string memory name_, string memory symbol_)  ERC20(name_, symbol_) {
-        _mint(recipient_fee, fee_limit); // mint start capital
+        _mint(recipient_fee, fee_limit.div(10)); // mint start capital
     }
     
-    // function toStorageDecimals(address _token, uint256 _amount) public view returns (uint256) {
-    //     ERC20 selectedToken = ERC20(_token);
-    //     uint _decimals = selectedToken.decimals();
-    //     if (_decimals < decimals()) {
-    //         return _amount.mul(10 ** (decimals() - _decimals));
-    //     }
-    //     return _amount.div(10 ** (_decimals - decimals()));
-    // }
-
-    // function toTokenDecimals(address _token, uint256 _amount) public view returns (uint256) {
-    //     ERC20 selectedToken = ERC20(_token);
-    //     uint _decimals = selectedToken.decimals();
-    //     if (_decimals > decimals()) {
-    //         return _amount.mul(10 ** (decimals() - _decimals));
-    //     }
-    //     return _amount.div(10 ** (_decimals - decimals()));
-    // }
-
     // only for test
     function changeTokenAddress(address newAddress) public onlyOwner {
-        DeNetFileToken = newAddress;
+        pairTokenAddress = newAddress;
     }
     function _getDepositReturns(uint256 amount) internal view returns (uint256) {
         require(amount > 0, "amount can't require 0 or zero");
-         return totalSupply().mul(amount).div(dfileBalance).mul(div_fee.sub(payin_fee)).div(div_fee);
+         return totalSupply().mul(amount).div(pairTokenBalance).mul(div_fee.sub(payin_fee)).div(div_fee);
     }
     
     function _getWidthdrawithReturns(uint256 amount) internal view returns (uint256) {
         require(amount > 0, "amount can't require 0 or zero");
-        return dfileBalance.mul(amount).div(totalSupply());
+        return pairTokenBalance.mul(amount).div(totalSupply());
     }
     function feelessBalance(address account) public view returns(uint256) {
         return _balances[account];
@@ -164,15 +146,18 @@ contract StorageToken is  ERC20, Ownable, feeCollector{
     }
     
     function _depositByAddress(address _account, uint256 amount) internal {
-        IERC20 DFILEToken = IERC20(DeNetFileToken);
-        require(DFILEToken.transferFrom(_account, address(this), amount), "Can't transfer from DFILE token");
+        IERC20 pairToken = IERC20(pairTokenAddress);
+        uint balanceBefore = pairToken.balanceOf(address(this));
+        require(pairToken.transferFrom(_account, address(this), amount), "Can not transfer pair token");
+        uint balanceAfter = pairToken.balanceOf(address(this));
+        amount = balanceAfter.sub(balanceBefore);
         _mint(_account, _getDepositReturns(amount));
-        dfileBalance = dfileBalance.add(amount);
+        pairTokenBalance = pairTokenBalance.add(amount);
     }
 
     function _updatePairTokenBalance() internal {
-        IERC20 DFILEToken = IERC20(DeNetFileToken);
-        dfileBalance = DFILEToken.balanceOf(address(this));
+        IERC20 DFILEToken = IERC20(pairTokenAddress);
+        pairTokenBalance = DFILEToken.balanceOf(address(this));
     }
     
     function  _closeAllDeposit() internal  {
@@ -182,10 +167,10 @@ contract StorageToken is  ERC20, Ownable, feeCollector{
     function  _closeAllDeposiByAddresst(address account) internal  {
         require(account != recipient_fee, "recipient_fee can't close deposit");
         
-        IERC20 DFILEToken = IERC20(DeNetFileToken);
+        IERC20 DFILEToken = IERC20(pairTokenAddress);
         uint256 account_balance_TB = feelessBalance(account);
         uint256 dfile_return = _getWidthdrawithReturns(account_balance_TB);
-        dfileBalance = dfileBalance.sub(dfile_return);
+        pairTokenBalance = pairTokenBalance.sub(dfile_return);
         _burn(account, account_balance_TB);
         DFILEToken.transfer(account,dfile_return);
     }
@@ -196,12 +181,12 @@ contract StorageToken is  ERC20, Ownable, feeCollector{
 
     function _closePartOfDepositByAddress(address account, uint256 amount) internal {
 
-        IERC20 DFILEToken = IERC20(DeNetFileToken);
+        IERC20 pairToken = IERC20(pairTokenAddress);
         require(feelessBalance(account) >= amount, "Amount too big");
         uint256 dfile_return = _getWidthdrawithReturns(amount);
-        dfileBalance = dfileBalance.sub(dfile_return);
+        pairTokenBalance = pairTokenBalance.sub(dfile_return);
         _burn(account, amount);
-        DFILEToken.transfer(account, dfile_return);
+        pairToken.transfer(account, dfile_return);
         
     }
        
@@ -228,8 +213,8 @@ contract StorageToken is  ERC20, Ownable, feeCollector{
     function distruct() public onlyOwner {
         _name = "Deleted";
         _symbol = "Deleted";
-        IERC20 DFILE = IERC20(DeNetFileToken);
-        DFILE.transfer(msg.sender, DFILE.balanceOf(address(this)));
+        IERC20 pairToken = IERC20(pairTokenAddress);
+        pairToken.transfer(msg.sender, pairToken.balanceOf(address(this)));
         // require (fee_collected == 0, "fee is not zero");
         selfdestruct(payable(owner()));
     }

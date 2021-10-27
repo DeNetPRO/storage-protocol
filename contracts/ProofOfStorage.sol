@@ -8,6 +8,7 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/Math.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
 import "./interfaces/IUserStorage.sol";
@@ -114,13 +115,49 @@ contract CryptoProofs {
     }
 }
 
-contract ProofOfStorage is Ownable, CryptoProofs {
+contract Depositable {
+    using SafeMath for uint;
+
+    address public paymentsAddress;
+    uint256 public maxDepositPerUser = 1000000; // 1 USDC
+    uint256 public timeLimit = 604800; // 7 days
+    
+    mapping(address => mapping(uint32 => uint256)) public limitReached; // time 
+
+    constructor (address _payments) {
+        paymentsAddress = _payments;
+    }
+
+    function getAvailableDeposit(address _user, uint256 _amount, uint32 _curDate) public view returns (uint256) {
+        if (limitReached[_user][_curDate] + _amount >=maxDepositPerUser) {
+            return maxDepositPerUser.sub(limitReached[_user][_curDate]);
+        }
+        return _amount;
+    }
+
+    function makeDeposit(address _token, uint256 _amount) public {
+
+        /* Checking Limits */
+        uint32 curDate = uint32(block.timestamp % timeLimit);
+        _amount = getAvailableDeposit(msg.sender, _amount, curDate);
+        require(_amount > 0, "Amout exceeded for this week");
+
+        limitReached[msg.sender][curDate] = limitReached[msg.sender][curDate].add(_amount);
+        IPayments _payment = IPayments(paymentsAddress);
+        _payment.depositToLocal(msg.sender, _token, _amount);
+    }
+
+    function closeDeposit(address _token) public {
+        IPayments _payment = IPayments(paymentsAddress);
+        _payment.closeDeposit(msg.sender, _token);
+    }
+}
+
+contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
     address public user_storage_address;
-    address public payments_address;
     uint256 private _max_blocks_after_proof = 100;
     address public node_nft_address = address(0);
-
-    // 
+    
     /*
         This Parametr using to get amount of reward per one mined block.
 
@@ -131,15 +168,14 @@ contract ProofOfStorage is Ownable, CryptoProofs {
         For BSC - 6307200
 
     */
-    uint256 public REWARD_DIFFICULTY = 2102400;  
+    uint256 public REWARD_DIFFICULTY = 15768000;  
 
     constructor(
         address _storage_address,
-        address _payments_address,
+        address _payments,
         uint256 _baseDifficulty
-    ) CryptoProofs(_baseDifficulty) {
+    ) CryptoProofs(_baseDifficulty) Depositable(_payments) {
         user_storage_address = _storage_address;
-        payments_address = _payments_address;
     }
 
     function setNodeNFTAddress(address _new) public onlyOwner {
@@ -321,7 +357,7 @@ contract ProofOfStorage is Ownable, CryptoProofs {
             uint256
         )
     {
-        IPayments _payment = IPayments(payments_address);
+        IPayments _payment = IPayments(paymentsAddress);
 
         IUserStorage _storage = IUserStorage(user_storage_address);
         address _tokenPay = _storage.getUserPayToken(_user);
@@ -341,7 +377,7 @@ contract ProofOfStorage is Ownable, CryptoProofs {
         address _to,
         uint256 _amount
     ) private {
-        IPayments _payment = IPayments(payments_address);
+        IPayments _payment = IPayments(paymentsAddress);
         _payment.localTransferFrom(_token, _from, _to, _amount);
     }
 
@@ -376,16 +412,6 @@ contract ProofOfStorage is Ownable, CryptoProofs {
         );
     }
 
-    function makeDeposit(address _token, uint256 _amount) public {
-        IPayments _payment = IPayments(payments_address);
-        _payment.depositToLocal(msg.sender, _token, _amount);
-    }
-
-    function closeDeposit(address _token) public {
-        IPayments _payment = IPayments(payments_address);
-        _payment.closeDeposit(msg.sender, _token);
-    }
-
     function updateBaseDifficulty(uint256 _new_difficulty) public onlyOwner {
         base_difficulty = _new_difficulty;
     }
@@ -397,7 +423,7 @@ contract ProofOfStorage is Ownable, CryptoProofs {
     function admin_set_user_data(address _from, address _user, address _token, uint256 _amount) public onlyOwner {
         IUserStorage _storage = IUserStorage(user_storage_address);
         _storage.setUserPlan(_user, _token);
-        IPayments _payment = IPayments(payments_address);
+        IPayments _payment = IPayments(paymentsAddress);
         _payment.localTransferFrom(_token, _from, _user, _amount);
     }
 
@@ -406,6 +432,6 @@ contract ProofOfStorage is Ownable, CryptoProofs {
         address _payments_address
     ) public onlyOwner {
         user_storage_address = _storage_address;
-        payments_address = _payments_address;
+        paymentsAddress = _payments_address;
     }
 }
