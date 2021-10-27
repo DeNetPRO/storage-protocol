@@ -131,7 +131,7 @@ contract ProofOfStorage is Ownable, CryptoProofs {
         For BSC - 6307200
 
     */
-    uint256 constant public REWARD_DIFFICULTY = 2102400;  
+    uint256 public REWARD_DIFFICULTY = 2102400;  
 
     constructor(
         address _storage_address,
@@ -144,6 +144,10 @@ contract ProofOfStorage is Ownable, CryptoProofs {
 
     function setNodeNFTAddress(address _new) public onlyOwner {
         node_nft_address = _new;
+    }
+
+    function updateRewardDifficulty(uint256 _new) public onlyOwner {
+        REWARD_DIFFICULTY = _new;
     }
 
     function sendProof(
