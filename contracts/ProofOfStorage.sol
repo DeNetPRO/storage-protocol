@@ -22,6 +22,12 @@ import "./interfaces/INodeNFT.sol";
 contract CryptoProofs {
     event WrongError(bytes32 wrong_hash);
 
+    /*
+        Proof period < 1D, base_difficulty++
+        Proof period > 1D, base_difficulty--
+
+        Using for 'randomly" proof verification.
+    */
     uint256 public base_difficulty;
 
     constructor(uint256 _baseDifficulty) {
@@ -86,6 +92,15 @@ contract CryptoProofs {
         return _root_hash == next_proof;
     }
 
+    /*
+        Matching diffuclty, where _targetDifficulty = some growing number, 
+        for example _targetDiffuculty = seconds from last proof for selected user
+        
+        _proof = sha256 of something
+        _targetDiffuculty = seconds from last proof 
+        base_difficult
+        
+    */
     function isMatchDifficulty(uint256 _proof, uint256 _targetDifficulty)
         public
         view
