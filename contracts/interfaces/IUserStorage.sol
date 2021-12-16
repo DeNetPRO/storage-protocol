@@ -23,15 +23,6 @@ interface IUserStorage {
         address indexed token
     );
 
-    function getUserPayToken(address _user_address)
-        external
-        view
-        returns (address);
-
-    function getUserLastBlockNumber(address _user_address)
-        external
-        view
-        returns (uint32);
 
     function getUserRootHash(address _user_address)
         external
@@ -41,11 +32,23 @@ interface IUserStorage {
     function updateRootHash(
         address _user_address,
         bytes32 _user_root_hash,
+        uint64 _user_storage_size,
         uint64 _nonce,
         address _updater
     ) external;
 
-    function updateLastBlockNumber(address _user_address, uint32 _block_number) external;
+    /*
+        updateLastProofTime
 
-    function setUserPlan(address _user_address, address _token) external;
+        Function set current timestamp yo lastProofTime in users[userAddress]. it means, that
+        userDifficulty = zero (current time - lastProofTime), and will grow  with time.
+    */
+    function updateLastProofTime(address userAddress) external;
+    
+    /* 
+        getPeriodFromLastProof
+        function return userDifficulty.
+        userDifficulty =  timestamp (curren time - lastProofTime)
+    */
+    function getPeriodFromLastProof(address userAddress) external view returns(uint256);
 }

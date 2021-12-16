@@ -12,11 +12,11 @@ import "./interfaces/IUserStorage.sol";
 
 
 contract UserStorage is IUserStorage, Ownable {
-    struct UserData {
+    struct UserData {        
+        uint last_proof_time;
+        uint user_storage_size;
+        uint nonce;
         bytes32 user_root_hash;
-        uint64 nonce;
-        uint32 last_block_number;
-        address pay_token;
     }
 
     string public name;
@@ -39,17 +39,6 @@ contract UserStorage is IUserStorage, Ownable {
         emit ChangePoSContract(_new_address);
     }
 
-    function getUserPayToken(address _user_address) public view override returns (address) {
-        return _users[_user_address].pay_token;
-    }
-
-    function getUserLastBlockNumber(address _user_address) public view override returns (uint32) {
-        if (_users[_user_address].last_block_number == 0) {
-            return uint32(block.number - lastProofRange);
-        }
-        return _users[_user_address].last_block_number;
-    }
-
     function getUserRootHash(address _user_address) public view override returns (bytes32, uint256) {
         return (
             _users[_user_address].user_root_hash,
@@ -60,6 +49,7 @@ contract UserStorage is IUserStorage, Ownable {
     function updateRootHash(
         address _user_address,
         bytes32 _user_root_hash,
+        uint64 _user_storage_size,
         uint64 _nonce,
         address _updater
     ) public override onlyPoS {
@@ -70,23 +60,27 @@ contract UserStorage is IUserStorage, Ownable {
 
         _users[_user_address].user_root_hash = _user_root_hash;
         _users[_user_address].nonce = _nonce;
+        _users[_user_address].user_storage_size = _user_storage_size;
 
         emit ChangeRootHash(_user_address, _updater, _user_root_hash);
     }
 
-    function updateLastBlockNumber(address _user_address, uint32 _block_number) public override onlyPoS {
-        require(_block_number > _users[_user_address].last_block_number);
-        if (_users[_user_address].last_block_number != 0) {
-            lastProofRange = _block_number - _users[_user_address].last_block_number;
-            if (lastProofRange > 150000) {
-                lastProofRange = 150000;
-            }
-        }
-        _users[_user_address].last_block_number = _block_number;
+    /*
+        updateLastProofTime
+
+        Function set current timestamp yo lastProofTime in users[userAddress]. it means, that
+        userDifficulty = zero (current time - lastProofTime), and will grow  with time.
+    */
+    function updateLastProofTime(address _user_address) public override onlyPoS {
+        _users[_user_address].last_proof_time = block.timestamp;
     }
 
-    function setUserPlan(address _user_address, address _token) public override onlyPoS {
-        _users[_user_address].pay_token = _token;
-        emit ChangePaymentMethod(_user_address, _token);
+    /* 
+        getPeriodFromLastProof
+        function return userDifficulty.
+        userDifficulty =  timestamp (curren time - lastProofTime)
+    */
+    function getPeriodFromLastProof(address _user_address) external override view returns(uint) {
+        return block.timestamp - _users[_user_address].last_proof_time;
     }
 }

@@ -47,12 +47,13 @@ contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
         this.token = await TokenMock.new('Token', 'TKN');
         this.pos = await ProofOfStorage.new('0x0000000000000000000000000000000000000000', '0x0000000000000000000000000000000000000000', '10000000');
         this.userStorage = await UserStorage.new('DeNet UserStorage', this.pos.address);
-        this.payments = await Payments.new(this.pos.address, this.pos.address, 'Terabyte Years', 'TB/Year', 1);
+        this.payments = await Payments.new(this.pos.address, 'Terabyte Years', 'TB/Year');
         this.nodeNFT = await NodeNFT.new('DeNet Storage Node', 'DEN', this.pos.address, 10);
     
         await this.payments.changeTokenAddress(this.token.address);
         await this.pos.changeSystemAddresses(this.userStorage.address, this.payments.address);
         await this.pos.setNodeNFTAddress(this.nodeNFT.address);
+        await this.pos.turnDebugMode();   
         
         await this.token.mint(w1, 100000000);
         await this.token.mint(w2, 1000);
@@ -80,25 +81,31 @@ contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
         return Math.floor(Math.random() * max);
     }
     async function updatePayerBalance (self, userAddress) {
-        const amount = (getRandomInt(30) + 5) * 100000000;
+        const amount = (getRandomInt(5) + 5) * 100000000;
         await self.token.mint(w1, amount);
         await self.token.approve(self.payments.address, amount, { from: w1 });
         await self.pos.makeDeposit(self.token.address, amount, { from: w1 });
         const resultBalance = await self.payments.balanceOf(w1);
-        await self.pos.admin_set_user_data(w1, userAddress, self.token.address, resultBalance);
+        await self.pos.invisibleMintGasToken(w1, userAddress, resultBalance);
     }
     
     it('should send proof from successfully', async function () {
         const _tmpProofData = getProofData();
         // suppose the current block has a timestamp of 24H
-        await network.provider.send('evm_increaseTime', [60 * 60 * 24]);
+        await network.provider.send('evm_increaseTime', [60 * 60 * 24 * 7]);
         // mining at 1000 days
         for (let i = 0; i < 10000; i++) { await network.provider.send('evm_mine'); } // this one will have 02:00 PM as its timestamp
 
         // set dificulty to one
         await this.pos.updateBaseDifficulty(100);
         
-        // generate 25 proofs
+        /*
+            generate Proofs
+
+            1. Deposit Random amount of pair token
+            2. Send Proof
+            3. Increase time to 31 days
+        */
         for (let nextBlock = 0; nextBlock < 10; nextBlock++) {
             const currentBlockNumber = await this.pos.getBlockNumber();
             await updatePayerBalance(this, _tmpProofData._userAddress);
@@ -108,13 +115,17 @@ contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
                 _tmpProofData._userAddress,
                 PROOF_B_NUMBER,
                 _tmpProofData._userRootHash,
+                2097152, // 5 TB Storing Data
                 _tmpProofData._userRootHashNonce,
                 _tmpProofData._userSignature,
                 _tmpProofData._file,
                 _tmpProofData.merkleProof,
                 { from: w1 });
             // mine 100 blocks
-            for (let i = 0; i < 100; i++) { await network.provider.send('evm_mine'); } // this one will have 02:00 PM as its timestamp
+            for (let i = 0; i < 31; i++) {
+                await network.provider.send('evm_mine');
+                await network.provider.send('evm_increaseTime', [60 * 60 * 24]);
+            } // this one will have 02:00 PM as its timestamp
         }
     });
 

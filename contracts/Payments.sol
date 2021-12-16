@@ -24,61 +24,28 @@ contract Payments is IPayments, Ownable, StorageToken, PoSAdmin {
     using SafeMath for uint256;
 
     uint256 private _tokensCount;
-    address public oldPaymentAddress;
-    uint256 private _autoMigrationTimeEnds = 0;
-
     // mapping (address =>  uint) public balances;
 
     constructor(
             address _address, 
-            address _oldPaymentsAddress,
             string memory _tokenName,
-            string memory _tokenSymbol,
-            uint  _endTime
-    ) PoSAdmin(_address) StorageToken(_tokenName, _tokenSymbol) {
-        oldPaymentAddress = _oldPaymentsAddress;
-        _autoMigrationTimeEnds = _endTime;
-    }
+            string memory _tokenSymbol
+    ) PoSAdmin(_address) StorageToken(_tokenName, _tokenSymbol) {}
 
-    function canMigrate(address _user) public view returns (bool) {
-        return IPayments(oldPaymentAddress).getBalance(pairTokenAddress, _user) > 0;
-    }
 
-    function migrateFromOldPayments(address _user) public {
-        IPayments oldPay = IPayments(oldPaymentAddress);
-        uint256 oldBalance = oldPay.getBalance(pairTokenAddress, _user);
-         // do not revert if user have zero balance
-        if (oldBalance > 0) {
-           
-            oldPay.localTransferFrom(pairTokenAddress,_user, address(this), oldBalance);
-            oldPay.closeDeposit(address(this), pairTokenAddress);
-            _mint(_user, _getDepositReturns(oldBalance));
-            pairTokenBalance = pairTokenBalance.add(oldBalance);
-        }
-    }
 
-    function getBalance(address _token, address _address) public override view returns (uint result) {
+    function getBalance(address _address) public override view returns (uint result) {
         return balanceOf(_address);
     }
 
-    function localTransferFrom(address _token, address _from, address _to, uint _amount)  override public onlyPoS {
-        if (block.timestamp <= _autoMigrationTimeEnds) {
-            
-            if (canMigrate(_from)) {
-                migrateFromOldPayments(_from);
-            }
-            
-            if (canMigrate(_to)) {
-                migrateFromOldPayments(_to);
-            }
-        }
+    function localTransferFrom(address _from, address _to, uint _amount)  override public onlyPoS {
         require (_balances[_from]  >= _amount, "Not enough balance");
         require (0  <  _amount, "Amount < 0");
         
         _balances[_from] = _balances[_from].sub(_amount, "Not enough balance");
         _balances[_to] = _balances[_to].add(_amount);
         
-        emit LocalTransferFrom(_token, _from, _to, _amount);
+        emit LocalTransferFrom(_from, _to, _amount);
     }
 
 

@@ -16,7 +16,7 @@ contract('Reward', async function ([_, w1, w2, w3]) {
         this.token = await TokenMock.new('Token', 'TKN');
         this.pos = await ProofOfStorage.new('0x0000000000000000000000000000000000000000', '0x0000000000000000000000000000000000000000', '10000000');
         this.userStorage = await UserStorage.new('DeNet UserStorage', this.pos.address);
-        this.payments = await Payments.new(this.pos.address, this.pos.address, 'Terabyte Years', 'TB/Year', 1);
+        this.payments = await Payments.new(this.pos.address, 'Terabyte Years', 'TB/Year');
         this.reward = await Reward.new(this.payments.address);
         await this.payments.changeTokenAddress(this.token.address);
         await this.pos.changeSystemAddresses(this.userStorage.address, this.payments.address);
