@@ -7,6 +7,7 @@
 */
 
 pragma solidity ^0.8.0;
+pragma abicoder v1;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/Math.sol";
@@ -32,38 +33,6 @@ contract CryptoProofs {
 
     constructor(uint256 _baseDifficulty) {
         base_difficulty = _baseDifficulty;
-    }
-
-    function isValidSign(
-        address _signer,
-        bytes memory message,
-        bytes memory signature
-    ) public pure returns (bool) {
-        bytes32 r;
-        bytes32 s;
-        uint8 v;
-
-        if (signature.length == 65) {
-            assembly {
-                r := mload(add(signature, 0x20))
-                s := mload(add(signature, 0x40))
-                v := byte(0, mload(add(signature, 0x60)))
-            }
-        } else if (signature.length == 64) {
-            assembly {
-                let vs := mload(add(signature, 0x40))
-                r := mload(add(signature, 0x20))
-                s := and(
-                    vs,
-                    0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-                )
-                v := add(shr(255, vs), 27)
-            }
-        } else {
-            revert("ECDSA: invalid signature length");
-        }
-
-        return _signer == ecrecover(sha256(message), v, r, s);
     }
 
     // TODO: transform merkle proof verification to efficient as OZ
@@ -594,7 +563,11 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
         require(_user_storage_size != 0, "storage size is zero");
         
         
-        IPayments _payment = IPayments(paymentsAddress);
+        /*
+            IPayments _payment = IPayments(paymentsAddress);
+
+            Depricated, because, now it using only for storage data
+        */
 
         IUserStorage _storage = IUserStorage(user_storage_address);
         

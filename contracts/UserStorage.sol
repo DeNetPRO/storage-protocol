@@ -21,7 +21,7 @@ contract UserStorage is IUserStorage, Ownable {
 
     string public name;
     address public PoS_Contract_Address;
-    uint256 public lastProofRange = 10000;
+    // uint256 public lastProofRange = 10000;
     mapping(address => UserData) private _users;
 
     modifier onlyPoS() {
@@ -75,7 +75,7 @@ contract UserStorage is IUserStorage, Ownable {
         _users[_user_address].last_proof_time = block.timestamp;
     }
 
-    /* 
+     /* 
         getPeriodFromLastProof
         function return userDifficulty.
         userDifficulty =  timestamp (curren time - lastProofTime)
