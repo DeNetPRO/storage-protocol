@@ -170,50 +170,9 @@ contract Depositable {
     }
 }
 
-contract NodeManager {
 
-    using SafeMath for uint;
 
-    /*
-        Address of smart contract, where NFT of nodes placed
-    */
-    address public node_nft_address = address(0);
-
-    /*
-        @dev Function boost difficulty and count of success proofs
-    */
-    function _updateNodeRank(address _proofer, uint current_difficulty) internal returns(uint256) { 
-        if (node_nft_address != address(0)) {
-            IDeNetNodeNFT NFT = IDeNetNodeNFT(node_nft_address);
-            uint timeFromLastProof = block.timestamp - NFT.getLastUpdateByAddress(_proofer);
-            
-            NFT.addSuccessProof(_proofer);
-           
-            if (timeFromLastProof <= 86400) {
-                /* 
-                    100% = 4320000
-                    2% = 86400 (1 day)
-
-                    Difficulty += 0-2% per proof if it faster than one day
-                */
-                return current_difficulty.mul(4320000 + (86400 - timeFromLastProof)).div(4320000);
-            } else {
-                /* 
-                    100% = 8640000
-                    1% = 86400
-                    difficulty -= 0-1% (pseudo randomly) per proof if it slower than one day
-                */
-                timeFromLastProof = timeFromLastProof % 86400;
-                return current_difficulty.mul(8640000 - (86400 - timeFromLastProof)).div(8640000);
-            }
-
-            
-        }
-        return current_difficulty;
-    }
-}
-
-contract ProofOfStorage is Ownable, CryptoProofs, Depositable, NodeManager {
+contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
     using SafeMath for uint;
 
 
@@ -222,6 +181,10 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable, NodeManager {
     */
     address public user_storage_address;
    
+    /*
+        Address of smart contract, where NFT of nodes placed
+    */
+    address public node_nft_address = address(0);
     
     /*
         Max blocks after proof needs to use newest proof as it possible
@@ -283,6 +246,36 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable, NodeManager {
     */
     function setNodeNFTAddress(address _new) public onlyOwner {
         node_nft_address = _new;
+    }
+
+    function _updateNodeRank(address _proofer, uint current_difficulty) internal returns(uint256) { 
+        if (node_nft_address != address(0)) {
+            IDeNetNodeNFT NFT = IDeNetNodeNFT(node_nft_address);
+            uint timeFromLastProof = block.timestamp - NFT.getLastUpdateByAddress(_proofer);
+            
+            NFT.addSuccessProof(_proofer);
+           
+            if (timeFromLastProof <= 86400) {
+                /* 
+                    100% = 4320000
+                    2% = 86400 (1 day)
+
+                    Difficulty += 0-2% per proof if it faster than one day
+                */
+                return current_difficulty.mul(4320000 + (86400 - timeFromLastProof)).div(4320000);
+            } else {
+                /* 
+                    100% = 8640000
+                    1% = 86400
+                    difficulty -= 0-1% (pseudo randomly) per proof if it slower than one day
+                */
+                timeFromLastProof = timeFromLastProof % 86400;
+                return current_difficulty.mul(8640000 - (86400 - timeFromLastProof)).div(8640000);
+            }
+
+            
+        }
+        return current_difficulty;
     }
 
     /*
