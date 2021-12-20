@@ -29,6 +29,8 @@ Name|Network|Address|Updated|Status
 ProofOfStorage|Kovan|[`0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B`](https://kovan.etherscan.io/address/0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B)|2021-05-22|Alpha
 |DFILE Token|Kovan|[`0x0d3C95079Ff0B4cf055a65EF4b63BbB047456848`](https://kovan.etherscan.io/address/0x0d3C95079Ff0B4cf055a65EF4b63BbB047456848)|2021-05-21|-
 |Reward|Kovan|[`0x7708A1Bd5C36e6f57C39c089575163662B35Ea94`](https://kovan.etherscan.io)|2021-09-15|Beta
+|Proof Of Storage|[`0x721F6078C009453bFdfa702f05aD54df7900B0eA`](https://kovan.etherscan.io/address/0x721F6078C009453bFdfa702f05aD54df7900B0eA)|2021-12-20|Beta
+
 
 ## Problem description:
 
