@@ -4,7 +4,7 @@
     Created by DeNet
 */
 
-pragma solidity 0.8.9;
+pragma solidity ^0.8.9;
 
 interface IProofOfStorage {
 
