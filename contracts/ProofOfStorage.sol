@@ -6,7 +6,7 @@
     Proof Of Storage  - Consensus for Decentralized Storage.
 */
 
-pragma solidity ^0.8.0;
+pragma solidity 0.8.9;
 pragma abicoder v1;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -16,6 +16,7 @@ import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
 import "./interfaces/IUserStorage.sol";
 import "./interfaces/IPayments.sol";
+import "./interfaces/IOldPayments.sol";
 import "./interfaces/INodeNFT.sol";
 
 
@@ -188,6 +189,11 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
         
     */
     uint public min_storage_require = 10240;
+
+    /*
+        Old payments support from v0.3.0
+    */
+    bool public isOldPayments = true;
     
     /*
         REWARD_DIFFICULTY
@@ -213,6 +219,11 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
     /*
         Owner Zone Start
     */
+
+    function changePaymentsVersion() public onlyOwner {
+        isOldPayments = !isOldPayments;
+    }
+
     function setNodeNFTAddress(address _new) public onlyOwner {
         node_nft_address = _new;
     }
@@ -250,7 +261,6 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
     /*
         Function to disable user signature checking.
     */
-    
     function turnDebugMode() public onlyOwner {
         if (debug_mode) debug_mode = false;
         else debug_mode = true;
@@ -546,11 +556,11 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
 
         # Input
             @_user - User Address
+            @_user_storage_size - User Storage Size
 
         # Output
-            @_token_ddress - Token Address
             @_amount - Total Token Amount for PoS
-            @_cur_block - Last Proof Block
+            @_last_rroof_time - Last Proof Time
     */
     function getUserRewardInfo(address _user, uint _user_storage_size)
         public
@@ -616,8 +626,13 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
         address _to,
         uint _amount
     ) private {
-        IPayments _payment = IPayments(paymentsAddress);
-        _payment.localTransferFrom(_from, _to, _amount);
+        if (isOldPayments) {
+            IOldPayments _payment = IOldPayments(paymentsAddress);
+            _payment.localTransferFrom(address(0), _from, _to, _amount);
+        } else {
+            IPayments _payment = IPayments(paymentsAddress);
+            _payment.localTransferFrom(_from, _to, _amount);
+        }
     }
 
     /*
