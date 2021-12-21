@@ -59,6 +59,8 @@ contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
         await this.token.mint(w1, 100000000);
         await this.token.mint(w2, 1000);
 
+        // add node into whitelist
+        await this.nodeNFT.addToWhiteList(w1);
         await this.nodeNFT.createNode([192, 168, 1, 1], 8080, { from: w1 });
     });
 

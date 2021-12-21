@@ -37,6 +37,7 @@ contract('DeNetNodeNFT', async function ([_, w1, w2, w3]) {
             for (let i = 0; i < 4; i++) {
                 ip.push(getRandomInt(255));
             }
+            await this.nodeNFT.addToWhiteList(naddress);
             await this.nodeNFT.createNode(ip, getRandomInt(65554), { from: naddress });
             // const NodeID = await this.nodeNFT.totalSupply();
         }
@@ -51,6 +52,9 @@ contract('DeNetNodeNFT', async function ([_, w1, w2, w3]) {
             for (let i = 0; i < 4; i++) {
                 ip.push(getRandomInt(255));
             }
+
+            // add node into whitelist
+            await this.nodeNFT.addToWhiteList(naddress);
             await this.nodeNFT.createNode(ip, getRandomInt(65554), { from: naddress });
             // const NodeID = await this.nodeNFT.totalSupply();
         }

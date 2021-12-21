@@ -21,6 +21,10 @@ Proof-of-Storage contract helps nodes and clients achieve consensus and auto-sca
 
 ## Deploy Notes
 
+**v3.0.2 Node NFT**
+- Added whitelist
+- Updated limit algo into proofs
+
 **v3.0.2 Payments**
 - Removed "Automigration"
 - Removing "token" address from getBalance

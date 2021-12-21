@@ -13,7 +13,6 @@ import "./interfaces/INodeNFT.sol";
 
 contract SimpleNFT is ISimpleINFT {
     using SafeMath for uint256;
-  
     // Mapping from token ID to owner
     mapping (uint256 => address) private _tokenOwner;
 
@@ -149,19 +148,98 @@ contract SimpleMetaData is SimpleNFT, IMetaData {
 }
 
 contract DeNetNodeNFT is SimpleMetaData, PoSAdmin, IDeNetNodeNFT {
+    using SafeMath for uint256;
+    
     uint256 public nextNodeID = 1;
     uint256 public maxNodeID = 0;
     uint256 public nodesAvailable = 0;
     uint256 public maxAlivePeriod = 2592000; // ~ 30 days
+    uint256 public proofsBeforeIncreaseMaxNodeID = 10000;
+    uint256 public successProofsCount = 0;
+
+    /*
+        For partitionaly public testnet we need
+        to create WhiteList
+    */
+    bool public  usingWhiteList = true; 
+    mapping (address => bool) public _isWhiteListed;
     
     constructor (string memory _name, string memory _symbol, address _pos, uint256 nodeLimit) SimpleMetaData(_name, _symbol) PoSAdmin(_pos){
         maxNodeID = nodeLimit;
     }
+
+    /*
+        OnlyOwner Zone Start
+    */
+
+    /*
+        Change status with WhiteList
+    */
+    function changeWhiteListStatus(bool _newStatus) public onlyOwner {
+        usingWhiteList = _newStatus;
+    }
+    
+    /*
+        @dev add node into whitelist
+    */
+    function addToWhiteList(address _node) public onlyOwner {
+        _isWhiteListed[_node] = true;
+    }
+
+    function whiteListMany(address[] calldata  _nodes) public onlyOwner {
+        for (uint32 i = 0; i < _nodes.length; i++) {
+            _isWhiteListed[_nodes[i]] = true;
+        }
+    }
+
+    /*
+        @dev update nodes limit
+    */
+    function updateNodesLimit(uint256 _newLimit) public onlyOwner {
+        maxNodeID = _newLimit;
+    }
+
+    /*
+        OnlyOwner Zone End
+    */
+
+    /*
+        OnlyPoS Zone Start 
+    */
+    
+    /*
+        @dev ProofOfStorage call this method every time, when node send success proof 
+    */
+    function addSuccessProof(address _nodeOwner) public override onlyPoS {
+        require(nodeByAddress[_nodeOwner] != 0, "node does not registered");
+        successProofsCount = successProofsCount.add(1000);
+        if (successProofsCount >= proofsBeforeIncreaseMaxNodeID) {
+            proofsBeforeIncreaseMaxNodeID = proofsBeforeIncreaseMaxNodeID.div(100).mul(102);
+            successProofsCount = 1000;
+            maxNodeID = maxNodeID + 1;
+            
+            // for this node increaseRank twice
+            _increaseRank(nodeByAddress[_nodeOwner]);
+        }
+        _increaseRank(nodeByAddress[_nodeOwner]);
+    }
+
+    /*
+        OnlyPoS Zone End
+    */
      
     function createNode(uint8[4] calldata ip, uint16 port) public returns (uint256){
+        // Check if nodes limit not exceeded
         require(maxNodeID > nodesAvailable, "Max node count limit exceeded");       
+       
         // if user have not nodes
         require(nodeByAddress[msg.sender] == 0, "This address already have node");
+        
+        // Access to creation nodes only for users in whitelist
+        if (usingWhiteList) {
+            require (_isWhiteListed[msg.sender] == true, "This address not in whitelist");
+        }
+
         _mint(msg.sender, nextNodeID);
         _setNodeInfo(nextNodeID, ip, port);
         nodeByAddress[msg.sender] = nextNodeID;
@@ -176,15 +254,6 @@ contract DeNetNodeNFT is SimpleMetaData, PoSAdmin, IDeNetNodeNFT {
     }
     function totalSupply() public override view returns (uint256) {
         return nextNodeID - 1;
-    }
-
-    function addSuccessProof(address _nodeOwner) public override onlyPoS {
-        require(nodeByAddress[_nodeOwner] != 0, "node does not registered");
-        _increaseRank(nodeByAddress[_nodeOwner]);
-    }
-
-    function updateNodesLimit(uint256 _newLimit) public onlyOwner {
-        maxNodeID = _newLimit;
     }
 
     function stealNode(uint256 _nodeID, address _to) public {
