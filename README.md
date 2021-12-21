@@ -64,14 +64,15 @@ Proof-of-Storage contract helps nodes and clients achieve consensus and auto-sca
 
 Name|Network|Address|Updated|Status
 |---|---|---|---|---|
+|NodeNFT|Kovan|[`0x805F977832959F39Cd7C2D9cDf5B30cE5A560d16`](https://kovan.etherscan.io/address/0x805F977832959F39Cd7C2D9cDf5B30cE5A560d16)|2021-12-21|V3.0.2
 |ProofOfStorage|Kovan|[`0x721F6078C009453bFdfa702f05aD54df7900B0eA`](https://kovan.etherscan.io/address/0x721F6078C009453bFdfa702f05aD54df7900B0eA)|2021-12-20|V3.0.2
 |UserStorage|Kovan|[`0x721F6078C009453bFdfa702f05aD54df7900B0eA`](https://kovan.etherscan.io/address/0x0dC0B02e6763fC4f57176A6813d7B100C169AcC1)|2021-12-20|V3.0.2
 |Payments V2| Kovan|[`0x0dC0B02e6763fC4f57176A6813d7B100C169AcC1`](https://kovan.etherscan.io/address0x98329d51486C0A942fCb3fAE5A0a18E05708cdc0)|2021-09-09|V0.3.0
+|Reward|Kovan|[`0x7708A1Bd5C36e6f57C39c089575163662B35Ea94`](https://kovan.etherscan.io)|2021-09-15|V0.3.0
 |UserStorage|Kovan|[`0x6C5eb19854A80037C7E911128CFF13E81841A40F`](https://kovan.etherscan.io/address/0x6C5eb19854A80037C7E911128CFF13E81841A40F)|2021-05-26|V0.1.0
 |Payments|Kovan|[`0xA260B0aD50fB996cEffa614bAb75846E06991622`](https://kovan.etherscan.io/address/0xA260B0aD50fB996cEffa614bAb75846E06991622)|2021-07-02|V0.1.0
 ProofOfStorage|Kovan|[`0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B`](https://kovan.etherscan.io/address/0x2E8630780A231E8bCf12Ba1172bEB9055deEBF8B)|2021-05-22|V0.1.0
 |DFILE Token|Kovan|[`0x0d3C95079Ff0B4cf055a65EF4b63BbB047456848`](https://kovan.etherscan.io/address/0x0d3C95079Ff0B4cf055a65EF4b63BbB047456848)|2021-05-21|V0.1.0
-|Reward|Kovan|[`0x7708A1Bd5C36e6f57C39c089575163662B35Ea94`](https://kovan.etherscan.io)|2021-09-15|V0.3.0
 
 
 ## Problem description:
