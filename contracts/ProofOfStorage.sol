@@ -116,7 +116,7 @@ contract Depositable {
     }
 
     function getAvailableDeposit(address _user, uint256 _amount, uint32 _curDate) public view returns (uint256) {
-        if (limitReached[_user][_curDate] + _amount >=maxDepositPerUser) {
+        if (limitReached[_user][_curDate] + _amount >= maxDepositPerUser) {
             return maxDepositPerUser.sub(limitReached[_user][_curDate]);
         }
         return _amount;
@@ -219,6 +219,10 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
     /*
         Owner Zone Start
     */
+
+    function setMaxDeposit(uint256 _newLimit) public onlyOwner {
+        maxDepositPerUser = _newLimit;
+    }
 
     function changePaymentsVersion() public onlyOwner {
         isOldPayments = !isOldPayments;
