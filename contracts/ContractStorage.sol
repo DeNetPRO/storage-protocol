@@ -11,6 +11,10 @@ import "./interfaces/IContractStorage.sol";
 
 /**
     @dev ContractStorage is storing addresses of main contracts.
+
+    Add & Update contracts via updateVersion()
+    Get contract address via getContractAddressViaName()
+
 */
 contract ContractStorage is IContractStorage, Ownable {
 
@@ -69,6 +73,28 @@ contract ContractStorage is IContractStorage, Ownable {
 
     /**
         @dev Compex function to update contracts on all networks
+
+        @param contractNameString - name of core contract, examples:
+            "proofofstorage" - ProofOfStorage 
+            "gastoken" - TB/Year gas token
+            "userstorage" - UserStorage Address
+            "nodenft" - node nft address
+        @param newContractAddress - new address of contract
+        @param networkId - ID of network, examples:
+            1 - Ethereum Mainnet
+            3 - Ropsten Testnet
+            10 - Optimism
+            42 - Kovan Testnet
+            56 - Binance Smart Chain
+            57 - Syscoin Mainnet
+            61 - Ethereum Classic Mainnet
+            66 - OKXChain Mainnet
+            100 - Gnosis
+            128 - Huobi ECO Chain Mainnet
+            137 - Polygon Mainne
+            250 - Fantom Opera
+            1285 - Moonriver
+            1313161554 - Aurora Mainnet            
     */
     function updateVersion(string calldata contractNameString, address newContractAddress, uint networkId) public onlyOwner {
         bytes32 _contractName = stringToContractName(contractNameString);
