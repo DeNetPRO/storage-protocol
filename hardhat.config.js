@@ -4,12 +4,20 @@ require('dotenv').config();
 require('hardhat-deploy');
 require('hardhat-gas-reporter');
 require('solidity-coverage');
+// require('hardhat-docgen');
+require('solidity-docgen');
 
 const networks = require('./hardhat.networks');
 
 module.exports = {
     etherscan: {
         apiKey: process.env.ETHERSCAN_KEY,
+    },
+    docgen: {
+        path: './docs/sol',
+        only: ['^contracts/'],
+        clear: true,
+        runOnCompile: true,
     },
     gasReporter: {
         enable: true,

@@ -6,7 +6,7 @@
     Proof Of Storage  - Consensus for Decentralized Storage.
 */
 
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.0;
 pragma abicoder v1;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
