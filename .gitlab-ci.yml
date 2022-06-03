@@ -16,6 +16,8 @@ build:
     - yarn
     - npm i -g solc
     - cd node_modules && solcjs --abi ../contracts/*.sol -o ../builds/
+    - yarn docs
   artifacts:
     paths:
       - ./builds/
+      - ./docs/
