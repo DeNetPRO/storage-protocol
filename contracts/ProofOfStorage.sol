@@ -76,8 +76,6 @@ contract Depositable is StringNumbersConstant {
 
 contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
     using SafeMath for uint;
-    
-   
 
     /*
         Address of smart contract, where User Storage placed
@@ -89,21 +87,15 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
     */
     address public node_nft_address = address(0);
     
-    /*
+    /***
+
+        @dev
         Max blocks after proof needs to use newest proof as it possible
         For other netowrks it will be:
 
-        Expanse ~ 1.5H
-        Ethereum ~ 54 min
-        Optimistic ~ 54 min
-        Ethereum Classic ~ 54 min
-        POA Netowrk ~ 20 min
-        Kovan Testnet ~ 16 min
-        BinanceSmart Chain ~ 12.5 min
-        Polygon ~ 8 min
-        Avalanche ~ 8 min
+        see more, in StringNumbersConstant
     */
-    uint256 private _max_blocks_after_proof = 250;
+    uint256 private _max_blocks_after_proof = MAX_BLOCKS_AFTER_PROOF;
     
     /*
         Debug mode using only for test's. 
@@ -114,14 +106,16 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
     */
     bool public debug_mode = false;
 
-    /*
-        Minimal sotrage size for proof. 
+    /***
+        @dev Minimal sotrage size for proof. 
 
         in Polygon netowrk best min storage size ~10GB (~0.03 USD or more per month).
         if user store less than 10GB, user storage size will increased to min_storage_require
-        
+
+        @type in megabytes.
+
     */
-    uint public min_storage_require = 10240;
+    uint public min_storage_require = STORAGE_10GB_IN_MB;
 
     /*
         Old payments support from v0.3.0
