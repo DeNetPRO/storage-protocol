@@ -66,17 +66,17 @@ contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
 
     it('should deposit successfully', async function () {
         await this.token.approve(this.payments.address, '1000', { from: w1 });
-        await this.pos.makeDeposit(this.token.address, 1000, { from: w1 });
+        await this.pos.makeDeposit(1000, { from: w1 });
         await getBalance(this, w1, (res) => { console.log('Balance ' + res); });
         // expectEvent(result, 'Transfer', { from: w1, to: this.payments.address, value: '1000'});
     });
 
     it('should withdraw successfully', async function () {
         await this.token.approve(this.payments.address, '1000', { from: w1 });
-        await this.pos.makeDeposit(this.token.address, 1000, { from: w1 });
+        await this.pos.makeDeposit(1000, { from: w1 });
         // expectEvent(result1, 'Transfer', { from: w1, to: this.payments.address, value: '1000'});
 
-        await this.pos.closeDeposit(this.token.address, { from: w1 });
+        await this.pos.closeDeposit({ from: w1 });
         await getBalance(this, w1, (res) => { console.log('Balance ' + res); });
         // expectEvent(result2, 'Transfer', { from: this.payments.address, to: w1, value: '1000'});
     });
@@ -87,7 +87,7 @@ contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
         const amount = (getRandomInt(5) + 5) * 100000000;
         await self.token.mint(w1, amount);
         await self.token.approve(self.payments.address, amount, { from: w1 });
-        await self.pos.makeDeposit(self.token.address, amount, { from: w1 });
+        await self.pos.makeDeposit(amount, { from: w1 });
         const resultBalance = await self.payments.balanceOf(w1);
         await self.pos.invisibleMintGasToken(w1, userAddress, resultBalance);
     }

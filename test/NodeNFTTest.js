@@ -75,7 +75,7 @@ contract('DeNetNodeNFT', async function ([_, w1, w2, w3]) {
     });
     it('should reward successfully', async function () {
         await this.token.approve(this.payments.address, amount100, { from: w3 });
-        await this.pos.makeDeposit(this.token.address, amount100, { from: w3 });
+        await this.pos.makeDeposit(amount100, { from: w3 });
         const balance = await this.payments.balanceOf(w3);
         this.payments.transfer(this.reward.address, balance, { from: w3 });
     });
