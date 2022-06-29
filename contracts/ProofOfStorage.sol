@@ -137,10 +137,6 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
         updateDepositLimits(_newLimit);
     }
 
-    function setNodeNFTAddress(address _new) public onlyOwner {
-        node_nft_address = _new;
-    }
-
     function _updateNodeRank(address _proofer, uint current_difficulty) internal returns(uint256) { 
         if (node_nft_address != address(0)) {
             IDeNetNodeNFT NFT = IDeNetNodeNFT(node_nft_address);
