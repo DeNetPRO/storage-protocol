@@ -1,5 +1,31 @@
 # Solidity API
 
+## IProofOfStorage
+
+### isValidMerkleTreeProof
+
+```solidity
+function isValidMerkleTreeProof(bytes32 _root_hash, bytes32[] _proof) external view returns (bool)
+```
+
+### isMatchDifficulty
+
+```solidity
+function isMatchDifficulty(uint256 _proof, uint256 _targetDifficulty) external view returns (bool)
+```
+
+### getUserRewardInfo
+
+```solidity
+function getUserRewardInfo(address _user, uint256 _user_storage_size) external view returns (uint256, uint256)
+```
+
+### getUserRootHash
+
+```solidity
+function getUserRootHash(address _user) external view returns (bytes32, uint256)
+```
+
 ## Ownable
 
 _Contract module which provides a basic access control mechanism, where
@@ -1896,7 +1922,7 @@ function makeDeposit(uint256 _amount) public
 ```
 
 make deposit function.
-        
+
         @param _amount - Amount of  Pair Token
 
         @dev Require approve from Pair Token to paymentsAddress
@@ -1925,11 +1951,15 @@ UpdateDepositLimits for all users
 address user_storage_address
 ```
 
+Address of smart contract, where User Storage placed
+
 ### node_nft_address
 
 ```solidity
 address node_nft_address
 ```
+
+Address of smart contract, where NFT of nodes placed
 
 ### _max_blocks_after_proof
 
@@ -1937,10 +1967,10 @@ address node_nft_address
 uint256 _max_blocks_after_proof
 ```
 
-Max blocks after proof needs to use newest proof as it possible
-        For other netowrks it will be:
-
-        @dev see more, in StringNumbersConstant
+_see more, in StringNumbersConstant
+        
+        @notice  Max blocks after proof needs to use newest proof as it possible
+        For other netowrks it will be:_
 
 ### debug_mode
 
@@ -2802,31 +2832,5 @@ function mint(address account, uint256 amount) external
 
 ```solidity
 function burn(address account, uint256 amount) external
-```
-
-## IProofOfStorage
-
-### isValidMerkleTreeProof
-
-```solidity
-function isValidMerkleTreeProof(bytes32 _root_hash, bytes32[] _proof) external view returns (bool)
-```
-
-### isMatchDifficulty
-
-```solidity
-function isMatchDifficulty(uint256 _proof, uint256 _targetDifficulty) external view returns (bool)
-```
-
-### getUserRewardInfo
-
-```solidity
-function getUserRewardInfo(address _user, uint256 _user_storage_size) external view returns (uint256, uint256)
-```
-
-### getUserRootHash
-
-```solidity
-function getUserRootHash(address _user) external view returns (bytes32, uint256)
 ```
 

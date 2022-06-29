@@ -47,7 +47,7 @@ contract Depositable is StringNumbersConstant {
 
     /**
         @notice make deposit function.
-        
+
         @param _amount - Amount of  Pair Token
 
         @dev Require approve from Pair Token to paymentsAddress
@@ -84,21 +84,21 @@ contract Depositable is StringNumbersConstant {
 contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
     using SafeMath for uint;
 
-    /*
-        Address of smart contract, where User Storage placed
+    /**
+       @notice Address of smart contract, where User Storage placed
     */
     address public user_storage_address;
    
-    /*
-        Address of smart contract, where NFT of nodes placed
+    /**
+        @notice Address of smart contract, where NFT of nodes placed
     */
     address public node_nft_address = address(0);
     
     /**
+        @dev see more, in StringNumbersConstant
+        
         @notice  Max blocks after proof needs to use newest proof as it possible
         For other netowrks it will be:
-
-        @dev see more, in StringNumbersConstant
     */
     uint256 private _max_blocks_after_proof = MAX_BLOCKS_AFTER_PROOF;
     
