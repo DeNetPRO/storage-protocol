@@ -118,11 +118,6 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
     uint public min_storage_require = STORAGE_10GB_IN_MB;
 
     /*
-        Old payments support from v0.3.0
-    */
-    bool public isOldPayments = true;
-    
-    /*
         REWARD_DIFFICULTY
         This Parametr using to get amount of reward per one mined block.
 
@@ -148,10 +143,6 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
 
     function setMaxDeposit(uint256 _newLimit) public onlyOwner {
         maxDepositPerUser = _newLimit;
-    }
-
-    function changePaymentsVersion() public onlyOwner {
-        isOldPayments = !isOldPayments;
     }
 
     function setNodeNFTAddress(address _new) public onlyOwner {
@@ -556,13 +547,8 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
         address _to,
         uint _amount
     ) private {
-        if (isOldPayments) {
-            IOldPayments _payment = IOldPayments(paymentsAddress);
-            _payment.localTransferFrom(address(0), _from, _to, _amount);
-        } else {
-            IPayments _payment = IPayments(paymentsAddress);
-            _payment.localTransferFrom(_from, _to, _amount);
-        }
+        IPayments _payment = IPayments(paymentsAddress);
+        _payment.localTransferFrom(_from, _to, _amount);
     }
 
     /*

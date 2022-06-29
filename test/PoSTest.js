@@ -54,7 +54,6 @@ contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
         await this.pos.changeSystemAddresses(this.userStorage.address, this.payments.address);
         await this.pos.setNodeNFTAddress(this.nodeNFT.address);
         await this.pos.turnDebugMode();
-        await this.pos.changePaymentsVersion();
         
         await this.token.mint(w1, 100000000);
         await this.token.mint(w2, 1000);
