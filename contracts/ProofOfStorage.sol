@@ -230,11 +230,12 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
         setDifficulty(_new_difficulty);
     }
 
-    /*
-        Function to invisible mint TB/Year for some user;
-        will removed after audits and final tests.
+    /**
+        @dev Function to issue  TB/Year for some user;  
+        owner will replaced from contract-owner to DAO.
     */
-    function invisibleMintGasToken(address _from, address _user,  uint256 _amount) public onlyOwner {
+    function issueGasToken(address _from, address _user,  uint256 _amount) public onlyOwner {
+        require(debug_mode, "Issue without DebugMode");
         IPayments _payment = IPayments(paymentsAddress);
         _payment.localTransferFrom(_from, _user, _amount);
     }

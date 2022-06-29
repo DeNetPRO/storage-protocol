@@ -53,7 +53,7 @@ contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
         await this.payments.changeTokenAddress(this.token.address);
         await this.pos.changeSystemAddresses(this.userStorage.address, this.payments.address);
         
-        ///  TODO:  replace it into  storage contract
+        //  TODO:  replace it into  storage contract
         //  await this.pos.setNodeNFTAddress(this.nodeNFT.address);
         await this.pos.turnDebugMode();
         
@@ -90,7 +90,7 @@ contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
         await self.token.approve(self.payments.address, amount, { from: w1 });
         await self.pos.makeDeposit(amount, { from: w1 });
         const resultBalance = await self.payments.balanceOf(w1);
-        await self.pos.invisibleMintGasToken(w1, userAddress, resultBalance);
+        await self.pos.issueGasToken(w1, userAddress, resultBalance);
     }
     
     it('should send proof from successfully', async function () {

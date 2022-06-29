@@ -2012,11 +2012,14 @@ function setMinStorage(uint256 _size) public
 function updateBaseDifficulty(uint256 _new_difficulty) public
 ```
 
-### invisibleMintGasToken
+### issueGasToken
 
 ```solidity
-function invisibleMintGasToken(address _from, address _user, uint256 _amount) public
+function issueGasToken(address _from, address _user, uint256 _amount) public
 ```
+
+_Function to issue  TB/Year for some user;  
+        owner will replaced from contract-owner to DAO._
 
 ### changeSystemAddresses
 
