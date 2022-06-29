@@ -1022,6 +1022,8 @@ _Compex function to update contracts on all networks
             "gastoken" - TB/Year gas token
             "userstorage" - UserStorage Address
             "nodenft" - node nft address
+            "pairtoken" - DFILE Token (as main token). If not available, using USDC or other.
+            "userstorage" - User Storage address (Contract where stored data like Nonce and root hash)
         @param newContractAddress - new address of contract
         @param networkId - ID of network, examples:
             1 - Ethereum Mainnet
@@ -1873,62 +1875,6 @@ modifier onlyPoS()
 function changePoS(address _newAddress) public
 ```
 
-## CryptoProofs
-
-### WrongError
-
-```solidity
-event WrongError(bytes32 wrong_hash)
-```
-
-### base_difficulty
-
-```solidity
-uint256 base_difficulty
-```
-
-### constructor
-
-```solidity
-constructor(uint256 _baseDifficulty) public
-```
-
-### isValidMerkleTreeProof
-
-```solidity
-function isValidMerkleTreeProof(bytes32 _root_hash, bytes32[] proof) public pure returns (bool)
-```
-
-### isMatchDifficulty
-
-```solidity
-function isMatchDifficulty(uint256 _proof, uint256 _targetDifficulty) public view returns (bool)
-```
-
-### getBlockNumber
-
-```solidity
-function getBlockNumber() public view returns (uint32)
-```
-
-### getProof
-
-```solidity
-function getProof(bytes _file, address _sender, uint256 _block_number) public view returns (bytes, bytes32)
-```
-
-### getBlockHash
-
-```solidity
-function getBlockHash(uint32 _n) public view returns (bytes32)
-```
-
-### getDifficulty
-
-```solidity
-function getDifficulty() public view returns (uint256)
-```
-
 ## Depositable
 
 ### paymentsAddress
@@ -1967,17 +1913,33 @@ constructor(address _payments) public
 function getAvailableDeposit(address _user, uint256 _amount, uint32 _curDate) public view returns (uint256)
 ```
 
+Show available amount for deposit
+
 ### makeDeposit
 
 ```solidity
-function makeDeposit(address _token, uint256 _amount) public
+function makeDeposit(uint256 _amount) public
 ```
+
+make deposit function.
+        @param _amount - Amount of  Pair Token
+        @dev Require approve from Pair Token to paymentsAddress
 
 ### closeDeposit
 
 ```solidity
-function closeDeposit(address _token) public
+function closeDeposit() public
 ```
+
+close deposit functuin. Will burn part of gastoken and return pair token to msg.sender
+
+### updateDepositLimits
+
+```solidity
+function updateDepositLimits(uint256 _newLimit) internal
+```
+
+UpdateDepositLimits for all users
 
 ## ProofOfStorage
 
@@ -1999,6 +1961,11 @@ address node_nft_address
 uint256 _max_blocks_after_proof
 ```
 
+Max blocks after proof needs to use newest proof as it possible
+        For other netowrks it will be:
+
+        @dev see more, in StringNumbersConstant
+
 ### debug_mode
 
 ```solidity
@@ -2011,28 +1978,23 @@ bool debug_mode
 uint256 min_storage_require
 ```
 
-### isOldPayments
+_Minimal sotrage size for proof. 
 
-```solidity
-bool isOldPayments
-```
+        in Polygon netowrk best min storage size ~10GB (~0.03 USD or more per month).
+        if user store less than 10GB, user storage size will increased to min_storage_require
+
+        @notice min_storage_require in megabytes._
 
 ### constructor
 
 ```solidity
-constructor(address _storage_address, address _payments, uint256 _baseDifficulty) public
+constructor(address _storage_address, address _payments) public
 ```
 
 ### setMaxDeposit
 
 ```solidity
 function setMaxDeposit(uint256 _newLimit) public
-```
-
-### changePaymentsVersion
-
-```solidity
-function changePaymentsVersion() public
 ```
 
 ### setNodeNFTAddress
@@ -2112,6 +2074,14 @@ function _sendProofFrom(address _proofer, address _user_address, uint32 _block_n
 ```solidity
 function getUserRewardInfo(address _user, uint256 _user_storage_size) public view returns (uint256, uint256)
 ```
+
+Returns info about user reward for ProofOfStorage
+
+        @param _user - User Address
+        @param _user_storage_size - User Storage Size
+        
+        @return _amount - Total Token Amount for PoS
+        @return _last_rroof_time - Last Proof Time
 
 ### _takePay
 
@@ -2727,6 +2697,115 @@ function updateLastProofTime(address userAddress) external
 
 ```solidity
 function getPeriodFromLastProof(address userAddress) external view returns (uint256)
+```
+
+## DifficultyManufacturing
+
+### base_difficulty
+
+```solidity
+uint256 base_difficulty
+```
+
+### setDifficulty
+
+```solidity
+function setDifficulty(uint256 _new_difficulty) internal
+```
+
+### getDifficulty
+
+```solidity
+function getDifficulty() public view returns (uint256)
+```
+
+## CryptoProofs
+
+### WrongError
+
+```solidity
+event WrongError(bytes32 wrong_hash)
+```
+
+### isValidMerkleTreeProof
+
+```solidity
+function isValidMerkleTreeProof(bytes32 _root_hash, bytes32[] proof) public pure returns (bool)
+```
+
+### isMatchDifficulty
+
+```solidity
+function isMatchDifficulty(uint256 base_difficulty, uint256 _proof, uint256 _targetDifficulty) public view returns (bool)
+```
+
+### getBlockNumber
+
+```solidity
+function getBlockNumber() public view returns (uint32)
+```
+
+### getProof
+
+```solidity
+function getProof(bytes _file, address _sender, uint256 _block_number) public view returns (bytes, bytes32)
+```
+
+### getBlockHash
+
+```solidity
+function getBlockHash(uint32 _n) public view returns (bytes32)
+```
+
+## StringNumbersConstant
+
+### DECIMALS_18
+
+```solidity
+uint256 DECIMALS_18
+```
+
+### TIME_7D
+
+```solidity
+uint256 TIME_7D
+```
+
+### START_DEPOSIT_LIMIT
+
+```solidity
+uint256 START_DEPOSIT_LIMIT
+```
+
+### MAX_BLOCKS_AFTER_PROOF
+
+```solidity
+uint256 MAX_BLOCKS_AFTER_PROOF
+```
+
+Max blocks after proof needs to use newest proof as it possible
+        For other netowrks it will be:
+        @dev
+        Expanse ~ 1.5H
+        Ethereum ~ 54 min
+        Optimistic ~ 54 min
+        Ethereum Classic ~ 54 min
+        POA Netowrk ~ 20 min
+        Kovan Testnet ~ 16 min
+        BinanceSmart Chain ~ 12.5 min
+        Polygon ~ 8 min
+        Avalanche ~ 8 min
+
+### PAIR_TOKEN_START_ADDRESS
+
+```solidity
+address PAIR_TOKEN_START_ADDRESS
+```
+
+### STORAGE_10GB_IN_MB
+
+```solidity
+uint256 STORAGE_10GB_IN_MB
 ```
 
 ## TokenMock

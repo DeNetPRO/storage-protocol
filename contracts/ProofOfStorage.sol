@@ -35,8 +35,8 @@ contract Depositable is StringNumbersConstant {
         paymentsAddress = _payments;
     }
 
-    /***
-        @dev Show available amount for deposit
+    /**
+        @notice Show available amount for deposit
     */
     function getAvailableDeposit(address _user, uint256 _amount, uint32 _curDate) public view returns (uint256) {
         if (limitReached[_user][_curDate] + _amount >= maxDepositPerUser) {
@@ -45,12 +45,10 @@ contract Depositable is StringNumbersConstant {
         return _amount;
     }
 
-    /***
-        @dev make deposit function.
-
+    /**
+        @notice make deposit function.
         @param _amount - Amount of  Pair Token
-
-        Require approve from Pair Token to paymentsAddress
+        @dev Require approve from Pair Token to paymentsAddress
     */
     function makeDeposit(uint256 _amount) public {
 
@@ -65,8 +63,8 @@ contract Depositable is StringNumbersConstant {
         _payment.depositToLocal(msg.sender, address(this), _amount);
     }
 
-    /***
-        @dev close deposit functuin. Will burn part of gastoken and return pair token to msg.sender
+    /**
+        @notice close deposit functuin. Will burn part of gastoken and return pair token to msg.sender
     */
     function closeDeposit() public {
         IPayments _payment = IPayments(paymentsAddress);
@@ -74,7 +72,7 @@ contract Depositable is StringNumbersConstant {
     }
 
     /**
-        @dev UpdateDepositLimits for all users
+        @notice UpdateDepositLimits for all users
     */
     function updateDepositLimits(uint _newLimit) internal {
         maxDepositPerUser = _newLimit;
@@ -94,13 +92,11 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
     */
     address public node_nft_address = address(0);
     
-    /***
-
-        @dev
-        Max blocks after proof needs to use newest proof as it possible
+    /**
+        @notice  Max blocks after proof needs to use newest proof as it possible
         For other netowrks it will be:
 
-        see more, in StringNumbersConstant
+        @dev see more, in StringNumbersConstant
     */
     uint256 private _max_blocks_after_proof = MAX_BLOCKS_AFTER_PROOF;
     
@@ -113,13 +109,13 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
     */
     bool public debug_mode = false;
 
-    /***
+    /**
         @dev Minimal sotrage size for proof. 
 
         in Polygon netowrk best min storage size ~10GB (~0.03 USD or more per month).
         if user store less than 10GB, user storage size will increased to min_storage_require
 
-        @type in megabytes.
+        @notice min_storage_require in megabytes.
 
     */
     uint public min_storage_require = STORAGE_10GB_IN_MB;
@@ -479,16 +475,14 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
         return (_amount_returns);
     }
 
-    /*
-        @dev Returns info about user reward for ProofOfStorage
+    /**
+        @notice Returns info about user reward for ProofOfStorage
 
-        # Input
-            @_user - User Address
-            @_user_storage_size - User Storage Size
-
-        # Output
-            @_amount - Total Token Amount for PoS
-            @_last_rroof_time - Last Proof Time
+        @param _user - User Address
+        @param _user_storage_size - User Storage Size
+        
+        @return _amount - Total Token Amount for PoS
+        @return _last_rroof_time - Last Proof Time
     */
     function getUserRewardInfo(address _user, uint _user_storage_size)
         public
