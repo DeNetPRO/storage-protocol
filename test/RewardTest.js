@@ -28,7 +28,7 @@ contract('Reward', async function ([_, w1, w2, w3]) {
 
     it('should reward successfully', async function () {
         await this.token.approve(this.payments.address, amount100, { from: w3 });
-        await this.pos.makeDeposit(this.token.address, amount100, { from: w3 });
+        await this.pos.makeDeposit(amount100, { from: w3 });
         await getBalance(this, w3, (res) => { console.log('Balance ' + res); });
         const balance = await this.payments.balanceOf(w3);
         this.payments.transfer(this.reward.address, balance, { from: w3 });
