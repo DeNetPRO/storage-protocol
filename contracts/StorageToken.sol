@@ -58,17 +58,11 @@ contract feeCollector is Ownable {
         fee_collected = fee_collected.add(amount);
     }
     
-    function calc_transfer_fee(uint256 amount) public view returns(uint256) {
-        return amount.mul(transfer_fee).div(div_fee);
-    }
-    
     function calc_payout_fee(uint256 amount) public  view returns(uint256){
         return amount.mul(payout_fee).div(div_fee);
     }
     
-    function toFeeless(uint256 amount) public view returns(uint256) {
-        return amount.div(div_fee.add(transfer_fee.mul(mint_percent).div(div_fee))).mul(div_fee);
-    }
+
     function toFeelessPayout(uint256 amount) public view returns(uint256) {
         return amount.div(div_fee.add(payout_fee.mul(mint_percent).div(div_fee))).mul(div_fee);
     }
@@ -76,10 +70,7 @@ contract feeCollector is Ownable {
     function change_fee_limit(uint new_fee_limit) public onlyOwner {
         fee_limit = new_fee_limit;
     }
-    function change_transfer_fee(uint16 new_fee) public onlyOwner {
-        require(new_fee <= div_fee, "max fee limit exceeded");
-        transfer_fee = new_fee;
-    }
+
     function change_payout_fee(uint16 new_fee) public onlyOwner {
         require(new_fee <= div_fee, "max fee limit exceeded");
         payout_fee = new_fee;
@@ -128,15 +119,6 @@ contract StorageToken is  ERC20, Ownable, feeCollector{
         return _getWidthdrawithReturns(toFeelessPayout(amount));
     }
     
-    
-    /*
-        returns amount of returnable Storage Token with Fees.
-    */
-    function getDepositRate(uint256 amount) public view  returns (uint256){
-        return toFeeless(amount);
-    }
-    
- 
     /*
         Function to Deposit DFILE
     */
@@ -166,12 +148,12 @@ contract StorageToken is  ERC20, Ownable, feeCollector{
     function  _closeAllDeposiByAddresst(address account) internal  {
         require(account != recipient_fee, "recipient_fee can't close deposit");
         
-        IERC20 DFILEToken = IERC20(pairTokenAddress);
+        IERC20 pairToken = IERC20(pairTokenAddress);
         uint256 account_balance_TB = feelessBalance(account);
         uint256 dfile_return = _getWidthdrawithReturns(account_balance_TB);
         pairTokenBalance = pairTokenBalance.sub(dfile_return);
         _burn(account, account_balance_TB);
-        DFILEToken.transfer(account,dfile_return);
+        pairToken.transfer(account,dfile_return);
     }
     
     function _closePartOfDeposit(uint256 amount) internal {
@@ -188,17 +170,8 @@ contract StorageToken is  ERC20, Ownable, feeCollector{
         pairToken.transfer(account, dfile_return);
         
     }
-       
-    /*
-            Balance OF with fee collector changer 
-            
-            Balance = amount / (100% + fee percent)
-            amount / (div fee  + payout_fee * mint_percent / div fee) * div fee
-    */
-    function balanceOf (address _user) public view override(ERC20) returns (uint256){
-        return toFeeless(_balances[_user]);
-    }
-        
+    /* testnet zone */
+
     function testMint(address to, uint256 amount) public onlyOwner {
         _mint(to, amount);
         _updatePairTokenBalance();
@@ -224,27 +197,5 @@ contract StorageToken is  ERC20, Ownable, feeCollector{
             _balances[recipient_fee] = _balances[recipient_fee].add(fee_collected);
             fee_collected = 0;
         }
-    }
-    function collect_by_admin() public onlyOwner {
-        _balances[address(this)] = _balances[address(this)].sub(fee_collected);
-        _balances[recipient_fee] = _balances[recipient_fee].add(fee_collected);
-        fee_collected = 0;
-    }
-
-    function _beforeTokenTransfer(address from, address to, uint256 amount) internal virtual override(ERC20) {
-        super._beforeTokenTransfer(from, to, amount);
-
-        // if it simple transfer
-        if (from != address(0) && to != address(0)) {
-            require(amount <= balanceOf(from), "Not enought balance for transfer fee");
-            uint256 total_fee = calc_transfer_fee(amount);
-            uint256 minting_amount = total_fee.mul(mint_percent).div(div_fee);
-            uint256 charged_fee = total_fee.sub(minting_amount);
-            _mint(address(this), minting_amount);
-            _balances[from] = _balances[from].sub(charged_fee);
-            _balances[address(this)] = _balances[address(this)].add(charged_fee);
-            _addFee(total_fee);
-            _collectFee();
-        } 
     }
 }
