@@ -161,3 +161,9 @@ More about PoS will available [in docs](/docs/digital%20paper.pdf)
 |16kb|10,581,008 gas|[Kovan Testnet](https://kovan.etherscan.io/tx/0xcdca6a4c3b8db736a4c75925255423bdffeddd4b12c38f3e68caa5b083c8f7fe)|Yes|
 
 ![image](https://user-images.githubusercontent.com/9944728/130641639-c150d81b-2090-4945-8949-82a2d8a5ffaf.png)
+
+## WIP: Community Commit Rules and DAO
+
+Need to make rules for community to deploy and upgrade contracts
+
+- Rules for DIP (DeNet Improvement Proposals)
