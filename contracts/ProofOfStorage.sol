@@ -175,8 +175,10 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
         return current_difficulty;
     }
 
-    /*
+    /**
         Function to disable user signature checking.
+
+        TODO: Will removed, if tests will work correctly without it.
     */
     function turnDebugMode() public onlyOwner {
         if (debug_mode) debug_mode = false;
@@ -223,15 +225,17 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
         min_storage_require = _size;
     }
 
-    /*
-        More base_difficulty = more random for nodes.
+    /**
+        @notice More _new_difficulty = more random for nodes. Less _new_difficulty more proofs and less randomize.
     */
     function updateBaseDifficulty(uint256 _new_difficulty) public onlyOwner {
         setDifficulty(_new_difficulty);
     }
 
-    /*
-        Update Storage Address or Payments Address for something updates
+    /**
+        @dev Update Storage Address or Payments Address for something updates
+
+        TODO: Ned to replace to storage contract
     */
     function changeSystemAddresses(
         address _storage_address,

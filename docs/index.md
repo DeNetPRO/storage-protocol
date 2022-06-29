@@ -1,31 +1,5 @@
 # Solidity API
 
-## IProofOfStorage
-
-### isValidMerkleTreeProof
-
-```solidity
-function isValidMerkleTreeProof(bytes32 _root_hash, bytes32[] _proof) external view returns (bool)
-```
-
-### isMatchDifficulty
-
-```solidity
-function isMatchDifficulty(uint256 _proof, uint256 _targetDifficulty) external view returns (bool)
-```
-
-### getUserRewardInfo
-
-```solidity
-function getUserRewardInfo(address _user, uint256 _user_storage_size) external view returns (uint256, uint256)
-```
-
-### getUserRootHash
-
-```solidity
-function getUserRootHash(address _user) external view returns (bytes32, uint256)
-```
-
 ## Ownable
 
 _Contract module which provides a basic access control mechanism, where
@@ -2026,6 +2000,10 @@ this function updating Node Rank.
 function turnDebugMode() public
 ```
 
+Function to disable user signature checking.
+
+        TODO: Will removed, if tests will work correctly without it.
+
 ### setMinStorage
 
 ```solidity
@@ -2038,11 +2016,17 @@ function setMinStorage(uint256 _size) public
 function updateBaseDifficulty(uint256 _new_difficulty) public
 ```
 
+More _new_difficulty = more random for nodes. Less _new_difficulty more proofs and less randomize.
+
 ### changeSystemAddresses
 
 ```solidity
 function changeSystemAddresses(address _storage_address, address _payments_address) public
 ```
+
+_Update Storage Address or Payments Address for something updates
+
+        TODO: Ned to replace to storage contract_
 
 ### sendProof
 
@@ -2858,5 +2842,31 @@ function mint(address account, uint256 amount) external
 
 ```solidity
 function burn(address account, uint256 amount) external
+```
+
+## IProofOfStorage
+
+### isValidMerkleTreeProof
+
+```solidity
+function isValidMerkleTreeProof(bytes32 _root_hash, bytes32[] _proof) external view returns (bool)
+```
+
+### isMatchDifficulty
+
+```solidity
+function isMatchDifficulty(uint256 _proof, uint256 _targetDifficulty) external view returns (bool)
+```
+
+### getUserRewardInfo
+
+```solidity
+function getUserRewardInfo(address _user, uint256 _user_storage_size) external view returns (uint256, uint256)
+```
+
+### getUserRootHash
+
+```solidity
+function getUserRootHash(address _user) external view returns (bytes32, uint256)
 ```
 
