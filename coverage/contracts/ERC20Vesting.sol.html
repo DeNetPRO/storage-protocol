@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts/ERC20Vesting.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">contracts/</a> ERC20Vesting.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/18</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/12</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/3</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/18</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: MIT
+&nbsp;
+/*
+    Created by DeNet
+&nbsp;
+    Proof Of Storage  - Consensus for Decentralized Storage.
+*/
+&nbsp;
+pragma solidity ^0.8.0;
+&nbsp;
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+&nbsp;
+contract ERC20Vesting  is Ownable {
+    using SafeMath for uint256;
+    using SafeMath for uint64;
+&nbsp;
+    address public vestingToken;
+&nbsp;
+    struct VestingProfile {
+        uint64 timeStart;
+        uint64 timeEnd;
+        uint256 amount;
+        uint256 payed;
+    }
+    
+&nbsp;
+    mapping (address =&gt; VestingProfile) public vestingStatus;
+    
+    /*
+        Creating vesting for _user
+    */
+<span class="fstat-no" title="function not covered" >    function createVesting(address _user, VestingProfile calldata info) public onlyOwner {</span>
+<span class="cstat-no" title="statement not covered" >        require(vestingStatus[_user].timeStart != 0, "User already have vesting")</span>;
+<span class="cstat-no" title="statement not covered" >        require(info.amount != 0, "Amount = 0")</span>;
+<span class="cstat-no" title="statement not covered" >        require(info.timeStart &lt; info.timeEnd, "TimeStart &gt; TimeEnd")</span>;
+<span class="cstat-no" title="statement not covered" >        require(info.timeEnd &gt; block.timestamp, "Time end &lt; block.timestamp")</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        vestingStatus[_user] = info</span>;
+    }
+&nbsp;
+    /* 
+        Return abaialble balance to withdraw
+    */
+<span class="fstat-no" title="function not covered" >    function getAmountToWithdraw(address _user) public view returns(uint256) {</span>
+<span class="cstat-no" title="statement not covered" >        VestingProfile memory _tmpProfile = vestingStatus[_user];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (_tmpProfile.timeStart &lt; block.timestamp) {</span>
+<span class="cstat-no" title="statement not covered" >            return 0;</span>
+        }
+<span class="cstat-no" title="statement not covered" >        uint _vestingPeriod = _tmpProfile.timeEnd.sub(_tmpProfile.timeStart);</span>
+<span class="cstat-no" title="statement not covered" >        uint _amount = _tmpProfile.amount.div(_vestingPeriod);</span>
+<span class="cstat-no" title="statement not covered" >        if (_tmpProfile.timeEnd &gt; block.timestamp) {</span>
+<span class="cstat-no" title="statement not covered" >            _amount = _amount.mul(block.timestamp.sub(_tmpProfile.timeStart))</span>;
+        } else {
+<span class="cstat-no" title="statement not covered" >            _amount = _tmpProfile.amount</span>;
+        }
+<span class="cstat-no" title="statement not covered" >        return _amount.sub(_tmpProfile.payed);</span>
+    }
+&nbsp;
+    /*
+        Withdraw tokens
+&nbsp;
+    */
+<span class="fstat-no" title="function not covered" >    function withdraw() public {</span>
+<span class="cstat-no" title="statement not covered" >        uint _amount = getAmountToWithdraw(msg.sender);</span>
+<span class="cstat-no" title="statement not covered" >        vestingStatus[msg.sender].payed = vestingStatus[msg.sender].payed.add(_amount)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        IERC20 tok = IERC20(vestingToken);</span>
+<span class="cstat-no" title="statement not covered" >        tok.transfer(msg.sender, _amount)</span>;
+    }
+&nbsp;
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Jun 30 2022 02:39:19 GMT+0300 (Москва, стандартное время)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

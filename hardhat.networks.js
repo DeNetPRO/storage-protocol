@@ -1,4 +1,8 @@
-const networks = {};
+const networks = {
+    hardhat: {
+        initialBaseFeePerGas: 0
+    }
+};
 
 if (process.env.MAINNET_RPC_URL && process.env.MAINNET_PRIVATE_KEY) {
     networks.mainnet = {

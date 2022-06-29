@@ -1,31 +1,5 @@
 # Solidity API
 
-## IProofOfStorage
-
-### isValidMerkleTreeProof
-
-```solidity
-function isValidMerkleTreeProof(bytes32 _root_hash, bytes32[] _proof) external view returns (bool)
-```
-
-### isMatchDifficulty
-
-```solidity
-function isMatchDifficulty(uint256 _proof, uint256 _targetDifficulty) external view returns (bool)
-```
-
-### getUserRewardInfo
-
-```solidity
-function getUserRewardInfo(address _user, uint256 _user_storage_size) external view returns (uint256, uint256)
-```
-
-### getUserRootHash
-
-```solidity
-function getUserRootHash(address _user) external view returns (bytes32, uint256)
-```
-
 ## Ownable
 
 _Contract module which provides a basic access control mechanism, where
@@ -1022,6 +996,8 @@ _Compex function to update contracts on all networks
             "gastoken" - TB/Year gas token
             "userstorage" - UserStorage Address
             "nodenft" - node nft address
+            "pairtoken" - DFILE Token (as main token). If not available, using USDC or other.
+            "userstorage" - User Storage address (Contract where stored data like Nonce and root hash)
         @param newContractAddress - new address of contract
         @param networkId - ID of network, examples:
             1 - Ethereum Mainnet
@@ -2747,5 +2723,31 @@ function mint(address account, uint256 amount) external
 
 ```solidity
 function burn(address account, uint256 amount) external
+```
+
+## IProofOfStorage
+
+### isValidMerkleTreeProof
+
+```solidity
+function isValidMerkleTreeProof(bytes32 _root_hash, bytes32[] _proof) external view returns (bool)
+```
+
+### isMatchDifficulty
+
+```solidity
+function isMatchDifficulty(uint256 _proof, uint256 _targetDifficulty) external view returns (bool)
+```
+
+### getUserRewardInfo
+
+```solidity
+function getUserRewardInfo(address _user, uint256 _user_storage_size) external view returns (uint256, uint256)
+```
+
+### getUserRootHash
+
+```solidity
+function getUserRootHash(address _user) external view returns (bytes32, uint256)
 ```
 

@@ -1,0 +1,2111 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts/ProofOfStorage.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">contracts/</a> ProofOfStorage.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">80% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>80/100</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">52.08% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>25/48</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">80.65% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>25/31</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">80.41% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>78/97</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670
+671
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">80×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">80×</span>
+<span class="cline-any cline-yes">70×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: MIT
+&nbsp;
+/*
+    Created by DeNet
+&nbsp;
+    Proof Of Storage  - Consensus for Decentralized Storage.
+*/
+&nbsp;
+pragma solidity ^0.8.0;
+pragma abicoder v1;
+&nbsp;
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/math/Math.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
+&nbsp;
+import "./interfaces/IUserStorage.sol";
+import "./interfaces/IPayments.sol";
+import "./interfaces/IOldPayments.sol";
+import "./interfaces/INodeNFT.sol";
+&nbsp;
+&nbsp;
+// TODO: sha256 =&gt; keccak256
+contract CryptoProofs {
+    event WrongError(bytes32 wrong_hash);
+&nbsp;
+    /*
+        Proof period &lt; 1D, base_difficulty++
+        Proof period &gt; 1D, base_difficulty--
+&nbsp;
+        Using for 'randomly" proof verification.
+    */
+    uint256 public base_difficulty;
+&nbsp;
+    constructor(uint256 _baseDifficulty) {
+        base_difficulty = _baseDifficulty;
+    }
+&nbsp;
+    // TODO: transform merkle proof verification to efficient as OZ
+    function isValidMerkleTreeProof(
+        bytes32 _root_hash,
+        bytes32[] calldata proof
+    ) public pure returns (bool) {
+        bytes32 next_proof = 0;
+        for (uint32 i = 0; i &lt; proof.length / 2; i++) {
+            next_proof = sha256(
+                abi.encodePacked(proof[i * 2], proof[i * 2 + 1])
+            );
+            if (proof.length - 1 &gt; i * 2 + 3) {
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (
+                    proof[i * 2 + 2] == next_proof &amp;&amp;
+                    proof[i * 2 + 3] == next_proof
+                ) {
+<span class="cstat-no" title="statement not covered" >                    return false;</span>
+                }
+            } else <span class="missing-if-branch" title="if path not taken" >I</span>if (proof.length - 1 &gt; i * 2 + 2) {
+<span class="cstat-no" title="statement not covered" >                if (proof[i * 2 + 2] != next_proof) {</span>
+<span class="cstat-no" title="statement not covered" >                    return false;</span>
+                }
+            }
+        }
+        return _root_hash == next_proof;
+    }
+&nbsp;
+    /*
+        Matching diffuclty, where _targetDifficulty = some growing number, 
+        for example _targetDiffuculty = seconds from last proof for selected user
+        
+        _proof = sha256 of something
+        _targetDiffuculty = seconds from last proof 
+        base_difficult
+        
+    */
+    function isMatchDifficulty(uint256 _proof, uint256 _targetDifficulty)
+        public
+        view
+        returns (bool)
+    {
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (_proof % base_difficulty &lt; _targetDifficulty) {
+            return true;
+        }
+<span class="cstat-no" title="statement not covered" >        return false;</span>
+    }
+&nbsp;
+    function getBlockNumber() public view returns (uint32) {
+        return uint32(block.number);
+    }
+&nbsp;
+     // Show Proof for Test
+<span class="fstat-no" title="function not covered" >    function getProof(bytes calldata _file, address _sender, uint256 _block_number) public view returns(bytes memory, bytes32) {</span>
+<span class="cstat-no" title="statement not covered" >        bytes memory _packed = abi.encodePacked(_file, _sender, blockhash(_block_number));</span>
+<span class="cstat-no" title="statement not covered" >        bytes32 _proof = sha256(_packed);</span>
+<span class="cstat-no" title="statement not covered" >        return (_packed, _proof);</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function getBlockHash(uint32 _n) public view returns (bytes32) {</span>
+<span class="cstat-no" title="statement not covered" >        return blockhash(_n);</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function getDifficulty() public view returns(uint256) {</span>
+<span class="cstat-no" title="statement not covered" >        return base_difficulty;</span>
+    }
+}
+&nbsp;
+contract Depositable {
+    using SafeMath for uint;
+&nbsp;
+    address public paymentsAddress;
+    uint256 public maxDepositPerUser = 100000000; // 100 USDC
+    uint256 public timeLimit = 604800; // 7 days
+    
+    mapping(address =&gt; mapping(uint32 =&gt; uint256)) public limitReached; // time 
+&nbsp;
+    constructor (address _payments) {
+        paymentsAddress = _payments;
+    }
+&nbsp;
+    function getAvailableDeposit(address _user, uint256 _amount, uint32 _curDate) public view returns (uint256) {
+        if (limitReached[_user][_curDate] + _amount &gt;= maxDepositPerUser) {
+            return maxDepositPerUser.sub(limitReached[_user][_curDate]);
+        }
+        return _amount;
+    }
+&nbsp;
+    function makeDeposit(address _token, uint256 _amount) public {
+&nbsp;
+        /* Checking Limits */
+        uint32 curDate = uint32(block.timestamp.div(timeLimit));
+        _amount = getAvailableDeposit(msg.sender, _amount, curDate);
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(_amount &gt; 0, "Reached deposit limit for this period");
+&nbsp;
+        limitReached[msg.sender][curDate] = limitReached[msg.sender][curDate].add(_amount);
+        IPayments _payment = IPayments(paymentsAddress);
+        _payment.depositToLocal(msg.sender, _token, _amount);
+    }
+&nbsp;
+    function closeDeposit(address _token) public {
+        IPayments _payment = IPayments(paymentsAddress);
+        _payment.closeDeposit(msg.sender, _token);
+    }
+}
+&nbsp;
+&nbsp;
+&nbsp;
+contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
+    using SafeMath for uint;
+&nbsp;
+&nbsp;
+    /*
+        Address of smart contract, where User Storage placed
+    */
+    address public user_storage_address;
+   
+    /*
+        Address of smart contract, where NFT of nodes placed
+    */
+    address public node_nft_address = address(0);
+    
+    /*
+        Max blocks after proof needs to use newest proof as it possible
+        For other netowrks it will be:
+&nbsp;
+        Expanse ~ 1.5H
+        Ethereum ~ 54 min
+        Optimistic ~ 54 min
+        Ethereum Classic ~ 54 min
+        POA Netowrk ~ 20 min
+        Kovan Testnet ~ 16 min
+        BinanceSmart Chain ~ 12.5 min
+        Polygon ~ 8 min
+        Avalanche ~ 8 min
+    */
+    uint256 private _max_blocks_after_proof = 250;
+    
+    /*
+        Debug mode using only for test's. 
+        Check it parametr before any deposits!
+        
+        What is using for, when it true:
+            - Disabling verification of User Signature 
+    */
+    bool public debug_mode = false;
+&nbsp;
+    /*
+        Minimal sotrage size for proof. 
+&nbsp;
+        in Polygon netowrk best min storage size ~10GB (~0.03 USD or more per month).
+        if user store less than 10GB, user storage size will increased to min_storage_require
+        
+    */
+    uint public min_storage_require = 10240;
+&nbsp;
+    /*
+        Old payments support from v0.3.0
+    */
+    bool public isOldPayments = true;
+    
+    /*
+        REWARD_DIFFICULTY
+        This Parametr using to get amount of reward per one mined block.
+&nbsp;
+        Formula (60 * 60 * 24 * 365) / AvBlockTime
+&nbsp;
+        For Ethereum - 2102400
+        For Matic - 15768000
+        For BSC - 6307200
+&nbsp;
+        This parametr is depricated, because we updated proof system.
+        Now it based on storage time.
+    */
+    constructor(
+        address _storage_address,
+        address _payments,
+        uint256 _baseDifficulty
+    ) CryptoProofs(_baseDifficulty) Depositable(_payments) {
+        user_storage_address = _storage_address;
+    }
+&nbsp;
+    /*
+        Owner Zone Start
+    */
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function setMaxDeposit(uint256 _newLimit) public onlyOwner {</span>
+<span class="cstat-no" title="statement not covered" >        maxDepositPerUser = _newLimit</span>;
+    }
+&nbsp;
+    function changePaymentsVersion() public onlyOwner {
+        isOldPayments = !isOldPayments;
+    }
+&nbsp;
+    function setNodeNFTAddress(address _new) public onlyOwner {
+        node_nft_address = _new;
+    }
+&nbsp;
+    function _updateNodeRank(address _proofer, uint current_difficulty) internal returns(uint256) { 
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (node_nft_address != address(0)) {
+            IDeNetNodeNFT NFT = IDeNetNodeNFT(node_nft_address);
+            uint timeFromLastProof = block.timestamp - NFT.getLastUpdateByAddress(_proofer);
+            
+            NFT.addSuccessProof(_proofer);
+           
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (timeFromLastProof &lt;= 86400) {
+                /* 
+                    100% = 4320000
+                    2% = 86400 (1 day)
+&nbsp;
+                    Difficulty += 0-2% per proof if it faster than one day
+                */
+<span class="cstat-no" title="statement not covered" >                return current_difficulty.mul(4320000 + (86400 - timeFromLastProof)).div(4320000);</span>
+            } else {
+                /* 
+                    100% = 8640000
+                    1% = 86400
+                    difficulty -= 0-1% (pseudo randomly) per proof if it slower than one day
+                */
+                timeFromLastProof = timeFromLastProof % 86400;
+                return current_difficulty.mul(8640000 - (86400 - timeFromLastProof)).div(8640000);
+            }
+&nbsp;
+            
+        }
+<span class="cstat-no" title="statement not covered" >        return current_difficulty;</span>
+    }
+&nbsp;
+    /*
+        Function to disable user signature checking.
+    */
+    function turnDebugMode() public onlyOwner {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (debug_mode) <span class="cstat-no" title="statement not covered" >debug_mode = false</span>;
+        else debug_mode = true;
+    }
+&nbsp;
+    /*
+        ToDO:
+            - Move it into documentation
+        
+        Increase, if network fees growing
+        Decreese, if network fees down
+&nbsp;
+        For example:
+            MATIC:
+                Matic price: 2$
+                Avg gas price: 30 GWEI
+                Avg proof gasused: 300,000
+                Avg tx cost: 30 x 300,000  = 0,009 MATIC 
+                Avg tx price: 0.009 MATIC x 2$ = 0.018$
+                1TB/year Price ~30$
+                Max period for proof: 30 days. (~2.5$ / TB / Month)
+                Min storage size = 0.018 / 2.5$ = 0.0072 TB
+            Ethereum:
+                Matic price: 4000$
+                Avg gas price: 100 GWEI
+                Avg proof gasused: 300,000
+                Avg tx cost: 100 x 300,000  = 0,03 ETH 
+                Avg tx price: 0.03 ETH x 4000$ = 120$
+                1TB/year Price ~30$
+                Max period for proof: 30 days. (~2.5$ / TB / Month)
+                Min storage size = 120 / 2.5$ = 48 TB
+            Binance Smart Chain:
+                BNB price: 500$
+                Avg gas price: 5 GWEI
+                Avg proof gasused: 300,000
+                Avg tx cost: 5 x 300,000  = 0.0014 BNB 
+                Avg tx price: 0.0014 BNB x 500$ = 0.7$
+                1TB/year Price ~30$
+                Max period for proof: 30 days. (~2.5$ / TB / Month)
+                Min storage size = 0.7 / 2.5$ = 0.27 TB
+    */
+<span class="fstat-no" title="function not covered" >    function setMinStorage(uint _size) public onlyOwner {</span>
+<span class="cstat-no" title="statement not covered" >        min_storage_require = _size</span>;
+    }
+&nbsp;
+    /*
+        More base_difficulty = more random for nodes.
+    */
+    function updateBaseDifficulty(uint256 _new_difficulty) public onlyOwner {
+        base_difficulty = _new_difficulty;
+    }
+&nbsp;
+    /*
+        Function to invisible mint TB/Year for some user;
+        will removed after audits and final tests.
+    */
+    function invisibleMintGasToken(address _from, address _user,  uint256 _amount) public onlyOwner {
+        IPayments _payment = IPayments(paymentsAddress);
+        _payment.localTransferFrom(_from, _user, _amount);
+    }
+&nbsp;
+    /*
+        Update Storage Address or Payments Address for something updates
+    */
+    function changeSystemAddresses(
+        address _storage_address,
+        address _payments_address
+    ) public onlyOwner {
+        user_storage_address = _storage_address;
+        paymentsAddress = _payments_address;
+    }
+&nbsp;
+    /*
+        Owner Zone End
+    */
+&nbsp;
+    /*
+        Send proof use sendProofFrom with msg.sender address as node
+    */
+<span class="fstat-no" title="function not covered" >    function sendProof(</span>
+        address _user_address,
+        uint32 _block_number,
+        bytes32 _user_root_hash,
+        uint64 _user_storage_size,
+        uint64 _user_root_hash_nonce,
+        bytes calldata _user_signature,
+        bytes calldata _file,
+        bytes32[] calldata merkleProof
+    ) public {
+<span class="cstat-no" title="statement not covered" >        sendProofFrom(</span>
+            msg.sender,
+            _user_address,
+            _block_number,
+            _user_root_hash,
+            _user_storage_size,
+            _user_root_hash_nonce,
+            _user_signature,
+            _file,
+            merkleProof
+        );
+    }
+&nbsp;
+    /*
+        Send Proof From - proof of storage mechanism, that look like TransferFrom
+        but in case transferFrom, user creating approve transactions. in PoS you don't need to do it.
+&nbsp;
+        _node_address - Who will recieve reward in success case
+        _user_address - Who is payer
+        _block_number - Block number, to approve tx with newest data (see _max_blocks_after_proof)
+        _user_root_hash - root hash, signed by payer
+        _user_storage_size - Storage size in MB. or files count (because all files size 1 MB)
+        _user_root_hash_nonce - parametr to proof, that is newest data proof
+        _user_signature - approve, that root hash, storage size and nonce is correct.
+        _file - part of file
+        _merkleProof - proof start from part of file, and edns with user_root_hash
+    */
+    function sendProofFrom(
+        address _node_address,
+        address _user_address,
+        uint32 _block_number,
+        bytes32 _user_root_hash,
+        uint64 _user_storage_size,
+        uint64 _user_root_hash_nonce,
+        bytes calldata _user_signature,
+        bytes calldata _file,
+        bytes32[] calldata merkleProof
+    ) public {
+        /* Skip for test only */
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (!debug_mode) {
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            address signer = ECDSA.recover(</span>
+                sha256(abi.encodePacked(
+                    _user_root_hash,
+                    uint256(_user_storage_size),
+                    uint256(_user_root_hash_nonce)
+                )),
+                _user_signature
+            );
+<span class="cstat-no" title="statement not covered" >            require(_user_address == signer, "User address not signer")</span>;
+        }
+&nbsp;
+        /*
+            _amount_returns = amount of TB/Year token
+&nbsp;
+            if something wrong, transaction will rejected
+        */
+        uint256 _amount_returns = _sendProofFrom (
+            _node_address,
+            _user_address,
+            _block_number,
+            _user_root_hash,
+            _user_storage_size,
+            _user_root_hash_nonce,
+            _file,
+            merkleProof
+        );
+&nbsp;
+        /*
+            Transfer deposit from user to node
+        */
+        _takePay(_user_address, _node_address, _amount_returns);
+&nbsp;
+        /*
+            Set last proof time to current timestamp.
+            Same like moving user difficulty to zero.
+        */
+        _updateLastProofTime(_user_address);
+&nbsp;
+        /*
+            +1 To Node Success proofs, also return new difficulty for all nodes (+- 2%)
+        */
+        base_difficulty = _updateNodeRank(_node_address, base_difficulty);
+    }
+&nbsp;
+    /*
+        Update Root Hash for user.
+&nbsp;
+        _user - target user
+        _updater - address of node or user, who update root_hash
+        _new_hash - new root hash
+        _new_storage_size 
+        _new_nonce
+    */
+    function _updateRootHash(
+        address _user,
+        address _updater,
+        bytes32 _new_hash,
+        uint64 _new_storage_size,
+        uint64 _new_nonce
+    ) private {
+        bytes32 _cur_user_root_hash;
+        uint256 _cur_user_root_hash_nonce;
+        (_cur_user_root_hash, _cur_user_root_hash_nonce) = getUserRootHash(_user);
+&nbsp;
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(_new_nonce &gt;= _cur_user_root_hash_nonce, "Too old root hash");
+&nbsp;
+        // update root hash if it needed
+        if (_new_hash != _cur_user_root_hash) {
+            _updateLastRootHash(_user, _new_hash, _new_storage_size, _new_nonce, _updater);
+        }
+    }
+&nbsp;
+    /*
+        Proof Verification
+        _sender - node
+        _file
+        _block_number 
+        _time_passed - time from last proof to now
+    */
+    function verifyFileProof(
+        address _sender,
+        bytes calldata _file,
+        uint32 _block_number,
+        uint256 _time_passed
+    ) public view returns (bool) {
+        /*
+            If some blockchain habe limits to blocks
+            for example, ethereum shows last 256 blockhashes from now
+        */
+        <span class="missing-if-branch" title="else path not taken" >E</span>require (blockhash(_block_number) != 0x0, "Wrong blockhash");
+&nbsp;
+        /*
+            make _file_proof with hash from _file + _node_address + blockhash
+        */
+        bytes32 _file_proof = sha256(
+            abi.encodePacked(_file, _sender, blockhash(_block_number))
+        );
+&nbsp;
+        /*
+            Verify with difficulty, (more in isMatchDifficulty)
+        */
+        return isMatchDifficulty(uint256(_file_proof), _time_passed);
+    }    
+&nbsp;
+    function _sendProofFrom(
+        address _proofer,
+        address _user_address,
+        uint32 _block_number,
+        bytes32 _user_root_hash,
+        uint64 _user_storage_size,
+        uint64 _user_root_hash_nonce,
+        bytes calldata _file,
+        bytes32[] calldata merkleProof
+    ) private returns(uint256) {
+        // not need, with using signature checking
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(
+            _proofer != address(0) &amp;&amp; _user_address != address(0),
+            "address can't be zero"
+        );
+&nbsp;
+        // warning test function without checking  DigitalSIgnature from User SEnding File
+        _updateRootHash(
+            _user_address,
+            _proofer,
+            _user_root_hash,
+            _user_storage_size,
+            _user_root_hash_nonce
+        );
+        
+        bytes32 _file_hash = sha256(_file);
+        (
+            uint256 _amount_returns,
+            uint256 _blocks_complited
+        ) = getUserRewardInfo(_user_address, _user_storage_size);
+&nbsp;
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(
+            _block_number &gt; block.number - _max_blocks_after_proof,
+            "Too old proof"
+        );
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(
+            isValidMerkleTreeProof(_user_root_hash, merkleProof),
+            "Wrong merkleProof"
+        );
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(
+            verifyFileProof(
+                _proofer,
+                _file,
+                _block_number,
+                _blocks_complited
+            ),
+            "Not match difficulty"
+        );
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(
+            _file_hash == merkleProof[0] || _file_hash == merkleProof[1],
+            "not found _file_hash in merkleProof"
+        );
+&nbsp;
+        return (_amount_returns);
+    }
+&nbsp;
+    /*
+        @dev Returns info about user reward for ProofOfStorage
+&nbsp;
+        # Input
+            @_user - User Address
+            @_user_storage_size - User Storage Size
+&nbsp;
+        # Output
+            @_amount - Total Token Amount for PoS
+            @_last_rroof_time - Last Proof Time
+    */
+    function getUserRewardInfo(address _user, uint _user_storage_size)
+        public
+        view
+        returns (
+            uint,
+            uint
+        )
+    {
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(_user_storage_size != 0, "storage size is zero");
+        
+        
+        /*
+            IPayments _payment = IPayments(paymentsAddress);
+&nbsp;
+            Depricated, because, now it using only for storage data
+        */
+&nbsp;
+        IUserStorage _storage = IUserStorage(user_storage_address);
+        
+        uint _timePassed = _storage.getPeriodFromLastProof(_user);
+        
+        /*
+            Increase user storage size to min_storage_require (10 GB) if it less
+        */
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (_user_storage_size &lt; min_storage_require) {
+<span class="cstat-no" title="statement not covered" >            _user_storage_size = min_storage_require</span>;
+        }
+&nbsp;
+        /*
+            Set timePassed to 30 days, if it more
+        */
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (_timePassed &gt; 2592000) {
+            _timePassed = 2592000;
+        }
+        
+        /*
+            TODO: Move it into documentation 
+&nbsp;
+            10e18 - decimals for TB/Year
+            31536000 - one year in seconds
+            storage size - in megabytes
+            1048576 = 1024 x 1024 
+            
+            Simple:
+                amount = timePassed x storage size / one year
+            
+            True:
+                                timePassed x storage size 
+                amount = 0e18 x __________________________
+                                    31536000 x 1048576
+        */
+        uint _amountReturns = uint(10e18).div(31536000).mul(_timePassed).mul(_user_storage_size).div(1048576);
+&nbsp;
+        return (_amountReturns, _timePassed);
+    }
+&nbsp;
+    /*
+        Function move part of deposit  _from to _to
+    */
+    function _takePay(
+        address _from,
+        address _to,
+        uint _amount
+    ) private {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (isOldPayments) {
+<span class="cstat-no" title="statement not covered" >            IOldPayments _payment = IOldPayments(paymentsAddress);</span>
+<span class="cstat-no" title="statement not covered" >            _payment.localTransferFrom(address(0), _from, _to, _amount)</span>;
+        } else {
+            IPayments _payment = IPayments(paymentsAddress);
+            _payment.localTransferFrom(_from, _to, _amount);
+        }
+    }
+&nbsp;
+    /*
+        Returns User Root Hash
+    */
+    function getUserRootHash(address _user)
+        public
+        view
+        returns (bytes32, uint)
+    {
+        IUserStorage _storage = IUserStorage(user_storage_address);
+        return _storage.getUserRootHash(_user);
+    }
+&nbsp;
+    /*
+        Set last proof time to current timestamp.
+    */
+    function _updateLastProofTime(address _user_address)
+        private
+    {
+        IUserStorage _storage = IUserStorage(user_storage_address);
+        _storage.updateLastProofTime(_user_address);
+    }
+&nbsp;
+    /*
+        Set root hash, user_storage size and nonce
+    */
+    function _updateLastRootHash(
+        address _user_address,
+        bytes32 _user_root_hash,
+        uint64 _user_storage_size,
+        uint64 _nonce,
+        address _updater
+    ) private {
+        IUserStorage _storage = IUserStorage(user_storage_address);
+        _storage.updateRootHash(
+            _user_address,
+            _user_root_hash,
+            _user_storage_size,
+            _nonce,
+            _updater
+        );
+    }
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Jun 30 2022 02:39:19 GMT+0300 (Москва, стандартное время)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

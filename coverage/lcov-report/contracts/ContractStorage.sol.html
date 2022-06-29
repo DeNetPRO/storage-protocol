@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts/ContractStorage.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">contracts/</a> ContractStorage.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/15</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/6</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/7</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/15</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: MIT
+&nbsp;
+/*
+    Created by DeNet
+*/
+&nbsp;
+pragma solidity ^0.8.0;
+&nbsp;
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "./interfaces/IContractStorage.sol";
+&nbsp;
+/**
+    @dev ContractStorage is storing addresses of main contracts.
+&nbsp;
+    Add &amp; Update contracts via updateVersion()
+    Get contract address via getContractAddressViaName()
+&nbsp;
+*/
+contract ContractStorage is IContractStorage, Ownable {
+&nbsp;
+    /**
+        @dev _contractVector is vector for last version smart contracts
+        
+        last version = _contractVector[sha256(contractName)].last
+    */
+    mapping (bytes32=&gt;mapping (uint =&gt; address[])) _contractVector;
+    mapping (uint =&gt; string[]) private  _contractNames;
+    uint[] private _knownNetworkIds;
+&nbsp;
+    /**
+        @dev Returns address of contract in selected network by keccak name
+&nbsp;
+        @param contractName - keccak name of contract (with encodepacked);
+    */
+<span class="fstat-no" title="function not covered" >    function getContractAddress(bytes32 contractName, uint networkId) public override view returns (address) { </span>
+<span class="cstat-no" title="statement not covered" >        uint versionCount = _contractVector[contractName][networkId].length;</span>
+<span class="cstat-no" title="statement not covered" >        if (versionCount == 0) {</span>
+<span class="cstat-no" title="statement not covered" >            return address(0);</span>
+        }
+<span class="cstat-no" title="statement not covered" >        return _contractVector[contractName][networkId][versionCount - 1];</span>
+    }
+&nbsp;
+    /**
+        @dev Returns address of contract in selected network by string name
+&nbsp;
+        @param contractString - string name of contract
+    */
+<span class="fstat-no" title="function not covered" >    function getContractAddressViaName(string calldata contractString, uint networkId) public override view returns (address) { </span>
+<span class="cstat-no" title="statement not covered" >        return getContractAddress(stringToContractName(contractString), networkId);</span>
+    }
+&nbsp;
+    /**
+        @dev updateVersion is function to update address of contracts
+    */
+<span class="fstat-no" title="function not covered" >    function _updateVersion(bytes32 contractName, address newAddress, uint networkId) internal {</span>
+<span class="cstat-no" title="statement not covered" >        _contractVector[contractName][networkId].push(newAddress)</span>;
+    }
+&nbsp;
+    /**
+        @dev function returns keccak256 of named contract
+&nbsp;
+        @param nameString - name of core contract, examples:
+            "proofofstorage" - ProofOfStorage 
+            "gastoken" - TB/Year gas token
+            "userstorage" - UserStorage Address
+            "nodenft" - node nft address
+&nbsp;
+        @return bytes32 - keccak256(nameString)
+    */
+<span class="fstat-no" title="function not covered" >    function stringToContractName(string calldata nameString) public override pure returns(bytes32) {</span>
+<span class="cstat-no" title="statement not covered" >        return keccak256(abi.encodePacked(nameString));</span>
+    }
+&nbsp;
+    /**
+        @dev Compex function to update contracts on all networks
+&nbsp;
+        @param contractNameString - name of core contract, examples:
+            "proofofstorage" - ProofOfStorage 
+            "gastoken" - TB/Year gas token
+            "userstorage" - UserStorage Address
+            "nodenft" - node nft address
+            "pairtoken" - DFILE Token (as main token). If not available, using USDC or other.
+            "userstorage" - User Storage address (Contract where stored data like Nonce and root hash)
+        @param newContractAddress - new address of contract
+        @param networkId - ID of network, examples:
+            1 - Ethereum Mainnet
+            3 - Ropsten Testnet
+            10 - Optimism
+            42 - Kovan Testnet
+            56 - Binance Smart Chain
+            57 - Syscoin Mainnet
+            61 - Ethereum Classic Mainnet
+            66 - OKXChain Mainnet
+            100 - Gnosis
+            128 - Huobi ECO Chain Mainnet
+            137 - Polygon Mainne
+            250 - Fantom Opera
+            1285 - Moonriver
+            1313161554 - Aurora Mainnet            
+    */
+<span class="fstat-no" title="function not covered" >    function updateVersion(string calldata contractNameString, address newContractAddress, uint networkId) public onlyOwner {</span>
+<span class="cstat-no" title="statement not covered" >        bytes32 _contractName = stringToContractName(contractNameString);</span>
+<span class="cstat-no" title="statement not covered" >        if (_contractVector[_contractName][networkId].length == 0) {</span>
+<span class="cstat-no" title="statement not covered" >            if (_contractNames[networkId].length == 0) {</span>
+<span class="cstat-no" title="statement not covered" >                _knownNetworkIds.push(networkId)</span>;
+            }
+<span class="cstat-no" title="statement not covered" >            _contractNames[networkId].push(contractNameString)</span>;
+        }
+<span class="cstat-no" title="statement not covered" >        _updateVersion(_contractName, newContractAddress, networkId)</span>;
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function getContractListOfNetwork(uint networkId) public view returns (string[] memory) {</span>
+<span class="cstat-no" title="statement not covered" >        return _contractNames[networkId];</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function getNetworkLists() public view returns (uint[] memory) {</span>
+<span class="cstat-no" title="statement not covered" >        return _knownNetworkIds;</span>
+    }
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Jun 30 2022 02:39:19 GMT+0300 (Москва, стандартное время)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

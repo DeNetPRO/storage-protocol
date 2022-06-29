@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts/StorageToken.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">contracts/</a> StorageToken.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">36.84% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>21/57</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">20% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>4/20</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">29.17% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>7/24</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">36.84% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>21/57</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: MIT
+&nbsp;
+/*
+    Created by DeNet
+*/
+&nbsp;
+pragma solidity ^0.8.0;
+&nbsp;
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "./ERC20Unsafe.sol";
+&nbsp;
+&nbsp;
+import "./interfaces/IUserStorage.sol";
+import "./interfaces/IPayments.sol";
+&nbsp;
+&nbsp;
+/*
+    @feeCollector - is cotnract created for getting some fees per storage actions.
+    
+    User Transfer Fee = 7% 
+    User Payout Fee = 10%
+    Local Transfer's - zeor or less than User Transfer Fee.
+&nbsp;
+    where does the fees go:
+        30% of fee goes to Govermance
+        20% of fee goes to Dapp Market Fund
+        10% of fee goes to Miners Funding 
+        10% of fee goes to All storage Token Holders 
+        10% of fee goes to Referal rewards 
+&nbsp;
+    fees can be changed via Voting by DFILE Token
+*/
+&nbsp;
+contract feeCollector is Ownable {
+    using SafeMath for uint256;
+    using SafeMath for uint16;
+    
+    /* 
+        Fee in TB tokne works with Minting by Transaction and Payout operations
+        
+        Fee calcs  by amount * fee / div_fee
+    */
+    
+    uint16 constant public div_fee = 10000;
+    uint16 public payout_fee = 200;// 2% by default // 0.3%
+    uint16 public payin_fee = 200; // 2% by default // 0.3%
+    uint16 public mint_percent = 5000; // 45% will minted by default if user exchange TB to DFILE,  50% will charded from user.
+    uint16 private _mint_daily_limit_of_totalSupply = 100; // 0.1%
+    
+    
+    address public recipient_fee = 0x3D71E8A1A1038623A2dEF831ABDF390897Eb1D77; // for testnet only
+    uint256 public fee_limit = 1000000000000000000; // 1 TB 
+    uint256 public fee_collected = 0;
+     
+<span class="fstat-no" title="function not covered" >    function _addFee(uint256 amount) internal  {</span>
+<span class="cstat-no" title="statement not covered" >        require(amount &gt; 0)</span>;
+<span class="cstat-no" title="statement not covered" >        fee_collected = fee_collected.add(amount)</span>;
+    }
+    
+<span class="fstat-no" title="function not covered" >    function calc_payout_fee(uint256 amount) public  view returns(uint256){</span>
+<span class="cstat-no" title="statement not covered" >        return amount.mul(payout_fee).div(div_fee);</span>
+    }
+    
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function toFeelessPayout(uint256 amount) public view returns(uint256) {</span>
+<span class="cstat-no" title="statement not covered" >        return amount.div(div_fee.add(payout_fee.mul(mint_percent).div(div_fee))).mul(div_fee);</span>
+    }
+    
+<span class="fstat-no" title="function not covered" >    function change_fee_limit(uint new_fee_limit) public onlyOwner {</span>
+<span class="cstat-no" title="statement not covered" >        fee_limit = new_fee_limit</span>;
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function change_payout_fee(uint16 new_fee) public onlyOwner {</span>
+<span class="cstat-no" title="statement not covered" >        require(new_fee &lt;= div_fee, "max fee limit exceeded")</span>;
+<span class="cstat-no" title="statement not covered" >        payout_fee = new_fee</span>;
+    }
+<span class="fstat-no" title="function not covered" >    function change_payin_fee(uint16 new_fee) public onlyOwner {</span>
+<span class="cstat-no" title="statement not covered" >        require(new_fee &lt;= div_fee, "max fee limit exceeded")</span>;
+<span class="cstat-no" title="statement not covered" >        payin_fee = new_fee</span>;
+    }
+<span class="fstat-no" title="function not covered" >    function change_recipient_fee(address _new_recipient_fee) public onlyOwner {</span>
+<span class="cstat-no" title="statement not covered" >        require(_new_recipient_fee != address(0), "wrong address")</span>;
+<span class="cstat-no" title="statement not covered" >        recipient_fee = _new_recipient_fee</span>;
+    }
+    
+}
+&nbsp;
+&nbsp;
+contract StorageToken is  ERC20, Ownable, feeCollector{
+    using SafeMath for uint256;
+    using SafeMath for uint16;
+    
+    uint256 public pairTokenBalance = 3000000; // 3 USDC
+    address public pairTokenAddress = 0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174; // Polygon USDC
+    
+    constructor (string memory name_, string memory symbol_)  ERC20(name_, symbol_) {
+        _mint(recipient_fee, fee_limit.div(10)); // mint start capital
+    }
+    
+    // only for test
+    function changeTokenAddress(address newAddress) public onlyOwner {
+        pairTokenAddress = newAddress;
+    }
+    function _getDepositReturns(uint256 amount) internal view returns (uint256) {
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(amount &gt; 0, "amount can't require 0 or zero");
+         return totalSupply().mul(amount).div(pairTokenBalance).mul(div_fee.sub(payin_fee)).div(div_fee);
+    }
+    
+    function _getWidthdrawithReturns(uint256 amount) internal view returns (uint256) {
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(amount &gt; 0, "amount can't require 0 or zero");
+        return pairTokenBalance.mul(amount).div(totalSupply());
+    }
+    function feelessBalance(address account) public view returns(uint256) {
+        return _balances[account];
+    }
+    
+<span class="fstat-no" title="function not covered" >    function getWidthdrawtReturns(uint256 amount) public view returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >        return _getWidthdrawithReturns(toFeelessPayout(amount));</span>
+    }
+    
+    /*
+        Function to Deposit DFILE
+    */
+<span class="fstat-no" title="function not covered" >    function _deposit(uint256 amount) internal {</span>
+<span class="cstat-no" title="statement not covered" >        _depositByAddress(msg.sender, amount)</span>;
+    }
+    
+    function _depositByAddress(address _account, uint256 amount) internal {
+        IERC20 pairToken = IERC20(pairTokenAddress);
+        uint balanceBefore = pairToken.balanceOf(address(this));
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(pairToken.transferFrom(_account, address(this), amount), "Can not transfer pair token");
+        uint balanceAfter = pairToken.balanceOf(address(this));
+        amount = balanceAfter.sub(balanceBefore);
+        _mint(_account, _getDepositReturns(amount));
+        pairTokenBalance = pairTokenBalance.add(amount);
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function _updatePairTokenBalance() internal {</span>
+<span class="cstat-no" title="statement not covered" >        IERC20 DFILEToken = IERC20(pairTokenAddress);</span>
+<span class="cstat-no" title="statement not covered" >        pairTokenBalance = DFILEToken.balanceOf(address(this))</span>;
+    }
+    
+<span class="fstat-no" title="function not covered" >    function  _closeAllDeposit() internal  {</span>
+<span class="cstat-no" title="statement not covered" >        _closeAllDeposiByAddresst(msg.sender)</span>;
+    }
+    
+    function  _closeAllDeposiByAddresst(address account) internal  {
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(account != recipient_fee, "recipient_fee can't close deposit");
+        
+        IERC20 pairToken = IERC20(pairTokenAddress);
+        uint256 account_balance_TB = feelessBalance(account);
+        uint256 dfile_return = _getWidthdrawithReturns(account_balance_TB);
+        pairTokenBalance = pairTokenBalance.sub(dfile_return);
+        _burn(account, account_balance_TB);
+        pairToken.transfer(account,dfile_return);
+    }
+    
+<span class="fstat-no" title="function not covered" >    function _closePartOfDeposit(uint256 amount) internal {</span>
+<span class="cstat-no" title="statement not covered" >        _closePartOfDepositByAddress(msg.sender, amount)</span>;
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function _closePartOfDepositByAddress(address account, uint256 amount) internal {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        IERC20 pairToken = IERC20(pairTokenAddress);</span>
+<span class="cstat-no" title="statement not covered" >        require(feelessBalance(account) &gt;= amount, "Amount too big")</span>;
+<span class="cstat-no" title="statement not covered" >        uint256 dfile_return = _getWidthdrawithReturns(amount);</span>
+<span class="cstat-no" title="statement not covered" >        pairTokenBalance = pairTokenBalance.sub(dfile_return)</span>;
+<span class="cstat-no" title="statement not covered" >        _burn(account, amount)</span>;
+<span class="cstat-no" title="statement not covered" >        pairToken.transfer(account, dfile_return)</span>;
+        
+    }
+    /* testnet zone */
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function testMint(address to, uint256 amount) public onlyOwner {</span>
+<span class="cstat-no" title="statement not covered" >        _mint(to, amount)</span>;
+<span class="cstat-no" title="statement not covered" >        _updatePairTokenBalance()</span>;
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function testBurn(address to, uint256 amount) public onlyOwner {</span>
+<span class="cstat-no" title="statement not covered" >        _burn(to, amount)</span>;
+<span class="cstat-no" title="statement not covered" >        _updatePairTokenBalance()</span>;
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function distruct() public onlyOwner {</span>
+<span class="cstat-no" title="statement not covered" >        _name = "Deleted"</span>;
+<span class="cstat-no" title="statement not covered" >        _symbol = "Deleted"</span>;
+<span class="cstat-no" title="statement not covered" >        IERC20 pairToken = IERC20(pairTokenAddress);</span>
+<span class="cstat-no" title="statement not covered" >        pairToken.transfer(msg.sender, pairToken.balanceOf(address(this)))</span>;
+        // require (fee_collected == 0, "fee is not zero");
+<span class="cstat-no" title="statement not covered" >        selfdestruct(payable(owner()))</span>;
+    }
+    
+<span class="fstat-no" title="function not covered" >    function _collectFee()  internal virtual {</span>
+<span class="cstat-no" title="statement not covered" >        if (fee_collected &gt;= fee_limit) {</span>
+<span class="cstat-no" title="statement not covered" >            _balances[address(this)] = _balances[address(this)].sub(fee_collected)</span>;
+<span class="cstat-no" title="statement not covered" >            _balances[recipient_fee] = _balances[recipient_fee].add(fee_collected)</span>;
+<span class="cstat-no" title="statement not covered" >            fee_collected = 0</span>;
+        }
+    }
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Jun 30 2022 02:39:19 GMT+0300 (Москва, стандартное время)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

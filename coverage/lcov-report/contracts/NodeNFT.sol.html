@@ -1,0 +1,878 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts/NodeNFT.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">contracts/</a> NodeNFT.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">62.96% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>51/81</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">37.5% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>15/40</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">55.56% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>15/27</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">62.2% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>51/82</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line medium'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">23×</span>
+<span class="cline-any cline-yes">23×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: MIT
+/*
+    Created by DeNet
+&nbsp;
+    This Contract - ope of step for moving from rating to VDF, before VDF not realized.
+*/
+&nbsp;
+pragma solidity ^0.8.0;
+&nbsp;
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "./PoSAdmin.sol";
+import "./interfaces/INodeNFT.sol";
+&nbsp;
+contract SimpleNFT is ISimpleINFT {
+    using SafeMath for uint256;
+    // Mapping from token ID to owner
+    mapping (uint256 =&gt; address) private _tokenOwner;
+&nbsp;
+    // Mapping from owner to number of owned token
+    mapping (address =&gt; uint256) private _ownedTokensCount;
+&nbsp;
+    mapping (address =&gt; uint256) public nodeByAddress;
+    
+    // Mapping from owner to token last token id
+<span class="fstat-no" title="function not covered" >    function balanceOf(address owner) public override view returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >        require(owner != address(0), "0x0 is blocked")</span>;
+<span class="cstat-no" title="statement not covered" >        return _ownedTokensCount[owner];</span>
+    }
+&nbsp;
+    function getNodeIDByAddress(address _node) public override view returns (uint256) {
+        return nodeByAddress[_node];
+    }
+    
+    function ownerOf(uint256 tokenId) public override view returns (address) {
+        address owner = _tokenOwner[tokenId];
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(owner != address(0), "0x0 is blocked");
+        return owner;
+    }
+    
+    function _mint(address to, uint256 tokenId) internal {
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(to != address(0), "0x0 is blocked");
+        _addTokenTo(to, tokenId);
+        emit Transfer(address(0), to, tokenId);
+    }
+    
+<span class="fstat-no" title="function not covered" >    function _burn(address owner, uint256 tokenId) internal {</span>
+<span class="cstat-no" title="statement not covered" >        _removeTokenFrom(owner, tokenId)</span>;
+<span class="cstat-no" title="statement not covered" >        emit Transfer(owner, address(0), tokenId);</span>
+    }
+    
+<span class="fstat-no" title="function not covered" >    function _removeTokenFrom(address _from, uint256 tokenId) internal {</span>
+<span class="cstat-no" title="statement not covered" >        require(ownerOf(tokenId) == _from, "token owner is not true")</span>;
+<span class="cstat-no" title="statement not covered" >        _ownedTokensCount[_from] = _ownedTokensCount[_from].sub(1)</span>;
+<span class="cstat-no" title="statement not covered" >        _tokenOwner[tokenId] = address(0)</span>;
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function _transferFrom(address _from, address _to, uint256 _tokenID) internal {</span>
+<span class="cstat-no" title="statement not covered" >        require(_tokenOwner[_tokenID] != address(0), "token owner is 0x0")</span>;
+<span class="cstat-no" title="statement not covered" >        _ownedTokensCount[_from] = _ownedTokensCount[_from].sub(1)</span>;
+<span class="cstat-no" title="statement not covered" >        _ownedTokensCount[_to] = _ownedTokensCount[_from].add(1)</span>;
+<span class="cstat-no" title="statement not covered" >        _tokenOwner[_tokenID] = _to</span>;
+<span class="cstat-no" title="statement not covered" >        nodeByAddress[_from] = 0</span>;
+<span class="cstat-no" title="statement not covered" >        nodeByAddress[_to] = _tokenID</span>;
+<span class="cstat-no" title="statement not covered" >        emit Transfer(_from, _to, _tokenID);</span>
+&nbsp;
+    }
+    
+    function _addTokenTo(address to, uint256 tokenId) internal {
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(_tokenOwner[tokenId] == address(0), "token owner is not 0x0");
+        _tokenOwner[tokenId] = to;
+        _ownedTokensCount[to] = _ownedTokensCount[to].add(1);
+    }
+    
+    function _exists(uint256 tokenId) internal view returns (bool) {
+        address owner = _tokenOwner[tokenId];
+        return owner != address(0);
+    }
+}
+&nbsp;
+contract SimpleMetaData is SimpleNFT, IMetaData {
+&nbsp;
+    using SafeMath for uint256;
+&nbsp;
+    // Token name
+    string internal _name;
+    
+    // Token symbol
+    string internal _symbol;
+&nbsp;
+    // Rank degradation per update
+    uint256 internal _degradation = 10;
+&nbsp;
+    mapping(uint256 =&gt; DeNetNode) private _node;
+&nbsp;
+    constructor(string  memory name_, string  memory symbol_)  {
+        _name = name_;
+        _symbol = symbol_;
+    }
+    
+<span class="fstat-no" title="function not covered" >    function name() external view returns (string memory) {</span>
+<span class="cstat-no" title="statement not covered" >        return _name;</span>
+    }
+    
+<span class="fstat-no" title="function not covered" >    function symbol() external view returns (string memory) {</span>
+<span class="cstat-no" title="statement not covered" >        return _symbol;</span>
+    }
+    
+    
+    function nodeInfo(uint256 tokenId) public override view returns (DeNetNode memory) {
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(_exists(tokenId), "node not found");
+        return _node[tokenId];
+    }
+    
+    function _setNodeInfo(uint256 tokenId,  uint8[4] calldata ip, uint16 port) internal {
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(_exists(tokenId), "node not found");
+        
+        _node[tokenId].ipAddress = ip;
+        _node[tokenId].port = port;
+        if (_node[tokenId].createdAt == 0) {
+            _node[tokenId].createdAt = block.timestamp;
+        } else {
+            // degradation rank for update node
+            bool _err;
+            (_err, _node[tokenId].rank) = _node[tokenId].rank.trySub(_degradation);
+        }
+         
+        _node[tokenId].updatedAt = block.timestamp;
+        _node[tokenId].updatesCount += 1;
+&nbsp;
+        
+        
+        emit UpdateNodeStatus(msg.sender, tokenId, ip, port);
+    }
+    
+<span class="fstat-no" title="function not covered" >    function _burnNode(address owner, uint256 tokenId) internal  {</span>
+<span class="cstat-no" title="statement not covered" >        super._burn(owner, tokenId)</span>;
+        
+        // Clear metadata (if any)
+<span class="cstat-no" title="statement not covered" >        if (_node[tokenId].createdAt != 0) {</span>
+            delete _node[tokenId];
+        }
+    }
+&nbsp;
+    function _increaseRank(uint256 tokenId) internal {
+        _node[tokenId].rank = _node[tokenId].rank + 1;
+        _node[tokenId].updatedAt = block.timestamp;
+    }
+}
+&nbsp;
+contract DeNetNodeNFT is SimpleMetaData, PoSAdmin, IDeNetNodeNFT {
+    using SafeMath for uint256;
+    
+    uint256 public nextNodeID = 1;
+    uint256 public maxNodeID = 0;
+    uint256 public nodesAvailable = 0;
+    uint256 public maxAlivePeriod = 2592000; // ~ 30 days
+    uint256 public proofsBeforeIncreaseMaxNodeID = 10000;
+    uint256 public successProofsCount = 0;
+&nbsp;
+    /*
+        For partitionaly public testnet we need
+        to create WhiteList
+    */
+    bool public  usingWhiteList = true; 
+    mapping (address =&gt; bool) public _isWhiteListed;
+    
+    constructor (string memory _name, string memory _symbol, address _pos, uint256 nodeLimit) SimpleMetaData(_name, _symbol) PoSAdmin(_pos){
+        maxNodeID = nodeLimit;
+    }
+&nbsp;
+    /*
+        OnlyOwner Zone Start
+    */
+&nbsp;
+    /*
+        Change status with WhiteList
+    */
+<span class="fstat-no" title="function not covered" >    function changeWhiteListStatus(bool _newStatus) public onlyOwner {</span>
+<span class="cstat-no" title="statement not covered" >        usingWhiteList = _newStatus</span>;
+    }
+    
+    /*
+        @dev add node into whitelist
+    */
+    function addToWhiteList(address _node) public onlyOwner {
+        _isWhiteListed[_node] = true;
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function whiteListMany(address[] calldata  _nodes) public onlyOwner {</span>
+<span class="cstat-no" title="statement not covered" >        for (uint32 i = 0; i &lt; _nodes.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >            _isWhiteListed[_nodes[i]] = true</span>;
+        }
+    }
+&nbsp;
+    /*
+        @dev update nodes limit
+    */
+<span class="fstat-no" title="function not covered" >    function updateNodesLimit(uint256 _newLimit) public onlyOwner {</span>
+<span class="cstat-no" title="statement not covered" >        maxNodeID = _newLimit</span>;
+    }
+&nbsp;
+    /*
+        OnlyOwner Zone End
+    */
+&nbsp;
+    /*
+        OnlyPoS Zone Start 
+    */
+    
+    /*
+        @dev ProofOfStorage call this method every time, when node send success proof 
+    */
+    function addSuccessProof(address _nodeOwner) public override onlyPoS {
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(nodeByAddress[_nodeOwner] != 0, "node does not registered");
+        successProofsCount = successProofsCount.add(1000);
+        if (successProofsCount &gt;= proofsBeforeIncreaseMaxNodeID) {
+            proofsBeforeIncreaseMaxNodeID = proofsBeforeIncreaseMaxNodeID.div(100).mul(102);
+            successProofsCount = 1000;
+            maxNodeID = maxNodeID + 1;
+            
+            // for this node increaseRank twice
+            _increaseRank(nodeByAddress[_nodeOwner]);
+        }
+        _increaseRank(nodeByAddress[_nodeOwner]);
+    }
+&nbsp;
+    /*
+        OnlyPoS Zone End
+    */
+     
+    function createNode(uint8[4] calldata ip, uint16 port) public returns (uint256){
+        // Check if nodes limit not exceeded
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(maxNodeID &gt; nodesAvailable, "Max node count limit exceeded");       
+       
+        // if user have not nodes
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(nodeByAddress[msg.sender] == 0, "This address already have node");
+        
+        // Access to creation nodes only for users in whitelist
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (usingWhiteList) {
+            <span class="missing-if-branch" title="else path not taken" >E</span>require (_isWhiteListed[msg.sender] == true, "This address not in whitelist");
+        }
+&nbsp;
+        _mint(msg.sender, nextNodeID);
+        _setNodeInfo(nextNodeID, ip, port);
+        nodeByAddress[msg.sender] = nextNodeID;
+        nextNodeID += 1;
+        nodesAvailable += 1;
+        return nextNodeID - 1;
+    }
+    
+    function updateNode(uint256 nodeID, uint8[4] calldata ip, uint16 port) public {
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(ownerOf(nodeID) == msg.sender, "only nft owner can update node");
+        _setNodeInfo(nodeID, ip, port);
+    }
+<span class="fstat-no" title="function not covered" >    function totalSupply() public override view returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >        return nextNodeID - 1;</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function stealNode(uint256 _nodeID, address _to) public {</span>
+<span class="cstat-no" title="statement not covered" >        require(_exists(_nodeID), "Attacked node not found")</span>;
+<span class="cstat-no" title="statement not covered" >        require(nodeByAddress[_to] == 0, "Reciever already have node")</span>;
+<span class="cstat-no" title="statement not covered" >        DeNetNode memory _tmpNode = nodeInfo(_nodeID);</span>
+<span class="cstat-no" title="statement not covered" >        require(block.timestamp - _tmpNode.updatedAt &gt; maxAlivePeriod, "Node is alive")</span>;
+<span class="cstat-no" title="statement not covered" >        address _oldOwner = ownerOf(_nodeID);</span>
+<span class="cstat-no" title="statement not covered" >        _transferFrom(_oldOwner, _to, _nodeID)</span>;
+<span class="cstat-no" title="statement not covered" >        _increaseRank(_nodeID)</span>;
+    }
+&nbsp;
+    function getLastUpdateByAddress(address _user) public override view returns(uint256) {
+        return nodeInfo(getNodeIDByAddress(_user)).updatedAt;
+    }
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Jun 30 2022 02:39:19 GMT+0300 (Москва, стандартное время)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>
