@@ -72,6 +72,13 @@ contract Depositable is StringNumbersConstant {
         IPayments _payment = IPayments(paymentsAddress);
         _payment.closeDeposit(msg.sender, address(this));
     }
+
+    /**
+        @dev UpdateDepositLimits for all users
+    */
+    function updateDepositLimits(uint _newLimit) internal {
+        maxDepositPerUser = _newLimit;
+    }
 }
 
 contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
@@ -142,7 +149,7 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
     */
 
     function setMaxDeposit(uint256 _newLimit) public onlyOwner {
-        maxDepositPerUser = _newLimit;
+        updateDepositLimits(_newLimit);
     }
 
     function setNodeNFTAddress(address _new) public onlyOwner {
