@@ -1,31 +1,5 @@
 # Solidity API
 
-## IProofOfStorage
-
-### isValidMerkleTreeProof
-
-```solidity
-function isValidMerkleTreeProof(bytes32 _root_hash, bytes32[] _proof) external view returns (bool)
-```
-
-### isMatchDifficulty
-
-```solidity
-function isMatchDifficulty(uint256 _proof, uint256 _targetDifficulty) external view returns (bool)
-```
-
-### getUserRewardInfo
-
-```solidity
-function getUserRewardInfo(address _user, uint256 _user_storage_size) external view returns (uint256, uint256)
-```
-
-### getUserRootHash
-
-```solidity
-function getUserRootHash(address _user) external view returns (bytes32, uint256)
-```
-
 ## Ownable
 
 _Contract module which provides a basic access control mechanism, where
@@ -1967,10 +1941,9 @@ Address of smart contract, where NFT of nodes placed
 uint256 _max_blocks_after_proof
 ```
 
-_see more, in StringNumbersConstant
-        
-        @notice  Max blocks after proof needs to use newest proof as it possible
-        For other netowrks it will be:_
+Max blocks after proof needs to use newest proof as it possible
+
+        @dev see more, in StringNumbersConstant
 
 ### debug_mode
 
@@ -2832,5 +2805,31 @@ function mint(address account, uint256 amount) external
 
 ```solidity
 function burn(address account, uint256 amount) external
+```
+
+## IProofOfStorage
+
+### isValidMerkleTreeProof
+
+```solidity
+function isValidMerkleTreeProof(bytes32 _root_hash, bytes32[] _proof) external view returns (bool)
+```
+
+### isMatchDifficulty
+
+```solidity
+function isMatchDifficulty(uint256 _proof, uint256 _targetDifficulty) external view returns (bool)
+```
+
+### getUserRewardInfo
+
+```solidity
+function getUserRewardInfo(address _user, uint256 _user_storage_size) external view returns (uint256, uint256)
+```
+
+### getUserRootHash
+
+```solidity
+function getUserRootHash(address _user) external view returns (bytes32, uint256)
 ```
 

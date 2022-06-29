@@ -95,10 +95,10 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
     address public node_nft_address = address(0);
     
     /**
-        @dev see more, in StringNumbersConstant
-        
         @notice  Max blocks after proof needs to use newest proof as it possible
-        For other netowrks it will be:
+
+
+        @dev see more, in StringNumbersConstant
     */
     uint256 private _max_blocks_after_proof = MAX_BLOCKS_AFTER_PROOF;
     
