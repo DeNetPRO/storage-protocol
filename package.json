@@ -48,6 +48,7 @@
     "lint:sol": "solhint --max-warnings 150 \"contracts/**/*.sol\"",
     "lint:sol:fix": "solhint --max-warnings 150 \"contracts/**/*.sol\" --fix",
     "test": "hardhat test",
-    "docs": "hardhat docgen"
+    "docs": "hardhat docgen",
+    "test:commit": "yarn run lint:js && yarn run lint:sol && hardhat test"
   }
 }
