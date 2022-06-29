@@ -178,7 +178,7 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
     /**
         Function to disable user signature checking.
 
-        TODO: Will removed, if tests will work correctly without it.
+        TODO: Will removed, if tests will work correctly without it. 
     */
     function turnDebugMode() public onlyOwner {
         if (debug_mode) debug_mode = false;
@@ -249,8 +249,17 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
         Owner Zone End
     */
 
-    /*
-        Send proof use sendProofFrom with msg.sender address as node
+    /**
+       @dev Send proof use sendProofFrom with msg.sender address as node
+
+       @param _user_address - address of owner data
+       @param _block_number - blocknumber for proof (max 256 from current block)
+       @param _user_root_hash - last user root_hash 
+       @param _user_storage_size - user storage size in megabytes
+       @param _user_root_hash_nonce - nonce from userside, need for verify last root_hash
+       @param _user_signature - signature with root_hash, storage_size, nonce from user
+       @param _file - 8kb of data.
+       @param merkleProof - merkle proof from _file to root_hash
     */
     function sendProof(
         address _user_address,
