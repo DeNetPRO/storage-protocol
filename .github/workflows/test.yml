@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ to-deploy ]
+    branches: [ to-deploy, main, pre-mainnet ]
   pull_request:
-    branches: [ to-deploy , 'main', 'pre-main']
+    branches: [ to-deploy, main, pre-mainnet ]
 jobs:
   test:
     runs-on: ubuntu-latest
