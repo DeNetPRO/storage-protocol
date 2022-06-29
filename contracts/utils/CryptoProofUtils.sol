@@ -1,22 +1,45 @@
 pragma solidity ^0.8.0;
 
-contract DifficultyManufacturing {
-    /*
-        Proof period < 1D, base_difficulty++
+interface IDifficultyManufacturing {
+    event UpdateDifficulty(
+        uint _new_difficulty
+    );
+}
+
+contract DifficultyManufacturing is IDifficultyManufacturing{
+    /**
+        @dev Proof period < 1D, base_difficulty++
         Proof period > 1D, base_difficulty--
 
         Using for 'randomly" proof verification.
 
-        10,000,000 is start value for difficulty 
+        1,000,000 is start value for difficulty 
     */
-    uint256 private base_difficulty = 10000000;
+    uint256 private base_difficulty = 1000000;
+    uint256 private upgradingDifficulty = base_difficulty;
 
     function setDifficulty(uint _new_difficulty) internal {
-        base_difficulty = _new_difficulty;
+        // min difficulty = 10000
+        if (_new_difficulty < 10000) {
+            _new_difficulty = 10000;
+        }
+
+        upgradingDifficulty = _new_difficulty;
+        uint change_size = base_difficulty * 10200 / upgradingDifficulty;
+        
+        // if difficulty changed more than 2%, update it
+        if (change_size > 10200 || change_size <  9800 ) {
+            base_difficulty = upgradingDifficulty;
+            emit UpdateDifficulty(base_difficulty);
+        }
     }
 
     function getDifficulty() public view returns(uint){
         return base_difficulty;
+    }
+
+    function getUpgradingDifficulty() public view returns(uint) {
+        return upgradingDifficulty;
     }
 }
 

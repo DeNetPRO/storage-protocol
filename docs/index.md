@@ -1982,17 +1982,17 @@ constructor(address _storage_address, address _payments) public
 function setMaxDeposit(uint256 _newLimit) public
 ```
 
-### setNodeNFTAddress
-
-```solidity
-function setNodeNFTAddress(address _new) public
-```
-
 ### _updateNodeRank
 
 ```solidity
 function _updateNodeRank(address _proofer, uint256 current_difficulty) internal returns (uint256)
 ```
+
+this function updating Node Rank.
+
+        TODO: Move it to DifficultyManufacturing
+
+        @return current_difficulty - new difficulty for all nodes.
 
 ### turnDebugMode
 
@@ -2684,12 +2684,33 @@ function updateLastProofTime(address userAddress) external
 function getPeriodFromLastProof(address userAddress) external view returns (uint256)
 ```
 
+## IDifficultyManufacturing
+
+### UpdateDifficulty
+
+```solidity
+event UpdateDifficulty(uint256 _new_difficulty)
+```
+
 ## DifficultyManufacturing
 
 ### base_difficulty
 
 ```solidity
 uint256 base_difficulty
+```
+
+_Proof period < 1D, base_difficulty++
+        Proof period > 1D, base_difficulty--
+
+        Using for 'randomly" proof verification.
+
+        1,000,000 is start value for difficulty_
+
+### upgradingDifficulty
+
+```solidity
+uint256 upgradingDifficulty
 ```
 
 ### setDifficulty
@@ -2702,6 +2723,12 @@ function setDifficulty(uint256 _new_difficulty) internal
 
 ```solidity
 function getDifficulty() public view returns (uint256)
+```
+
+### getUpgradingDifficulty
+
+```solidity
+function getUpgradingDifficulty() public view returns (uint256)
 ```
 
 ## CryptoProofs

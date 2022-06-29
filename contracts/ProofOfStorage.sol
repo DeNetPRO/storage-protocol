@@ -137,6 +137,14 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
         updateDepositLimits(_newLimit);
     }
 
+
+    /**
+        @notice this function updating Node Rank.
+
+        TODO: Move it to DifficultyManufacturing
+
+        @return current_difficulty - new difficulty for all nodes.
+    */
     function _updateNodeRank(address _proofer, uint current_difficulty) internal returns(uint256) { 
         if (node_nft_address != address(0)) {
             IDeNetNodeNFT NFT = IDeNetNodeNFT(node_nft_address);
@@ -341,7 +349,7 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
         /*
             +1 To Node Success proofs, also return new difficulty for all nodes (+- 2%)
         */
-        setDifficulty(_updateNodeRank(_node_address, getDifficulty()));
+        setDifficulty(_updateNodeRank(_node_address, getUpgradingDifficulty()));
     }
 
     /*
