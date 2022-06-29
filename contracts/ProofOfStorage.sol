@@ -96,14 +96,14 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
     
     /**
         @notice  Max blocks after proof needs to use newest proof as it possible
-
-
-        @dev see more, in StringNumbersConstant
+        
+        see more, in StringNumbersConstant
     */
     uint256 private _max_blocks_after_proof = MAX_BLOCKS_AFTER_PROOF;
     
-    /*
-        Debug mode using only for test's. 
+    /**
+
+        @dev Debug mode using only for test's. 
         Check it parametr before any deposits!
         
         What is using for, when it true:

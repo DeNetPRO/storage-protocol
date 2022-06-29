@@ -1942,14 +1942,20 @@ uint256 _max_blocks_after_proof
 ```
 
 Max blocks after proof needs to use newest proof as it possible
-
-        @dev see more, in StringNumbersConstant
+        
+        see more, in StringNumbersConstant
 
 ### debug_mode
 
 ```solidity
 bool debug_mode
 ```
+
+_Debug mode using only for test's. 
+        Check it parametr before any deposits!
+        
+        What is using for, when it true:
+            - Disabling verification of User Signature_
 
 ### min_storage_require
 
