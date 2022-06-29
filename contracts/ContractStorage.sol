@@ -79,6 +79,8 @@ contract ContractStorage is IContractStorage, Ownable {
             "gastoken" - TB/Year gas token
             "userstorage" - UserStorage Address
             "nodenft" - node nft address
+            "pairtoken" - DFILE Token (as main token). If not available, using USDC or other.
+            "userstorage" - User Storage address (Contract where stored data like Nonce and root hash)
         @param newContractAddress - new address of contract
         @param networkId - ID of network, examples:
             1 - Ethereum Mainnet

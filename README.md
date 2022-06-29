@@ -5,6 +5,10 @@ Storage Protocol made by DeNet Team.
 [![Build Status](https://github.com/denetpro/storage-protocol/workflows/CI/badge.svg)](https://github.com/denetpro/storage-protocol/actions)
 [![Coverage Status](https://coveralls.io/repos/github/denetpro/storage-protocol/badge.svg?branch=to-deploy)](https://coveralls.io/github/denetpro/storage-protocol/?branch=to-deploy)
 
+## WIP: Contract Strorage
+
+Contract Storage available by address: [0xf1EFEd8F60b10B897A474E0470FE038bb2D2F1fa](https://polygonscan.com/address/0xf1EFEd8F60b10B897A474E0470FE038bb2D2F1fa) on polygon network.
+
 Storage protocol consists of two dependent applications - storage node, and ProofOfStorage validation algorithm.. The ProofOfStorage contract is the core feature that allows you to build decentralized storage on top of any EVM.
 
 ## Main features of PoS contract
