@@ -18,89 +18,8 @@ import "./interfaces/IUserStorage.sol";
 import "./interfaces/IPayments.sol";
 import "./interfaces/IOldPayments.sol";
 import "./interfaces/INodeNFT.sol";
+import "./utils/CryptoProofUtils.sol";
 
-
-// TODO: sha256 => keccak256
-contract CryptoProofs {
-    event WrongError(bytes32 wrong_hash);
-
-    /*
-        Proof period < 1D, base_difficulty++
-        Proof period > 1D, base_difficulty--
-
-        Using for 'randomly" proof verification.
-    */
-    uint256 public base_difficulty;
-
-    constructor(uint256 _baseDifficulty) {
-        base_difficulty = _baseDifficulty;
-    }
-
-    // TODO: transform merkle proof verification to efficient as OZ
-    function isValidMerkleTreeProof(
-        bytes32 _root_hash,
-        bytes32[] calldata proof
-    ) public pure returns (bool) {
-        bytes32 next_proof = 0;
-        for (uint32 i = 0; i < proof.length / 2; i++) {
-            next_proof = sha256(
-                abi.encodePacked(proof[i * 2], proof[i * 2 + 1])
-            );
-            if (proof.length - 1 > i * 2 + 3) {
-                if (
-                    proof[i * 2 + 2] == next_proof &&
-                    proof[i * 2 + 3] == next_proof
-                ) {
-                    return false;
-                }
-            } else if (proof.length - 1 > i * 2 + 2) {
-                if (proof[i * 2 + 2] != next_proof) {
-                    return false;
-                }
-            }
-        }
-        return _root_hash == next_proof;
-    }
-
-    /*
-        Matching diffuclty, where _targetDifficulty = some growing number, 
-        for example _targetDiffuculty = seconds from last proof for selected user
-        
-        _proof = sha256 of something
-        _targetDiffuculty = seconds from last proof 
-        base_difficult
-        
-    */
-    function isMatchDifficulty(uint256 _proof, uint256 _targetDifficulty)
-        public
-        view
-        returns (bool)
-    {
-        if (_proof % base_difficulty < _targetDifficulty) {
-            return true;
-        }
-        return false;
-    }
-
-    function getBlockNumber() public view returns (uint32) {
-        return uint32(block.number);
-    }
-
-     // Show Proof for Test
-    function getProof(bytes calldata _file, address _sender, uint256 _block_number) public view returns(bytes memory, bytes32) {
-        bytes memory _packed = abi.encodePacked(_file, _sender, blockhash(_block_number));
-        bytes32 _proof = sha256(_packed);
-        return (_packed, _proof);
-    }
-
-    function getBlockHash(uint32 _n) public view returns (bytes32) {
-        return blockhash(_n);
-    }
-
-    function getDifficulty() public view returns(uint256) {
-        return base_difficulty;
-    }
-}
 
 contract Depositable {
     using SafeMath for uint;
@@ -140,11 +59,10 @@ contract Depositable {
     }
 }
 
-
-
 contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
     using SafeMath for uint;
-
+    
+   
 
     /*
         Address of smart contract, where User Storage placed
@@ -210,9 +128,8 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
     */
     constructor(
         address _storage_address,
-        address _payments,
-        uint256 _baseDifficulty
-    ) CryptoProofs(_baseDifficulty) Depositable(_payments) {
+        address _payments
+    ) Depositable(_payments) {
         user_storage_address = _storage_address;
     }
 
@@ -314,7 +231,7 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
         More base_difficulty = more random for nodes.
     */
     function updateBaseDifficulty(uint256 _new_difficulty) public onlyOwner {
-        base_difficulty = _new_difficulty;
+        setDifficulty(_new_difficulty);
     }
 
     /*
@@ -436,7 +353,7 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
         /*
             +1 To Node Success proofs, also return new difficulty for all nodes (+- 2%)
         */
-        base_difficulty = _updateNodeRank(_node_address, base_difficulty);
+        setDifficulty(_updateNodeRank(_node_address, getDifficulty()));
     }
 
     /*
@@ -496,7 +413,7 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
         /*
             Verify with difficulty, (more in isMatchDifficulty)
         */
-        return isMatchDifficulty(uint256(_file_proof), _time_passed);
+        return isMatchDifficulty(getDifficulty(), uint256(_file_proof), _time_passed);
     }    
 
     function _sendProofFrom(

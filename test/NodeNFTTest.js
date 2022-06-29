@@ -16,7 +16,7 @@ function getRandomInt (max) {
 contract('DeNetNodeNFT', async function ([_, w1, w2, w3]) {
     beforeEach(async function () {
         this.token = await TokenMock.new('Token', 'TKN');
-        this.pos = await ProofOfStorage.new('0x0000000000000000000000000000000000000000', '0x0000000000000000000000000000000000000000', '10000000');
+        this.pos = await ProofOfStorage.new('0x0000000000000000000000000000000000000000', '0x0000000000000000000000000000000000000000');
         this.nodeNFT = await NodeNFT.new('DeNet Storage Node', 'DEN', this.pos.address, 10);
         this.userStorage = await UserStorage.new('DeNet UserStorage', this.pos.address);
         this.payments = await Payments.new(this.pos.address, 'Terabyte Years', 'TB/Year');
