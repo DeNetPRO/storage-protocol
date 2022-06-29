@@ -1,5 +1,31 @@
 # Solidity API
 
+## IProofOfStorage
+
+### isValidMerkleTreeProof
+
+```solidity
+function isValidMerkleTreeProof(bytes32 _root_hash, bytes32[] _proof) external view returns (bool)
+```
+
+### isMatchDifficulty
+
+```solidity
+function isMatchDifficulty(uint256 _proof, uint256 _targetDifficulty) external view returns (bool)
+```
+
+### getUserRewardInfo
+
+```solidity
+function getUserRewardInfo(address _user, uint256 _user_storage_size) external view returns (uint256, uint256)
+```
+
+### getUserRootHash
+
+```solidity
+function getUserRootHash(address _user) external view returns (bytes32, uint256)
+```
+
 ## Ownable
 
 _Contract module which provides a basic access control mechanism, where
@@ -2012,15 +2038,6 @@ function setMinStorage(uint256 _size) public
 function updateBaseDifficulty(uint256 _new_difficulty) public
 ```
 
-### issueGasToken
-
-```solidity
-function issueGasToken(address _from, address _user, uint256 _amount) public
-```
-
-_Function to issue  TB/Year for some user;  
-        owner will replaced from contract-owner to DAO._
-
 ### changeSystemAddresses
 
 ```solidity
@@ -2841,31 +2858,5 @@ function mint(address account, uint256 amount) external
 
 ```solidity
 function burn(address account, uint256 amount) external
-```
-
-## IProofOfStorage
-
-### isValidMerkleTreeProof
-
-```solidity
-function isValidMerkleTreeProof(bytes32 _root_hash, bytes32[] _proof) external view returns (bool)
-```
-
-### isMatchDifficulty
-
-```solidity
-function isMatchDifficulty(uint256 _proof, uint256 _targetDifficulty) external view returns (bool)
-```
-
-### getUserRewardInfo
-
-```solidity
-function getUserRewardInfo(address _user, uint256 _user_storage_size) external view returns (uint256, uint256)
-```
-
-### getUserRootHash
-
-```solidity
-function getUserRootHash(address _user) external view returns (bytes32, uint256)
 ```
 

@@ -90,7 +90,7 @@ contract('ProofOfStorage', async function ([_, w1, w2, w3]) {
         await self.token.approve(self.payments.address, amount, { from: w1 });
         await self.pos.makeDeposit(amount, { from: w1 });
         const resultBalance = await self.payments.balanceOf(w1);
-        await self.pos.issueGasToken(w1, userAddress, resultBalance);
+        await self.payments.transfer(userAddress, resultBalance, { from: w1 });
     }
     
     it('should send proof from successfully', async function () {

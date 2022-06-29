@@ -230,16 +230,6 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
         setDifficulty(_new_difficulty);
     }
 
-    /**
-        @dev Function to issue  TB/Year for some user;  
-        owner will replaced from contract-owner to DAO.
-    */
-    function issueGasToken(address _from, address _user,  uint256 _amount) public onlyOwner {
-        require(debug_mode, "Issue without DebugMode");
-        IPayments _payment = IPayments(paymentsAddress);
-        _payment.localTransferFrom(_from, _user, _amount);
-    }
-
     /*
         Update Storage Address or Payments Address for something updates
     */
