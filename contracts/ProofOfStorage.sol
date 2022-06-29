@@ -19,14 +19,15 @@ import "./interfaces/IPayments.sol";
 import "./interfaces/IOldPayments.sol";
 import "./interfaces/INodeNFT.sol";
 import "./utils/CryptoProofUtils.sol";
+import "./utils/StringNumbersConstant.sol";
 
 
-contract Depositable {
+contract Depositable is StringNumbersConstant {
     using SafeMath for uint;
 
     address public paymentsAddress;
-    uint256 public maxDepositPerUser = 100000000; // 100 USDC
-    uint256 public timeLimit = 604800; // 7 days
+    uint256 public maxDepositPerUser = START_DEPOSIT_LIMIT;
+    uint256 public timeLimit = TIME_7D; // 7 days
     
     mapping(address => mapping(uint32 => uint256)) public limitReached; // time 
 
@@ -34,6 +35,9 @@ contract Depositable {
         paymentsAddress = _payments;
     }
 
+    /***
+        @dev Show available amount for deposit
+    */
     function getAvailableDeposit(address _user, uint256 _amount, uint32 _curDate) public view returns (uint256) {
         if (limitReached[_user][_curDate] + _amount >= maxDepositPerUser) {
             return maxDepositPerUser.sub(limitReached[_user][_curDate]);
@@ -41,21 +45,32 @@ contract Depositable {
         return _amount;
     }
 
-    function makeDeposit(address _token, uint256 _amount) public {
+    /***
+        @dev make deposit function.
+
+        @param _amount - Amount of  Pair Token
+
+        Require approve from Pair Token to paymentsAddress
+    */
+    function makeDeposit(uint256 _amount) public {
 
         /* Checking Limits */
         uint32 curDate = uint32(block.timestamp.div(timeLimit));
         _amount = getAvailableDeposit(msg.sender, _amount, curDate);
         require(_amount > 0, "Reached deposit limit for this period");
 
+        /* Updating Deposit amount */
         limitReached[msg.sender][curDate] = limitReached[msg.sender][curDate].add(_amount);
         IPayments _payment = IPayments(paymentsAddress);
-        _payment.depositToLocal(msg.sender, _token, _amount);
+        _payment.depositToLocal(msg.sender, address(this), _amount);
     }
 
-    function closeDeposit(address _token) public {
+    /***
+        @dev close deposit functuin. Will burn part of gastoken and return pair token to msg.sender
+    */
+    function closeDeposit() public {
         IPayments _payment = IPayments(paymentsAddress);
-        _payment.closeDeposit(msg.sender, _token);
+        _payment.closeDeposit(msg.sender, address(this));
     }
 }
 
