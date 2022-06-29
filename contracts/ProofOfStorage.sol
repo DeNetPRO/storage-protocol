@@ -122,19 +122,6 @@ contract ProofOfStorage is Ownable, CryptoProofs, Depositable {
     */
     uint public min_storage_require = STORAGE_10GB_IN_MB;
 
-    /*
-        REWARD_DIFFICULTY
-        This Parametr using to get amount of reward per one mined block.
-
-        Formula (60 * 60 * 24 * 365) / AvBlockTime
-
-        For Ethereum - 2102400
-        For Matic - 15768000
-        For BSC - 6307200
-
-        This parametr is depricated, because we updated proof system.
-        Now it based on storage time.
-    */
     constructor(
         address _storage_address,
         address _payments
