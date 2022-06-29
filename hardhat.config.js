@@ -14,8 +14,8 @@ module.exports = {
         apiKey: process.env.ETHERSCAN_KEY,
     },
     docgen: {
-        path: './docs/sol',
-        only: ['^contracts/'],
+        except : ['ERC20', 'IERC20', 'ERC20.sol'],
+        only: ['./contracts/'],
         clear: true,
         runOnCompile: true,
     },
