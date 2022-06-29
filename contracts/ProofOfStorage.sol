@@ -47,7 +47,9 @@ contract Depositable is StringNumbersConstant {
 
     /**
         @notice make deposit function.
+        
         @param _amount - Amount of  Pair Token
+
         @dev Require approve from Pair Token to paymentsAddress
     */
     function makeDeposit(uint256 _amount) public {
